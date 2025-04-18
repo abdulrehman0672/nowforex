@@ -31,6 +31,8 @@ router.post('/register', async (req, res) => {
     const existingUsername = await User.findOne({username});
     if (existingUsername) {
       return res.status(400).json({message:'Username already exists'});
+
+      
     }
 
     let referredByUser = null;
