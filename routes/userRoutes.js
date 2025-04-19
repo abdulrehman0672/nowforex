@@ -9,4 +9,7 @@ router.get('/', (req, res) => {
     res.render('register', data);
   });
 
+  router.get('/login', (req, res) => {
+    res.render('login', {});
+});
 export default router;

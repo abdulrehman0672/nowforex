@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup Page</title>
-    <link rel="stylesheet" href="./output.css">
+    <link rel="stylesheet" href="/output.css">
     <style>
         /* Custom CSS for animations */
         @keyframes floating {
@@ -68,7 +68,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <input type="text" placeholder="John Doe"
+                    <input id="name" type="text" placeholder="John Doe"
                         class="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
                 </div>
             </div>
@@ -83,7 +83,7 @@
                                 d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
                         </svg>
                     </div>
-                    <input type="text" placeholder="johndoe123"
+                    <input id="username" type="text" placeholder="johndoe123"
                         class="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
                 </div>
             </div>
@@ -98,7 +98,7 @@
                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                         </svg>
                     </div>
-                    <input type="email" placeholder="john@example.com"
+                    <input id="email" type="email" placeholder="john@example.com"
                         class="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
                 </div>
             </div>
@@ -156,7 +156,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <input type="text" placeholder="Enter referral code"
+                    <input id="referralCode" type="text" placeholder="Enter referral code"
                         class="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
                 </div>
             </div>
@@ -177,79 +177,76 @@
     </div>
 
     <script>
-        // Toggle Password Visibility
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeOpen = document.getElementById('eye-open');
-            const eyeClosed = document.getElementById('eye-closed');
+      document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signupForm');
+    
+    signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Show loading state
+        const submitBtn = signupForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Creating Account...';
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeOpen.classList.add('hidden');
-                eyeClosed.classList.remove('hidden');
-            } else {
-                passwordInput.type = 'password';
-                eyeOpen.classList.remove('hidden');
-                eyeClosed.classList.add('hidden');
+        try {
+            // 1. Get form values
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                username: document.getElementById('username').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value,
+                referralCode: document.getElementById('referralCheck').checked 
+                    ? document.getElementById('referralCode').value.trim() 
+                    : undefined
+            };
+
+            // 2. Validation
+            const errors = [];
+            if (!formData.name) errors.push('Full name is required');
+            if (!formData.username) errors.push('Username is required');
+            if (!formData.email) errors.push('Email is required');
+            if (!formData.password) errors.push('Password is required');
+            if (formData.password.length < 6) errors.push('Password must be at least 6 characters');
+            if (formData.username.length < 5) errors.push('Username must be at least 5 characters');
+            if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                errors.push('Invalid email format');
             }
+
+            if (errors.length > 0) {
+                throw new Error(errors.join('\n'));
+            }
+
+            // 3. Make API request
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Registration failed');
+            }
+
+            // 4. Success handling
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.User));
+            
+            alert('Registration successful! Redirecting...');
+            window.location.href = '/login';
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message || 'Something went wrong. Please try again.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Create Account';
         }
-
-        // Toggle Referral Code Box
-        function toggleReferral() {
-            const referralBox = document.getElementById('referralBox');
-            referralBox.classList.toggle('hidden');
-        }
-
-        document.getElementById('signupForm').addEventListener('submit', async function (e) {
-            e.preventDefault(); // Stop form from submitting normally
-
-            const name = document.querySelector('input[placeholder="John Doe"]').value.trim();
-            const username = document.querySelector('input[placeholder="johndoe123"]').value.trim();
-            const email = document.querySelector('input[placeholder="john@example.com"]').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const referralCodeInput = document.querySelector('#referralBox input');
-            const referralCode = referralCodeInput && !referralCodeInput.closest('#referralBox').classList.contains('hidden')
-                ? referralCodeInput.value.trim()
-                : null;
-
-            // Basic frontend validation (optional, backend still does the real work)
-            if (!name || !username || !email || !password) {
-                alert("Please fill in all required fields.");
-                return;
-            }
-
-            try {
-                const response = await fetch('/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name,
-                        username,
-                        email,
-                        password,
-                        referralCode
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert('Signup successful!');
-                    // Save token, redirect user, etc.
-                    localStorage.setItem('token', data.token);
-                    window.location.href = '/dashboard'; // Update with your desired page
-                } else {
-                    alert(data.message || 'Registration failed.');
-                }
-
-            } catch (err) {
-                console.error('Signup error:', err);
-                alert('Something went wrong. Please try again later.');
-            }
-        });
-
+    });
+});
     </script>
 </body>
 
