@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from "./routes/authRoutes.js";
+import forgetRoutes from "./routes/forgetRoutes.js";
 import "dotenv/config";
 import connectDB from './config/db.js';
 import cors from 'cors';
@@ -51,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/", userRoutes);
+app.use("/api/forget", forgetRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
