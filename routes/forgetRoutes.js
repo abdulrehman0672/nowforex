@@ -53,9 +53,9 @@ router.post('/forgot-password', resetRateLimiter, async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(200).json({
-        success: true,
-        message: 'If an account exists with this email, a reset link has been sent'
+      return res.status(404).json({
+        success: false,
+        message: 'User not found with this email address'
       });
     }
 
@@ -97,11 +97,12 @@ router.post('/forgot-password', resetRateLimiter, async (req, res) => {
       await transporter.sendMail(mailOptions);
       return res.status(200).json({
         success: true,
-        message: 'If an account exists with this email, a reset link has been sent'
+        message: 'Password reset link has been sent to your email'
       });
     } catch (emailError) {
       console.error('Email sending failed:', emailError);
 
+      // Rollback the token if email fails
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
       await user.save();
@@ -121,8 +122,10 @@ router.post('/forgot-password', resetRateLimiter, async (req, res) => {
   }
 });
 
-// Reset Password Route
+// Reset Password Routes
+
 router.post('/reset-password/:token', async (req, res) => {
+  console.log("Route hit! Token:", req.params.token);
   try {
     const { token } = req.params;
     const { password, confirmPassword } = req.body;
@@ -154,14 +157,7 @@ router.post('/reset-password/:token', async (req, res) => {
         message: 'Password reset token is invalid or has expired'
       });
     }
-
-    if (await user.comparePassword(password)) {
-      return res.status(400).json({
-        success: false,
-        message: 'New password must be different from current password'
-      });
-    }
-
+    
     user.password = password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
@@ -169,27 +165,10 @@ router.post('/reset-password/:token', async (req, res) => {
 
     await user.save();
 
-    const mailOptions = {
-      to: user.email,
-      from: `${process.env.EMAIL_FROM_NAME} <${process.env.EMAIL_FROM}>`,
-      subject: 'Password Changed Successfully',
-      text: `Your password has been successfully updated. If you didn't make this change, please contact support immediately.`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #2563eb;">Password Updated</h2>
-          <p>Your password has been successfully changed.</p>
-          <p>If you didn't make this change, please contact our support team immediately.</p>
-          <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
-          <p style="font-size: 12px; color: #6b7280;">Security tip: Never share your password with anyone.</p>
-        </div>
-      `
-    };
-
-    transporter.sendMail(mailOptions).catch(console.error);
-
     return res.status(200).json({
       success: true,
-      message: 'Password updated successfully'
+      message: 'Password updated successfully',
+      redirectTo: '/login'  // Add redirect information
     });
 
   } catch (error) {

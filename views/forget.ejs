@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="/output.css">
+    <style>
+        /* Custom CSS for animations */
+        @keyframes floating {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        .animate-floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        .animate-floating-delayed {
+            animation: floating 6s ease-in-out 1s infinite;
+        }
+
+        .logo {
+            height: 60px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-700 to-blue-300 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute -top-32 -right-32 w-64 h-64 bg-purple-300 rounded-full opacity-20 animate-floating"></div>
+        <div
+            class="absolute -bottom-32 -left-32 w-64 h-64 bg-blue-300 rounded-full opacity-20 animate-floating-delayed">
+        </div>
+
+        <!-- Logo -->
+        <img src="./logo.svg" alt="Company Logo" class="logo">
+
+        <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">
+            Reset Password
+        </h1>
+
+        <p class="text-gray-600 text-center mb-8">
+            Enter your email to receive a password reset link
+        </p>
+
+        <form class="space-y-6">
+            <!-- Email -->
+            <div>
+                <label class="block text-gray-700 mb-2">Email Address</label>
+                <div class="relative">
+                    <div class="absolute top-3 left-3 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                        </svg>
+                    </div>
+                    <input type="email" placeholder="john@example.com"
+                        class="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                Send Reset Link
+            </button>
+
+            <!-- Back to Login Link -->
+            <p class="text-center text-gray-600">
+                Remember your password?
+                <a href="login.html" class="text-blue-600 hover:underline">Login here</a>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const emailInput = document.querySelector('input[type="email"]');
+            const submitButton = document.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+
+            // Handle form submission
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // Validate email
+                if (!validateEmail(emailInput.value)) {
+                    showError('Please enter a valid email address');
+                    return;
+                }
+
+                // Disable button and show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = `
+            <div class="flex items-center justify-center space-x-2">
+                <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Processing...</span>
+            </div>
+        `;
+
+                try {
+                    // Send request to server
+                    const response = await fetch('/api/forget/forgot-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: emailInput.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Something went wrong');
+                    }
+
+                    // Show success message
+                    showSuccess(data.message || 'Password reset link has been sent to your email');
+                    form.reset();
+
+                } catch (error) {
+                    showError(error.message || 'Failed to send reset link. Please try again later.');
+                } finally {
+                    // Reset button state
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }
+            });
+
+            // Email validation function
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            // Show error message
+            function showError(message) {
+                // Remove any existing messages
+                const existingAlert = document.querySelector('.alert-message');
+                if (existingAlert) existingAlert.remove();
+
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert-message bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded';
+                alertDiv.innerHTML = `<p>${message}</p>`;
+
+                // Insert after the form title
+                const title = document.querySelector('h1');
+                title.insertAdjacentElement('afterend', alertDiv);
+
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+
+            // Show success message
+            function showSuccess(message) {
+                // Remove any existing messages
+                const existingAlert = document.querySelector('.alert-message');
+                if (existingAlert) existingAlert.remove();
+
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert-message bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded';
+                alertDiv.innerHTML = `<p>${message}</p>`;
+
+                // Insert after the form title
+                const title = document.querySelector('h1');
+                title.insertAdjacentElement('afterend', alertDiv);
+
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+
+</html>

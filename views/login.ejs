@@ -87,7 +87,7 @@
                     <input id="password" type="password" placeholder="••••••••"
                         class="w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
                     <button type="button" class="password-toggle absolute top-3 right-3 text-gray-400"
-                        onclick="togglePassword()">
+                        id="togglePasswordBtn">
                         <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -137,20 +137,26 @@
     <script>
         // Toggle Password Visibility
         function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeOpen = document.getElementById('eye-open');
-            const eyeClosed = document.getElementById('eye-closed');
+        const passwordInput = document.getElementById('password');
+        const eyeOpen = document.getElementById('eye-open');
+        const eyeClosed = document.getElementById('eye-closed');
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeOpen.classList.add('hidden');
-                eyeClosed.classList.remove('hidden');
-            } else {
-                passwordInput.type = 'password';
-                eyeOpen.classList.remove('hidden');
-                eyeClosed.classList.add('hidden');
-            }
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeOpen.classList.add('hidden');
+            eyeClosed.classList.remove('hidden');
+        } else {
+            passwordInput.type = 'password';
+            eyeOpen.classList.remove('hidden');
+            eyeClosed.classList.add('hidden');
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        if (togglePasswordBtn) {
+            togglePasswordBtn.addEventListener('click', togglePassword);
+        }});
 
         document.addEventListener('DOMContentLoaded', function () {
             const loginForm = document.getElementById('loginForm');
