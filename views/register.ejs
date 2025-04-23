@@ -171,82 +171,86 @@
             <!-- Login Link -->
             <p class="text-center text-gray-600">
                 Already have an account?
-                <a href="login.html" class="text-blue-600 hover:underline">Login</a>
+                <a href="#" id="loginLink" class="text-blue-600 hover:underline">Login</a>
             </p>
         </form>
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-    const signupForm = document.getElementById('signupForm');
-    
-    signupForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Show loading state
-        const submitBtn = signupForm.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Creating Account...';
+        document.addEventListener('DOMContentLoaded', function () {
+            const signupForm = document.getElementById('signupForm');
 
-        try {
-            // 1. Get form values
-            const formData = {
-                name: document.getElementById('name').value.trim(),
-                username: document.getElementById('username').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                password: document.getElementById('password').value,
-                referralCode: document.getElementById('referralCheck').checked 
-                    ? document.getElementById('referralCode').value.trim() 
-                    : undefined
-            };
+            signupForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
 
-            // 2. Validation
-            const errors = [];
-            if (!formData.name) errors.push('Full name is required');
-            if (!formData.username) errors.push('Username is required');
-            if (!formData.email) errors.push('Email is required');
-            if (!formData.password) errors.push('Password is required');
-            if (formData.password.length < 6) errors.push('Password must be at least 6 characters');
-            if (formData.username.length < 5) errors.push('Username must be at least 5 characters');
-            if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-                errors.push('Invalid email format');
-            }
+                // Show loading state
+                const submitBtn = signupForm.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Creating Account...';
 
-            if (errors.length > 0) {
-                throw new Error(errors.join('\n'));
-            }
+                try {
+                    // 1. Get form values
+                    const formData = {
+                        name: document.getElementById('name').value.trim(),
+                        username: document.getElementById('username').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        password: document.getElementById('password').value,
+                        referralCode: document.getElementById('referralCheck').checked
+                            ? document.getElementById('referralCode').value.trim()
+                            : undefined
+                    };
 
-            // 3. Make API request
-            const response = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+                    // 2. Validation
+                    const errors = [];
+                    if (!formData.name) errors.push('Full name is required');
+                    if (!formData.username) errors.push('Username is required');
+                    if (!formData.email) errors.push('Email is required');
+                    if (!formData.password) errors.push('Password is required');
+                    if (formData.password.length < 6) errors.push('Password must be at least 6 characters');
+                    if (formData.username.length < 5) errors.push('Username must be at least 5 characters');
+                    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                        errors.push('Invalid email format');
+                    }
+
+                    if (errors.length > 0) {
+                        throw new Error(errors.join('\n'));
+                    }
+
+                    // 3. Make API request
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Registration failed');
+                    }
+
+                    // 4. Success handling
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.User));
+
+                    alert('Registration successful! Redirecting...');
+                    window.location.href = '/login';
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(error.message || 'Something went wrong. Please try again.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Create Account';
+                }
             });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Registration failed');
-            }
-
-            // 4. Success handling
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.User));
-            
-            alert('Registration successful! Redirecting...');
-            window.location.href = '/login';
-
-        } catch (error) {
-            console.error('Error:', error);
-            alert(error.message || 'Something went wrong. Please try again.');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Create Account';
-        }
-    });
-});
+        });
+        document.getElementById("loginLink").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/login'; // Redirect
+        });   
     </script>
 </body>
 

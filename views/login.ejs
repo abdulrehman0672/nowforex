@@ -115,7 +115,7 @@
                         Remember me
                     </label>
                 </div>
-                <a href="forgot-password.html" class="text-blue-600 hover:underline text-sm">
+                <a href="#"  id="forgetpass" class="text-blue-600 hover:underline text-sm">
                     Forgot password?
                 </a>
             </div>
@@ -129,7 +129,7 @@
             <!-- Signup Link -->
             <p class="text-center text-gray-600">
                 Don't have an account?
-                <a href="signup.html" class="text-blue-600 hover:underline">Sign up</a>
+                <a href="#" id="signLink" class="text-blue-600 hover:underline">Sign up</a>
             </p>
         </form>
     </div>
@@ -137,26 +137,27 @@
     <script>
         // Toggle Password Visibility
         function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const eyeOpen = document.getElementById('eye-open');
-        const eyeClosed = document.getElementById('eye-closed');
+            const passwordInput = document.getElementById('password');
+            const eyeOpen = document.getElementById('eye-open');
+            const eyeClosed = document.getElementById('eye-closed');
 
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeOpen.classList.add('hidden');
-            eyeClosed.classList.remove('hidden');
-        } else {
-            passwordInput.type = 'password';
-            eyeOpen.classList.remove('hidden');
-            eyeClosed.classList.add('hidden');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                passwordInput.type = 'password';
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-        if (togglePasswordBtn) {
-            togglePasswordBtn.addEventListener('click', togglePassword);
-        }});
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+            if (togglePasswordBtn) {
+                togglePasswordBtn.addEventListener('click', togglePassword);
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             const loginForm = document.getElementById('loginForm');
@@ -230,6 +231,14 @@
                     loginButton.textContent = 'Login';
                 }
             });
+        });
+        document.getElementById("signLink").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/'; // Redirect
+        });
+        document.getElementById("forgetpass").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/forget-password'; // Redirect
         });
     </script>
 </body>
