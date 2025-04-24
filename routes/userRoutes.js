@@ -12,6 +12,9 @@ router.get('/', (req, res) => {
 router.get('/login', (req, res) => {
   res.render('login', {});
 });
+router.get('/withdraw', (req, res) => {
+  res.render('withdraw', {});
+});
 
 router.get('/forget-password', (req, res) => {
   res.render('forget', {});
