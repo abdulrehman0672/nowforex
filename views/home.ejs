@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Investment Platform</title>
+    <!-- Tailwind CSS served locally -->
+    <link href="./home.css" rel="stylesheet">
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .marquee {
+            animation: marquee 20s linear infinite;
+        }
+
+        .slide {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="pt-16"> <!-- Added padding-top for fixed header -->
+    <!-- Header Start -->
+    <header class="fixed w-full top-0 z-50 bg-white shadow-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center">
+                        <img class="h-16 w-auto" src="logo.svg" alt="Logo">
+                        <span class="ml-2 text-xl font-bold text-blue-800">FOURx</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Log out
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
+                        onclick="toggleMenu()">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Assets</a>
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
+                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Log out</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Banner Slider -->
+        <div class="h-[200px] md:h-[300px] mt-6 rounded-xl overflow-hidden relative">
+            <div class="slide active absolute inset-0 bg-cover bg-center opacity-100"
+                style="background-image: url('image1.svg')"></div>
+            <div class="slide absolute inset-0 bg-cover bg-center opacity-0"
+                style="background-image: url('image2.svg')"></div>
+            <div class="slide absolute inset-0 bg-cover bg-center opacity-0"
+                style="background-image: url('image3.svg')"></div>
+            <div class="slide absolute inset-0 bg-cover bg-center opacity-0"
+                style="background-image: url('image4.svg')"></div>
+        </div>
+
+        <!-- Announcements -->
+        <div class="bg-blue-800 text-white py-4 mt-4 rounded-lg overflow-hidden">
+            <div class="marquee whitespace-nowrap w-full">
+                <span class="inline-block pr-8">
+                    🎉 New users get 15% bonus on first investment! • 💼 Refer friends and earn 10% commission • 📈 24/7
+                    Market Updates
+                </span>
+            </div>
+        </div>
+
+        <!-- Action Grid with SVG buttons -->
+        <div class="grid grid-cols-3 gap-4 p-6 text-center">
+            <button id="depositbtn"
+                class="bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-500 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd" />
+                </svg>
+                Deposit
+            </button>
+            <button id="widrawbtn"
+                class="bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-500 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd" />
+                </svg>
+                Withdraw
+            </button>
+            <button id="refferalbtn"
+                class="bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-500 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
+                </svg>
+                Referral
+            </button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+            <!-- Project Cards (Reduced to 4 for better mobile view) -->
+            <!-- Repeat this card structure as needed -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform">
+                <img src="image 1.png" alt="Project" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">Tech Startup Fund</h3>
+                    <p class="text-gray-600 text-sm mb-3">Invest in innovative tech startups</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-gray-500">ROI: 18% • Min: $500</p>
+                        <button
+                            class="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                            Invest Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform">
+                <img src="image 1.png" alt="Project" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">Tech Startup Fund</h3>
+                    <p class="text-gray-600 text-sm mb-3">Invest in innovative tech startups</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-gray-500">ROI: 18% • Min: $500</p>
+                        <button
+                            class="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                            Invest Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform">
+                <img src="image 1.png" alt="Project" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">Tech Startup Fund</h3>
+                    <p class="text-gray-600 text-sm mb-3">Invest in innovative tech startups</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-gray-500">ROI: 18% • Min: $500</p>
+                        <button
+                            class="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                            Invest Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform">
+                <img src="image 1.png" alt="Project" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">Tech Startup Fund</h3>
+                    <p class="text-gray-600 text-sm mb-3">Invest in innovative tech startups</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-gray-500">ROI: 18% • Min: $500</p>
+                        <button
+                            class="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                            Invest Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform">
+                <img src="image 1.png" alt="Project" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2">Tech Startup Fund</h3>
+                    <p class="text-gray-600 text-sm mb-3">Invest in innovative tech startups</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-gray-500">ROI: 18% • Min: $500</p>
+                        <button
+                            class="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                            Invest Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation with SVG icons -->
+    <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-around py-3 z-50">
+        <a href="#" id="homebtn" class="flex flex-col items-center text-blue-700 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="text-xs md:text-sm">Home</span>
+        </a>
+        <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span class="text-xs md:text-sm">Assets</span>
+        </a>
+        <a href="#" id="teambtn2" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <span class="text-xs md:text-sm">Team</span>
+        </a>
+        <a href="#" id="profilebtn"
+            class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2 transition-colors duration-200 group"
+            aria-label="User profile">
+            <svg class="h-6 w-6 text-blue-700 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span class="text-xs md:text-sm group-hover:text-blue-600">Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('menu-btn');
+            mobileMenu.classList.toggle('hidden');
+            menuBtn.classList.toggle('text-blue-600');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('menu-btn');
+
+            if (!mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+                menuBtn.classList.remove('text-blue-600');
+            }
+        });
+
+        // Slideshow Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Handle negative indexes
+            if (index < 0) index = totalSlides - 1;
+            // Handle overflow indexes
+            index = index % totalSlides;
+
+            slides.forEach((slide, i) => {
+                slide.style.opacity = i === index ? '1' : '0';
+                slide.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        // Initialize slideshow
+        let slideInterval = setInterval(nextSlide, 5000);
+        showSlide(0);
+
+        // Pause slideshow on hover
+        const banner = document.querySelector('.slide');
+        if (banner) {
+            banner.parentElement.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            banner.parentElement.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        }
+
+        document.getElementById("depositbtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/deposit'; // Redirect
+});
+
+document.getElementById("widrawbtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/widrawbtn'; // Redirect
+});
+
+document.getElementById("refferalbtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/team'; // Redirect
+});
+
+document.getElementById("teambtn2").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/team'; // Redirect
+});
+
+document.getElementById("assetsbtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/assets'; // Redirect
+});
+
+document.getElementById("profilebtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/profile'; // Redirect
+});
+
+document.getElementById("homebtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/home'; // Redirect
+});
+
+    </script>
+</body>
+
+</html>

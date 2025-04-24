@@ -22,4 +22,24 @@ router.get('/reset-password/:token', (req, res) => {
   res.render('confirm', { token });
 });
 
+router.get('/home', (req, res) => {
+  res.render('home', {});
+});
+
+router.get('/assets', (req, res) => {
+  res.render('assets', {});
+});
+
+router.get('/deposit', (req, res) => {
+  res.render('deposit', {});
+});
+
+router.get('/profile', (req, res) => {
+  res.render('profile', {});
+});
+
+router.get('/team', (req, res) => {
+  res.render('team', {});
+});
+
 export default router;

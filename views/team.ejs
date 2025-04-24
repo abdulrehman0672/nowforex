@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program - FOURx</title>
+    <!-- Local Tailwind CSS -->
+    <link href="./team.css" rel="stylesheet">
+    <style>
+        /* Maintain existing animations from home page */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .marquee { animation: marquee 20s linear infinite; }
+    </style>
+</head>
+<body class="pt-16 pb-20 bg-gray-50">
+    <!-- Consistent Header -->
+    <header class="fixed w-full top-0 z-50 bg-white shadow-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo matching home page -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center">
+                        <img class="h-16 w-auto" src="logo.svg" alt="Logo" width="64" height="64">
+                        <span class="ml-2 text-xl font-bold text-blue-800">FOURx</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation matching home page -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Invest</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="/profile.html" class="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Profile
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button 
+                        id="menu-btn"
+                        class="text-gray-600 hover:text-blue-600 focus:outline-none"
+                        onclick="toggleMenu()"
+                        aria-label="Toggle menu"
+                    >
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu matching home page -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
+                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
+                <a href="/profile.html" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 items-center">
+                    <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Profile
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Referral Code Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Referral Code</h2>
+            <div class="flex items-center justify-between bg-blue-50 p-4 rounded-lg">
+                <span class="text-lg font-mono text-blue-600">FOURX-123456</span>
+                <button 
+                    onclick="copyReferralCode()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Copy Code
+                </button>
+            </div>
+        </div>
+
+        <!-- Referral Usage Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Referrals</h3>
+                <p class="text-3xl font-bold text-blue-600">42</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Valid Members</h3>
+                <p class="text-3xl font-bold text-green-600">5</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Referral Earnings</h3>
+                <p class="text-3xl font-bold text-yellow-600">$350</p>
+            </div>
+        </div>
+
+        <!-- Referred Members Table -->
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Referred Members</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Member</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">ID</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Earnings</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example Row -->
+                        <tr class="border-b hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3 flex items-center">
+                                <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3" loading="lazy">
+                                <span class="text-gray-700">John Doe</span>
+                            </td>
+                            <td class="px-4 py-3 text-gray-600">#12345</td>
+                            <td class="px-4 py-3 text-green-600 font-medium">$250</td>
+                            <td class="px-4 py-3">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
+                            </td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                        <tr class="border-b hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3 flex items-center">
+                                <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3" loading="lazy">
+                                <span class="text-gray-700">Jane Smith</span>
+                            </td>
+                            <td class="px-4 py-3 text-gray-600">#12346</td>
+                            <td class="px-4 py-3 text-green-600 font-medium">$150</td>
+                            <td class="px-4 py-3">
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Pending</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation with SVG icons -->
+    <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-around py-3 z-50">
+        <a href="#" id="homebtn" class="flex flex-col items-center text-blue-700 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="text-xs md:text-sm">Home</span>
+        </a>
+        <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span class="text-xs md:text-sm">Assets</span>
+        </a>
+        <a href="#" id="teambtn2" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <span class="text-xs md:text-sm">Team</span>
+        </a>
+        <a href="#" id="profilebtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2 transition-colors duration-200 group" aria-label="User profile">
+            <svg class="h-6 w-6 text-blue-700 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span class="text-xs md:text-sm group-hover:text-blue-600">Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // Reuse existing JavaScript functionality from home page
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('menu-btn');
+            mobileMenu.classList.toggle('hidden');
+            menuBtn.classList.toggle('text-blue-600');
+        }
+
+        // Copy Referral Code Function
+        function copyReferralCode() {
+            const code = "FOURX-123456";
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Referral code copied to clipboard: " + code);
+            });
+        }
+
+        // Navigation active state
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('nav a');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href').split('/').pop();
+                
+                if (linkHref === currentPage) {
+                    link.classList.remove('text-gray-500', 'hover:text-blue-600');
+                    link.classList.add('text-blue-600');
+                } else {
+                    link.classList.remove('text-blue-600');
+                    link.classList.add('text-gray-500', 'hover:text-blue-600');
+                }
+            });
+        });
+
+        document.getElementById("teambtn2").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/team'; // Redirect
+});
+
+document.getElementById("assetsbtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/assets'; // Redirect
+});
+
+document.getElementById("profilebtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/profile'; // Redirect
+});
+
+document.getElementById("homebtn").addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default navigation
+    window.location.href = '/home'; // Redirect
+});
+
+    </script>
+</body>
+</html>
