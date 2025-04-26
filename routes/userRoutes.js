@@ -1,11 +1,10 @@
-
 import express from 'express';
 
 const router = express.Router();
 
 // Example GET route
 router.get('/', (req, res) => {
-  const data = { title: 'EJS with ES Modules', message: 'Hello from EJS using ES Modules!' };
+  const data = {};
   res.render('register', data);
   });
 
@@ -29,11 +28,11 @@ router.get('/home', (req, res) => {
   res.render('home', {});
 });
 
-router.get('/assets', (req, res) => {
+router.get('/assets',  (req, res) => {
   res.render('assets', {});
 });
 
-router.get('/deposit', (req, res) => {
+router.get('/deposit',  (req, res) => {
   res.render('deposit', {});
 });
 
@@ -41,7 +40,7 @@ router.get('/profile', (req, res) => {
   res.render('profile', {});
 });
 
-router.get('/team', (req, res) => {
+router.get('/team',(req, res) => {
   res.render('team', {});
 });
 

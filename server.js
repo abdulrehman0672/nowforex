@@ -9,6 +9,9 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import helmet from 'helmet'; 
 import morgan from 'morgan';
+import adminRoutes from './routes/adminRoutes.js';
+import depositRoutes from './routes/depositRoutes.js';
+import withdrawalRoutes from './routes/withdrawalRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -53,6 +56,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/api/auth", authRoutes);
 app.use("/", userRoutes);
 app.use("/api/forget", forgetRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/deposits', depositRoutes);
+app.use('/api/withdrawals', withdrawalRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
