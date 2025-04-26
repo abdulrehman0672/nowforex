@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/admin.css">
+    
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="bg-blue-800 text-white w-64 p-4">
+            <h1 class="text-2xl font-bold mb-8">Admin Panel</h1>
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('deposits')">
+                        <i class="fas fa-money-bill-wave mr-2"></i> Deposit Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('withdrawals')">
+                        <i class="fas fa-wallet mr-2"></i> Withdrawal Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('users')">
+                        <i class="fas fa-users mr-2"></i> Users
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="logout()">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <!-- Login Section (shown by default) -->
+            <div id="login-section" class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="username">Username</label>
+                        <input type="text" id="username" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2" for="password">Password</label>
+                        <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login</button>
+                </form>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="hidden">
+                <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-2">Total Users</h3>
+                        <p id="total-users" class="text-3xl font-bold text-blue-600">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-2">Pending Deposits</h3>
+                        <p id="pending-deposits" class="text-3xl font-bold text-yellow-600">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-2">Pending Withdrawals</h3>
+                        <p id="pending-withdrawals" class="text-3xl font-bold text-yellow-600">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deposit Requests Section -->
+            <div id="deposits-section" class="hidden">
+                <h2 class="text-2xl font-bold mb-6">Pending Deposit Requests</h2>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Transaction ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deposits-table-body" class="divide-y divide-gray-200">
+                            <!-- Deposits will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Withdrawal Requests Section -->
+            <div id="withdrawals-section" class="hidden">
+                <h2 class="text-2xl font-bold mb-6">Pending Withdrawal Requests</h2>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Current Balance</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Account Details</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="withdrawals-table-body" class="divide-y divide-gray-200">
+                            <!-- Withdrawals will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div id="users-section" class="hidden">
+                <h2 class="text-2xl font-bold mb-6">All Users</h2>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Balance</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Deposits</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Withdrawals</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body" class="divide-y divide-gray-200">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let token = null;
+
+        // Login functionality
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    token = data.token;
+                    document.getElementById('login-section').style.display = 'none';
+                    showSection('dashboard');
+                    loadDashboard();
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login');
+            }
+        });
+
+        // Show/hide sections
+        function showSection(sectionId) {
+            if (!token && sectionId !== 'login') {
+                alert('Please login first');
+                return;
+            }
+            
+            document.querySelectorAll('[id$="-section"]').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            document.getElementById(`${sectionId}-section`).style.display = 'block';
+            
+            // Load data when section is shown
+            switch(sectionId) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'deposits':
+                    loadDeposits();
+                    break;
+                case 'withdrawals':
+                    loadWithdrawals();
+                    break;
+                case 'users':
+                    loadUsers();
+                    break;
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const [usersRes, depositsRes, withdrawalsRes] = await Promise.all([
+                    fetch('/api/admin/users', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    }),
+                    fetch('/api/admin/deposits/pending', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    }),
+                    fetch('/api/admin/withdrawals/pending', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                ]);
+                
+                const users = await usersRes.json();
+                const deposits = await depositsRes.json();
+                const withdrawals = await withdrawalsRes.json();
+                
+                document.getElementById('total-users').textContent = users.length;
+                document.getElementById('pending-deposits').textContent = deposits.length;
+                document.getElementById('pending-withdrawals').textContent = withdrawals.length;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Load deposit requests
+        async function loadDeposits() {
+            try {
+                const response = await fetch('/api/admin/deposits/pending', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const deposits = await response.json();
+                const tableBody = document.getElementById('deposits-table-body');
+                tableBody.innerHTML = '';
+                
+                deposits.forEach(deposit => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${deposit.username}</div>
+                            <div class="text-sm text-gray-500">${deposit.name}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.amount}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.method}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.transactionId}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(deposit.createdAt).toLocaleString()}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="handleDepositAction('${deposit._id}', 'approve')" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
+                            <button onclick="handleDepositAction('${deposit._id}', 'reject')" class="text-red-600 hover:text-red-900">Reject</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading deposits:', error);
+            }
+        }
+
+        // Handle deposit approval/rejection
+        async function handleDepositAction(depositId, action) {
+            if (!confirm(`Are you sure you want to ${action} this deposit?`)) return;
+            
+            try {
+                const response = await fetch(`/api/admin/deposits/${depositId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ action })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert(data.message);
+                    loadDeposits();
+                    loadDashboard(); // Refresh dashboard stats
+                } else {
+                    alert(data.message || 'Action failed');
+                }
+            } catch (error) {
+                console.error('Error handling deposit action:', error);
+                alert('An error occurred');
+            }
+        }
+
+        // Load withdrawal requests
+        async function loadWithdrawals() {
+            try {
+                const response = await fetch('/api/admin/withdrawals/pending', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const withdrawals = await response.json();
+                const tableBody = document.getElementById('withdrawals-table-body');
+                tableBody.innerHTML = '';
+                
+                withdrawals.forEach(withdrawal => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${withdrawal.username}</div>
+                            <div class="text-sm text-gray-500">${withdrawal.name}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${withdrawal.currentBalance}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${withdrawal.amount}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${withdrawal.method}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${withdrawal.accountDetails}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(withdrawal.createdAt).toLocaleString()}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="handleWithdrawalAction('${withdrawal._id}', 'approve')" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
+                            <button onclick="handleWithdrawalAction('${withdrawal._id}', 'reject')" class="text-red-600 hover:text-red-900">Reject</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading withdrawals:', error);
+            }
+        }
+
+        // Handle withdrawal approval/rejection
+        async function handleWithdrawalAction(withdrawalId, action) {
+            if (!confirm(`Are you sure you want to ${action} this withdrawal?`)) return;
+            
+            try {
+                const response = await fetch(`/api/admin/withdrawals/${withdrawalId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ action })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert(data.message);
+                    loadWithdrawals();
+                    loadDashboard(); // Refresh dashboard stats
+                } else {
+                    alert(data.message || 'Action failed');
+                }
+            } catch (error) {
+                console.error('Error handling withdrawal action:', error);
+                alert('An error occurred');
+            }
+        }
+
+        // Load all users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/admin/users', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const users = await response.json();
+                const tableBody = document.getElementById('users-table-body');
+                tableBody.innerHTML = '';
+                
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${user.username}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.balance}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.totalDeposits}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.totalWithdrawals}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        // Logout
+        function logout() {
+            token = null;
+            document.getElementById('login-section').style.display = 'block';
+            showSection('login');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Initialize
+        showSection('login');
+    </script>
+</body>
+</html>
