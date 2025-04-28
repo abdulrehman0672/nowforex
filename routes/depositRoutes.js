@@ -116,4 +116,16 @@ router.get('/history', async (req, res) => {
     }
 });
 
+router.get('/proof/:filename', (req, res) => {
+    const { filename } = req.params;
+    const filePath = path.join(uploadDir, filename);
+    
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).json({ message: 'Image not found' });
+    }
+});
+
+
 export default router;

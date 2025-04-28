@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="/admin.css">
-    
 </head>
+
 <body class="bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
@@ -14,27 +15,27 @@
             <h1 class="text-2xl font-bold mb-8">Admin Panel</h1>
             <ul class="space-y-2">
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('dashboard')">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" data-section="dashboard">
                         <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('deposits')">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" data-section="deposits">
                         <i class="fas fa-money-bill-wave mr-2"></i> Deposit Requests
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('withdrawals')">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" data-section="withdrawals">
                         <i class="fas fa-wallet mr-2"></i> Withdrawal Requests
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="showSection('users')">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" data-section="users">
                         <i class="fas fa-users mr-2"></i> Users
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" onclick="logout()">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" id="logout-btn">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
                 </li>
@@ -49,13 +50,18 @@
                 <form id="login-form">
                     <div class="mb-4">
                         <label class="block text-gray-700 mb-2" for="username">Username</label>
-                        <input type="text" id="username" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="text" id="username"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-700 mb-2" for="password">Password</label>
-                        <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="password" id="password"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login</button>
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login</button>
                 </form>
             </div>
 
@@ -88,7 +94,8 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Transaction ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Transaction
+                                    ID</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
@@ -108,10 +115,12 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Current Balance</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Current
+                                    Balance</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Account Details</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Account
+                                    Details</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
@@ -130,12 +139,15 @@
                     <table class="min-w-full">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username
+                                </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Balance</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Deposits</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Withdrawals</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total
+                                    Deposits</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total
+                                    Withdrawals</th>
                             </tr>
                         </thead>
                         <tbody id="users-table-body" class="divide-y divide-gray-200">
@@ -148,28 +160,80 @@
     </div>
 
     <script>
-        let token = null;
+        let token = localStorage.getItem('adminToken') || null;
+
+        // Check authentication status on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set up event listeners
+            setupEventListeners();
+
+            if (token) {
+                document.getElementById('login-section').style.display = 'none';
+                showSection('dashboard');
+                loadDashboard();
+            } else {
+                showSection('login');
+            }
+        });
+
+        function setupEventListeners() {
+            // Navigation links
+            document.querySelectorAll('[data-section]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showSection(this.getAttribute('data-section'));
+                });
+            });
+            
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Login form
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Event delegation for dynamic content
+            document.addEventListener('click', function(e) {
+                // Handle deposit actions
+                if (e.target.matches('[data-deposit-action]')) {
+                    const depositId = e.target.getAttribute('data-deposit-id');
+                    const action = e.target.getAttribute('data-deposit-action');
+                    handleDepositAction(depositId, action);
+                }
+                
+                // Handle withdrawal actions
+                if (e.target.matches('[data-withdrawal-action]')) {
+                    const withdrawalId = e.target.getAttribute('data-withdrawal-id');
+                    const action = e.target.getAttribute('data-withdrawal-action');
+                    handleWithdrawalAction(withdrawalId, action);
+                }
+            });
+        }
 
         // Login functionality
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        async function handleLogin(e) {
             e.preventDefault();
-            
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
+
             try {
                 const response = await fetch('/api/admin/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'include',
                     body: JSON.stringify({ username, password })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     token = data.token;
+                    localStorage.setItem('adminToken', data.token);
                     document.getElementById('login-section').style.display = 'none';
                     showSection('dashboard');
                     loadDashboard();
@@ -180,7 +244,7 @@
                 console.error('Login error:', error);
                 alert('An error occurred during login');
             }
-        });
+        }
 
         // Show/hide sections
         function showSection(sectionId) {
@@ -188,15 +252,15 @@
                 alert('Please login first');
                 return;
             }
-            
+
             document.querySelectorAll('[id$="-section"]').forEach(section => {
                 section.style.display = 'none';
             });
-            
+
             document.getElementById(`${sectionId}-section`).style.display = 'block';
-            
+
             // Load data when section is shown
-            switch(sectionId) {
+            switch (sectionId) {
                 case 'dashboard':
                     loadDashboard();
                     break;
@@ -226,11 +290,11 @@
                         headers: { 'Authorization': `Bearer ${token}` }
                     })
                 ]);
-                
+
                 const users = await usersRes.json();
                 const deposits = await depositsRes.json();
                 const withdrawals = await withdrawalsRes.json();
-                
+
                 document.getElementById('total-users').textContent = users.length;
                 document.getElementById('pending-deposits').textContent = deposits.length;
                 document.getElementById('pending-withdrawals').textContent = withdrawals.length;
@@ -245,11 +309,11 @@
                 const response = await fetch('/api/admin/deposits/pending', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                
+
                 const deposits = await response.json();
                 const tableBody = document.getElementById('deposits-table-body');
                 tableBody.innerHTML = '';
-                
+
                 deposits.forEach(deposit => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -262,8 +326,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.transactionId}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(deposit.createdAt).toLocaleString()}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button onclick="handleDepositAction('${deposit._id}', 'approve')" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
-                            <button onclick="handleDepositAction('${deposit._id}', 'reject')" class="text-red-600 hover:text-red-900">Reject</button>
+                            <button data-deposit-id="${deposit._id}" data-deposit-action="approve" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
+                            <button data-deposit-id="${deposit._id}" data-deposit-action="reject" class="text-red-600 hover:text-red-900">Reject</button>
                         </td>
                     `;
                     tableBody.appendChild(row);
@@ -276,7 +340,7 @@
         // Handle deposit approval/rejection
         async function handleDepositAction(depositId, action) {
             if (!confirm(`Are you sure you want to ${action} this deposit?`)) return;
-            
+
             try {
                 const response = await fetch(`/api/admin/deposits/${depositId}`, {
                     method: 'PUT',
@@ -286,9 +350,9 @@
                     },
                     body: JSON.stringify({ action })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     alert(data.message);
                     loadDeposits();
@@ -308,11 +372,11 @@
                 const response = await fetch('/api/admin/withdrawals/pending', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                
+
                 const withdrawals = await response.json();
                 const tableBody = document.getElementById('withdrawals-table-body');
                 tableBody.innerHTML = '';
-                
+
                 withdrawals.forEach(withdrawal => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -326,8 +390,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${withdrawal.accountDetails}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(withdrawal.createdAt).toLocaleString()}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button onclick="handleWithdrawalAction('${withdrawal._id}', 'approve')" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
-                            <button onclick="handleWithdrawalAction('${withdrawal._id}', 'reject')" class="text-red-600 hover:text-red-900">Reject</button>
+                            <button data-withdrawal-id="${withdrawal._id}" data-withdrawal-action="approve" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
+                            <button data-withdrawal-id="${withdrawal._id}" data-withdrawal-action="reject" class="text-red-600 hover:text-red-900">Reject</button>
                         </td>
                     `;
                     tableBody.appendChild(row);
@@ -340,7 +404,7 @@
         // Handle withdrawal approval/rejection
         async function handleWithdrawalAction(withdrawalId, action) {
             if (!confirm(`Are you sure you want to ${action} this withdrawal?`)) return;
-            
+
             try {
                 const response = await fetch(`/api/admin/withdrawals/${withdrawalId}`, {
                     method: 'PUT',
@@ -350,9 +414,9 @@
                     },
                     body: JSON.stringify({ action })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     alert(data.message);
                     loadWithdrawals();
@@ -372,11 +436,11 @@
                 const response = await fetch('/api/admin/users', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                
+
                 const users = await response.json();
                 const tableBody = document.getElementById('users-table-body');
                 tableBody.innerHTML = '';
-                
+
                 users.forEach(user => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -394,9 +458,10 @@
             }
         }
 
-        // Logout
+        // Logout function
         function logout() {
             token = null;
+            localStorage.removeItem('adminToken');
             document.getElementById('login-section').style.display = 'block';
             showSection('login');
             document.getElementById('username').value = '';

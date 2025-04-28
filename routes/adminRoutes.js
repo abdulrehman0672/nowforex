@@ -109,6 +109,7 @@ router.get('/deposits/pending', verifyAdmin, async (req, res) => {
           userId: user._id,
           username: user.username,
           name: user.name,
+          proofImage: deposit.proofImage,
           ...deposit.toObject()
         }))
     );
