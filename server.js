@@ -12,7 +12,7 @@ import morgan from 'morgan';
 import adminRoutes from './routes/adminRoutes.js';
 import depositRoutes from './routes/depositRoutes.js';
 import withdrawalRoutes from './routes/withdrawalRoutes.js';
-
+import cookieParser from 'cookie-parser';
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 
 // 1. First - Body parser (CRUCIAL)
 app.use(express.json());
-
+app.use(cookieParser()); // For parsing cookies
 // 2. CORS configuration
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Adjust to your frontend URL

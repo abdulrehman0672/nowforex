@@ -115,7 +115,7 @@
                         Remember me
                     </label>
                 </div>
-                <a href="#"  id="forgetpass" class="text-blue-600 hover:underline text-sm">
+                <a href="#" id="forgetpass" class="text-blue-600 hover:underline text-sm">
                     Forgot password?
                 </a>
             </div>
@@ -190,6 +190,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
+                        credentials: 'include',
                         body: JSON.stringify({ email, password })
                     });
 

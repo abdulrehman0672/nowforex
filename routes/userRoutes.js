@@ -1,4 +1,5 @@
 import express from 'express';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -6,7 +7,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   const data = {};
   res.render('register', data);
-  });
+});
 
 router.get('/login', (req, res) => {
   res.render('login', {});
@@ -24,23 +25,23 @@ router.get('/reset-password/:token', (req, res) => {
   res.render('confirm', { token });
 });
 
-router.get('/home', (req, res) => {
+router.get('/home', protect, (req, res) => {
   res.render('home', {});
 });
 
-router.get('/assets',  (req, res) => {
+router.get('/assets', protect, (req, res) => {
   res.render('assets', {});
 });
 
-router.get('/deposit',  (req, res) => {
+router.get('/deposit', protect, (req, res) => {
   res.render('deposit', {});
 });
 
-router.get('/profile', (req, res) => {
+router.get('/profile', protect, (req, res) => {
   res.render('profile', {});
 });
 
-router.get('/team',(req, res) => {
+router.get('/team', protect, (req, res) => {
   res.render('team', {});
 });
 
