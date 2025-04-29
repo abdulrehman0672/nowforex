@@ -20,6 +20,8 @@ const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // 1. First - Body parser (CRUCIAL)
 app.use(express.json());
 app.use(cookieParser()); // For parsing cookies

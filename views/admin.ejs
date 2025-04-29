@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="/admin.css">
+    <style>
+        #image-modal {
+            transition: opacity 0.3s ease;
+        }
+
+        #modal-image {
+            max-height: 80vh;
+            max-width: 90vw;
+        }
+
+        [id$="-section"] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
@@ -96,6 +110,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Transaction
                                     ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Proof</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
@@ -159,6 +174,19 @@
         </div>
     </div>
 
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-4 rounded-lg max-w-4xl max-h-screen">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Proof Image</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <img id="modal-image" src="" alt="Proof Image" class="max-w-full max-h-screen-80">
+        </div>
+    </div>
+
     <script>
         let token = localStorage.getItem('adminToken') || null;
 
@@ -179,37 +207,60 @@
         function setupEventListeners() {
             // Navigation links
             document.querySelectorAll('[data-section]').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
                     showSection(this.getAttribute('data-section'));
                 });
             });
-            
+
             // Logout button
-            document.getElementById('logout-btn').addEventListener('click', function(e) {
+            document.getElementById('logout-btn').addEventListener('click', function (e) {
                 e.preventDefault();
                 logout();
             });
-            
+
             // Login form
             document.getElementById('login-form').addEventListener('submit', handleLogin);
-            
+
             // Event delegation for dynamic content
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 // Handle deposit actions
                 if (e.target.matches('[data-deposit-action]')) {
                     const depositId = e.target.getAttribute('data-deposit-id');
                     const action = e.target.getAttribute('data-deposit-action');
                     handleDepositAction(depositId, action);
                 }
-                
+
                 // Handle withdrawal actions
                 if (e.target.matches('[data-withdrawal-action]')) {
                     const withdrawalId = e.target.getAttribute('data-withdrawal-id');
                     const action = e.target.getAttribute('data-withdrawal-action');
                     handleWithdrawalAction(withdrawalId, action);
                 }
+
+                // Handle image proof clicks
+                if (e.target.matches('[data-proof-image]')) {
+                    e.preventDefault();
+                    const imageUrl = e.target.getAttribute('href');
+                    showImageModal(imageUrl);
+                }
+
+                // Close modal
+                if (e.target.matches('#close-modal, #close-modal *')) {
+                    hideImageModal();
+                }
             });
+        }
+
+        // Image modal functions
+        function showImageModal(imageUrl) {
+            document.getElementById('modal-image').src = imageUrl;
+            document.getElementById('image-modal').classList.remove('hidden');
+        }
+
+        function hideImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+            document.getElementById('modal-image').src = '';
         }
 
         // Login functionality
@@ -324,6 +375,15 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.amount}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.method}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.transactionId}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            ${deposit.proofImage ?
+                                `<a href="/uploads/${deposit.proofImage}" 
+                                data-proof-image 
+                                class="text-blue-600 hover:text-blue-800">
+                                View Proof
+                                </a>` :
+                                'No proof'}
+                            </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(deposit.createdAt).toLocaleString()}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <button data-deposit-id="${deposit._id}" data-deposit-action="approve" class="text-green-600 hover:text-green-900 mr-3">Approve</button>
@@ -472,4 +532,5 @@
         showSection('login');
     </script>
 </body>
+
 </html>
