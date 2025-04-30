@@ -52,55 +52,47 @@ router.use(protect);
 
 router.post('/deposit', upload.single('proofImage'), async (req, res) => {
     try {
-        const { amount, method, transactionId } = req.body;
-        const proofImage = req.file ? req.file.filename : null;
-
-        // Validation checks
-        if (!amount || !method || !transactionId || !proofImage) {
-            return res.status(400).json({ 
-                message: 'All fields are required, including proof image' 
-            });
-        }
-
-        const parsedAmount = parseFloat(amount);
-        if (isNaN(parsedAmount) || parsedAmount <= 0) {
-            return res.status(400).json({ 
-                message: 'Amount must be a positive number' 
-            });
-        }
-
-        // Find user and add deposit request
-        const user = await User.findById(req.user._id);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        user.depositRequests.push({
-            amount: parsedAmount,
-            method,
-            transactionId,
-            proofImage,
-            status: 'pending'
-        });
-
-        await user.save();
-
-        res.status(201).json({
-            message: 'Deposit request submitted for admin approval',
-            request: user.depositRequests[user.depositRequests.length - 1]
-        });
+      console.log('Uploaded file:', {
+        originalname: req.file.originalname,
+        filename: req.file.filename,
+        path: req.file.path
+      });
+  
+      const { amount, method, transactionId } = req.body;
+      
+      // Validate all fields
+      if (!amount || !method || !transactionId || !req.file) {
+        return res.status(400).json({ message: 'All fields including proof image are required' });
+      }
+  
+      const user = await User.findById(req.user._id);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+  
+      // Create the deposit object first
+      const depositData = {
+        amount: parseFloat(amount),
+        method,
+        transactionId,
+        proofImage: req.file.filename, // Store only the filename
+        status: 'pending',
+        createdAt: new Date()
+      };
+  
+      // Add to user's depositRequests
+      user.depositRequests.push(depositData);
+      await user.save();
+  
+      console.log('New deposit saved:', depositData);
+  
+      res.status(201).json({
+        message: 'Deposit request submitted',
+        deposit: depositData
+      });
     } catch (error) {
-        console.error('Deposit error:', error);
-        if (error instanceof multer.MulterError) {
-            return res.status(400).json({ 
-                message: 'File upload error: ' + error.message 
-            });
-        }
-        res.status(500).json({ 
-            message: error.message || 'Server error' 
-        });
+      console.error('Deposit error:', error);
+      res.status(500).json({ message: 'Server error' });
     }
-});
+  });
 
 // Get deposit history
 router.get('/history', async (req, res) => {

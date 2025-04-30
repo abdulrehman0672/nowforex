@@ -56,6 +56,7 @@ const userSchema = mongoose.Schema({
         amount: Number,
         method: String,
         transactionId: String,
+        proofImage: String,
         status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
         createdAt: { type: Date, default: Date.now }
     }],

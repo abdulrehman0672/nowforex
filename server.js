@@ -13,22 +13,30 @@ import adminRoutes from './routes/adminRoutes.js';
 import depositRoutes from './routes/depositRoutes.js';
 import withdrawalRoutes from './routes/withdrawalRoutes.js';
 import cookieParser from 'cookie-parser';
+
+
 const app = express();
 const port = process.env.PORT || 3000;
+
 
 // Fix __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', (req, res, next) => {
+  console.log('Uploads access:', req.path);
+  next();
+});
 
 // 1. First - Body parser (CRUCIAL)
 app.use(express.json());
 app.use(cookieParser()); // For parsing cookies
 // 2. CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Adjust to your frontend URL
-  credentials: true
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  exposedHeaders: ['Content-Type', 'Authorization'] // Add this
 }));
 
 // 3. Configure Helmet with security policies

@@ -2,9 +2,86 @@ import express from 'express';
 import User from '../models/user.js';
 import Admin from '../models/admin.js';
 import jwt from 'jsonwebtoken';
-
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import {apiAdmin} from '../middleware/authMiddleware.js'; // Import the new middleware
 
 const router = express.Router();
+
+// Get directory path for uploads
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadDir = path.join(__dirname, '../uploads'); 
+console.log('Upload directory:', uploadDir);
+
+
+router.get('/uploads/:filename', apiAdmin, (req, res) => {
+  try {
+    const { filename } = req.params;
+    
+    // Enhanced security validation
+    if (!filename || !/^[0-9a-f-]+\.(png|jpg|jpeg|gif)$/i.test(filename)) {
+      return res.status(400).json({ message: 'Invalid filename format' });
+    }
+
+    const filePath = path.join(uploadDir, filename);
+    
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+    // Set cache-control headers
+    res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day cache
+    
+    const ext = path.extname(filename).toLowerCase();
+    const contentType = {
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.png': 'image/png',
+      '.gif': 'image/gif'
+    }[ext] || 'application/octet-stream';
+
+    res.setHeader('Content-Type', contentType);
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error('Error serving proof image:', error);
+    res.status(500).json({ message: 'Error serving image' });
+  }
+});
+
+// Update the pending deposits route
+router.get('/deposits/pending', apiAdmin, async (req, res) => {
+  try {
+    const users = await User.find({
+      'depositRequests.status': 'pending'
+    }).select('username name depositRequests');
+
+    const pendingDeposits = users.flatMap(user => 
+      user.depositRequests
+        .filter(deposit => deposit.status === 'pending')
+        .map(deposit => ({
+          userId: user._id,
+          username: user.username,
+          name: user.name,
+          // Add this line to ensure proper URL format:
+          proofImage: deposit.proofImage ? `${deposit.proofImage}` : null,
+          amount: deposit.amount,
+          method: deposit.method,
+          transactionId: deposit.transactionId,
+          createdAt: deposit.createdAt,
+          _id: deposit._id
+        }))
+    );
+
+    console.log('Sending pending deposits:', pendingDeposits[0]?.proofImage); // Debug log
+    res.json(pendingDeposits);
+  } catch (error) {
+    console.error('Error fetching pending deposits:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 router.post('/login', async (req, res) => {
   try {
@@ -96,7 +173,7 @@ const verifyAdmin = (req, res, next) => {
 };
 
 // Get all pending deposits
-router.get('/deposits/pending', verifyAdmin, async (req, res) => {
+router.get('/deposits/pending', apiAdmin, async (req, res) => {
   try {
     const users = await User.find({
       'depositRequests.status': 'pending'
@@ -109,7 +186,7 @@ router.get('/deposits/pending', verifyAdmin, async (req, res) => {
           userId: user._id,
           username: user.username,
           name: user.name,
-          proofImage: deposit.proofImage,
+          proofImageUrl: `/uploads/${deposit.proofImage}`,
           ...deposit.toObject()
         }))
     );
