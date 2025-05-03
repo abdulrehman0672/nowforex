@@ -9,17 +9,9 @@
     <style>
         /* Custom CSS for animations */
         @keyframes floating {
-            0% {
-                transform: translateY(0px) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-20px) rotate(10deg);
-            }
-
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         .animate-floating {
@@ -35,6 +27,20 @@
             margin: 0 auto 20px;
             display: block;
         }
+
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -42,9 +48,7 @@
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 relative overflow-hidden">
         <!-- Animated Background -->
         <div class="absolute -top-32 -right-32 w-64 h-64 bg-purple-300 rounded-full opacity-20 animate-floating"></div>
-        <div
-            class="absolute -bottom-32 -left-32 w-64 h-64 bg-blue-300 rounded-full opacity-20 animate-floating-delayed">
-        </div>
+        <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-blue-300 rounded-full opacity-20 animate-floating-delayed"></div>
 
         <!-- Logo -->
         <img src="./logo.svg" alt="Company Logo" class="logo">
@@ -68,21 +72,21 @@
                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                         </svg>
                     </div>
-                    <input type="email" placeholder="john@example.com"
+                    <input type="email" id="emailInput" placeholder="john@example.com" required
                         class="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:border-blue-500" />
                 </div>
             </div>
 
             <!-- Submit Button -->
-            <button type="submit"
-                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                Send Reset Link
+            <button type="submit" id="submitBtn"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                <span id="buttonText">Send Reset Link</span>
             </button>
 
             <!-- Back to Login Link -->
             <p class="text-center text-gray-600">
                 Remember your password?
-                <a href="#" id="loginLink" class="text-blue-600 hover:underline">Login here</a>
+                <a href="/login" class="text-blue-600 hover:underline">Login here</a>
             </p>
         </form>
     </div>
@@ -90,28 +94,25 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('form');
-            const emailInput = document.querySelector('input[type="email"]');
-            const submitButton = document.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.textContent;
+            const emailInput = document.getElementById('emailInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const buttonText = document.getElementById('buttonText');
 
             // Handle form submission
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
 
-                // Validate email
+                // Validate email format
                 if (!validateEmail(emailInput.value)) {
-                    showError('Please enter a valid email address');
+                    showMessage('Please enter a valid email address', 'error');
                     return;
                 }
 
-                // Disable button and show loading state
-                submitButton.disabled = true;
-                submitButton.innerHTML = `
-            <div class="flex items-center justify-center space-x-2">
-                <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Processing...</span>
-            </div>
-        `;
+                // Show loading state
+                submitBtn.disabled = true;
+                buttonText.innerHTML = `
+                    <span class="spinner mr-2"></span> Sending...
+                `;
 
                 try {
                     // Send request to server
@@ -120,27 +121,34 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({
-                            email: emailInput.value
-                        })
+                        body: JSON.stringify({ email: emailInput.value })
                     });
 
                     const data = await response.json();
 
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Something went wrong');
+                    if (response.ok) {
+                        // Success - show appropriate message
+                        showMessage('Password reset email has been sent to your account', 'success');
+                        form.reset();
+                    } else {
+                        // Handle different error cases
+                        if (response.status === 404) {
+                            throw new Error('No account found with this email address');
+                        } else {
+                            throw new Error(data.message || 'Failed to send reset link');
+                        }
                     }
-
-                    // Show success message
-                    showSuccess(data.message || 'Password reset link has been sent to your email');
-                    form.reset();
-
                 } catch (error) {
-                    showError(error.message || 'Failed to send reset link. Please try again later.');
+                    // Show error message
+                    if (error.message.includes('No account found')) {
+                        showMessage('Invalid email - no account found with this address', 'error');
+                    } else {
+                        showMessage(error.message || 'Failed to send reset link. Please try again later.', 'error');
+                    }
                 } finally {
                     // Reset button state
-                    submitButton.disabled = false;
-                    submitButton.textContent = originalButtonText;
+                    submitBtn.disabled = false;
+                    buttonText.textContent = 'Send Reset Link';
                 }
             });
 
@@ -150,14 +158,18 @@
                 return re.test(email);
             }
 
-            // Show error message
-            function showError(message) {
+            // Show message function
+            function showMessage(message, type) {
                 // Remove any existing messages
                 const existingAlert = document.querySelector('.alert-message');
                 if (existingAlert) existingAlert.remove();
 
                 const alertDiv = document.createElement('div');
-                alertDiv.className = 'alert-message bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded';
+                alertDiv.className = `alert-message p-4 mb-6 rounded-lg border-l-4 ${
+                    type === 'success' ? 
+                    'bg-green-100 border-green-500 text-green-700' : 
+                    'bg-red-100 border-red-500 text-red-700'
+                }`;
                 alertDiv.innerHTML = `<p>${message}</p>`;
 
                 // Insert after the form title
@@ -169,32 +181,7 @@
                     alertDiv.remove();
                 }, 5000);
             }
-
-            // Show success message
-            function showSuccess(message) {
-                // Remove any existing messages
-                const existingAlert = document.querySelector('.alert-message');
-                if (existingAlert) existingAlert.remove();
-
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'alert-message bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded';
-                alertDiv.innerHTML = `<p>${message}</p>`;
-
-                // Insert after the form title
-                const title = document.querySelector('h1');
-                title.insertAdjacentElement('afterend', alertDiv);
-
-                // Auto remove after 5 seconds
-                setTimeout(() => {
-                    alertDiv.remove();
-                }, 5000);
-            }
-        });
-        document.getElementById("loginLink").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/login'; // Redirect
         });
     </script>
-</body>
 
 </html>

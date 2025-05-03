@@ -192,7 +192,62 @@
         <!-- nav links as before -->
     </nav>
 
+    <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-around py-3 z-50">
+        <a href="#" id="homebtn" class="flex flex-col items-center text-blue-700 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="text-xs md:text-sm">Home</span>
+        </a>
+        <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
+            </svg>
+            <span class="text-xs md:text-sm">Assets</span>
+        </a>
+        <a href="#" id="teambtn2" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M15 10a4 4 0 100-8 4 4 0 000 8zM9 10a4 4 0 100-8 4 4 0 000 8z" />
+            </svg>
+            <span class="text-xs md:text-sm">Team</span>
+        </a>
+        <a href="#" id="profilebtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5.121 17.804A11.955 11.955 0 0112 15c2.21 0 4.271.635 6.001 1.721M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="text-xs md:text-sm">Profile</span>
+        </a>
+    </nav>
+    
+
     <script>
+
+document.getElementById("teambtn2").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/team'; // Redirect
+        });
+
+        document.getElementById("assetsbtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/assets'; // Redirect
+        });
+
+        document.getElementById("profilebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/profile'; // Redirect
+        });
+
+        document.getElementById("homebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+
+
+
         document.addEventListener('DOMContentLoaded', function () {
     // Payment method selection
     function selectPaymentMethod(method) {
