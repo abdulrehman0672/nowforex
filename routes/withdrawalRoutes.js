@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(protect); // Apply protect middleware to all routes
 
 // Create withdrawal request
-router.post('/', async (req, res) => {
+router.post('/withdraw', async (req, res) => {
   try {
     const { amount, method, accountDetails } = req.body;
     
@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'Amount must be positive' });
     }
 
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }

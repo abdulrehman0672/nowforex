@@ -12,9 +12,46 @@ router.get('/', (req, res) => {
 router.get('/login', (req, res) => {
   res.render('login', {});
 });
-router.get('/withdraw', (req, res) => {
-  res.render('withdraw', {});
+
+
+
+
+
+
+
+
+
+
+router.get('/withdraw', protect, async (req, res) => {
+  try {
+    
+    const user = req.user;
+
+    
+    res.render('withdrawal', {
+
+      user: {
+        balance: user.balance
+
+      }
+    });
+  } catch (error) {
+    console.error('Profile error:', error);
+    res.redirect('/login');
+  }
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get('/forget-password', (req, res) => {
   res.render('forget', {});

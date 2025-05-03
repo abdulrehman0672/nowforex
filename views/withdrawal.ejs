@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Withdraw Funds - FOURx</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/witdraw.css">
 </head>
+
 <body class="bg-gray-100">
     <!-- Your header/navigation -->
 
@@ -13,15 +15,20 @@
         <div class="max-w-2xl mx-auto">
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Withdraw Funds</h2>
-                
+
                 <div class="mb-6 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-blue-800 font-semibold">Current Balance: <span id="current-balance">0</span> PKR</p>
+                    <p class="text-blue-800 font-semibold">Current Balance: <span id="current-balance">
+                            <%=user.balance%>
+                        </span> PKR</p>
                 </div>
 
                 <form id="withdrawal-form" class="space-y-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Withdrawal Method <span class="text-red-500">*</span></label>
-                        <select class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        <label for="withdrawal-method" class="block text-sm font-medium text-gray-700 mb-2">Withdrawal
+                            Method <span class="text-red-500">*</span></label>
+                        <select id="withdrawal-method"
+                            class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required>
                             <option value="">Select method</option>
                             <option value="easypaisa">EasyPaisa</option>
                             <option value="jazzcash">JazzCash</option>
@@ -30,75 +37,113 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Account Details <span class="text-red-500">*</span></label>
-                        <input type="text" class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 03101234567" required>
+                        <label for="account-details" class="block text-sm font-medium text-gray-700 mb-2">Account
+                            Details <span class="text-red-500">*</span></label>
+                        <input type="text" id="account-details"
+                            class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="e.g., 03101234567" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Amount (PKR) <span class="text-red-500">*</span></label>
-                        <input type="number" class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter withdrawal amount" step="1" required>
+                        <label for="withdrawal-amount" class="block text-sm font-medium text-gray-700 mb-2">Amount (PKR)
+                            <span class="text-red-500">*</span></label>
+                        <input type="number" id="withdrawal-amount"
+                            class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Enter withdrawal amount" min="500" step="1" required>
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                         Request Withdrawal
                     </button>
                 </form>
+
+                <!-- Message container (initially hidden) -->
+                <div id="message-container" class="mt-4 hidden">
+                    <div id="message-content" class="p-4 rounded-lg"></div>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
-        // Load user balance
-        async function loadBalance() {
-            try {
-                const response = await fetch('/api/auth/me', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                
-                const user = await response.json();
-                document.getElementById('current-balance').textContent = user.balance;
-            } catch (error) {
-                console.error('Error loading balance:', error);
-            }
-        }
-        
-        // Handle withdrawal form submission
-        document.getElementById('withdrawal-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const amount = parseFloat(document.querySelector('input[type="number"]').value);
-            const method = document.querySelector('select').value;
-            const accountDetails = document.querySelector('input[type="text"]').value;
-            
-            try {
-                const response = await fetch('/api/withdrawals', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({ amount, method, accountDetails })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    alert('Withdrawal request submitted for admin approval');
-                    // Reset form or redirect
-                    loadBalance(); // Refresh balance
-                } else {
-                    alert(data.message || 'Withdrawal request failed');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Form submission
+            document.getElementById('withdrawal-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const form = e.target;
+                const formData = {
+                    amount: document.getElementById('withdrawal-amount').value,
+                    method: document.getElementById('withdrawal-method').value,
+                    accountDetails: document.getElementById('account-details').value
+                };
+
+                // Validate minimum amount
+                if (parseFloat(formData.amount) < 500) {
+                    showMessage('Minimum withdrawal amount is 500 PKR', 'error');
+                    return;
                 }
-            } catch (error) {
-                console.error('Withdrawal error:', error);
-                alert('An error occurred');
+
+                try {
+                    const response = await fetch('/api/withdrawals/withdraw', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showMessage('Withdrawal request submitted for admin approval!', 'success');
+                        form.reset();
+
+                        // Update balance display if available in response
+                        if (data.updatedBalance) {
+                            document.getElementById('current-balance').textContent = data.updatedBalance;
+                        }
+                    } else {
+                        showMessage(data.message || 'Withdrawal request failed', 'error');
+                    }
+                } catch (error) {
+                    console.error('Withdrawal error:', error);
+                    showMessage('An error occurred while submitting your withdrawal request', 'error');
+                }
+            });
+
+            // Function to show messages
+            function showMessage(message, type) {
+                const messageContainer = document.getElementById('message-container');
+                const messageContent = document.getElementById('message-content');
+
+                // Set message and style based on type
+                messageContent.textContent = message;
+                messageContent.className = 'p-4 rounded-lg'; // Reset classes
+
+                if (type === 'success') {
+                    messageContent.classList.add('bg-green-100', 'text-green-800');
+                } else if (type === 'error') {
+                    messageContent.classList.add('bg-red-100', 'text-red-800');
+                } else {
+                    messageContent.classList.add('bg-blue-100', 'text-blue-800');
+                }
+
+                // Show the container
+                messageContainer.classList.remove('hidden');
+
+                // Hide after 5 seconds
+                setTimeout(() => {
+                    messageContainer.classList.add('hidden');
+                }, 5000);
             }
+
+
         });
-        
-        // Initialize
-        loadBalance();
     </script>
+
 </body>
+
 </html>
