@@ -35,6 +35,34 @@
                 transform: rotate(360deg);
             }
         }
+        
+        .image-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-close-btn:hover {
+            background: #dc2626;
+        }
+        
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -239,7 +267,10 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="flex justify-center items-center min-h-[300px]">
+            <div class="flex justify-center items-center min-h-[300px] image-container">
+                <button id="image-close-btn" class="image-close-btn hidden">
+                    ×
+                </button>
                 <img id="modal-image" src="" alt="Proof Image" class="max-w-full max-h-[80vh] hidden">
                 <div id="image-loading" class="text-center py-8">
                     <div class="loading-spinner mx-auto mb-4"></div>
@@ -297,6 +328,7 @@
 
             // Close modal
             document.getElementById('close-modal').addEventListener('click', hideImageModal);
+            document.getElementById('image-close-btn').addEventListener('click', hideImageModal);
 
             // Event delegation for dynamic content
             document.addEventListener('click', function (e) {
@@ -352,12 +384,14 @@
             const img = document.getElementById('modal-image');
             const loading = document.getElementById('image-loading');
             const error = document.getElementById('image-error');
+            const closeBtn = document.getElementById('image-close-btn');
 
             // Reset modal state
             modal.classList.remove('hidden');
             img.classList.add('hidden');
             loading.classList.remove('hidden');
             error.classList.add('hidden');
+            closeBtn.classList.add('hidden');
 
             // Create authenticated URL if needed
             const token = localStorage.getItem('adminToken');
@@ -367,6 +401,7 @@
             img.onload = function () {
                 loading.classList.add('hidden');
                 img.classList.remove('hidden');
+                closeBtn.classList.remove('hidden');
             };
 
             img.onerror = function () {
@@ -382,6 +417,7 @@
             document.getElementById('modal-image').src = '';
             document.getElementById('modal-image').onload = null;
             document.getElementById('modal-image').onerror = null;
+            document.getElementById('image-close-btn').classList.add('hidden');
         }
 
         async function handleLogin(e) {
