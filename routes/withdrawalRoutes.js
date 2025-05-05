@@ -28,6 +28,9 @@ router.post('/withdraw', async (req, res) => {
       return res.status(400).json({ message: 'Insufficient balance' });
     }
 
+    // Deduct the amount from balance immediately
+    user.balance -= amount;
+    
     user.withdrawalRequests.push({
       amount,
       method,
@@ -39,9 +42,11 @@ router.post('/withdraw', async (req, res) => {
 
     res.status(201).json({
       message: 'Withdrawal request submitted for admin approval',
-      request: user.withdrawalRequests[user.withdrawalRequests.length - 1]
+      request: user.withdrawalRequests[user.withdrawalRequests.length - 1],
+      newBalance: user.balance
     });
   } catch (error) {
+    console.error('Withdrawal error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
