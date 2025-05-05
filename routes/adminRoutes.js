@@ -278,24 +278,32 @@ router.put('/withdrawals/:withdrawalId', verifyAdmin, async (req, res) => {
       return res.status(404).json({ message: 'Withdrawal request not found' });
     }
 
+    if (withdrawal.status !== 'pending') {
+      return res.status(400).json({ message: 'Withdrawal request already processed' });
+    }
+
     if (action === 'approve') {
-      if (user.balance < withdrawal.amount) {
-        return res.status(400).json({ message: 'Insufficient balance' });
-      }
-      
       withdrawal.status = 'approved';
-      user.balance -= withdrawal.amount;
       user.totalWithdrawals += withdrawal.amount;
       await user.save();
-      return res.json({ message: 'Withdrawal approved successfully' });
+      return res.json({ 
+        message: 'Withdrawal approved successfully',
+        userBalance: user.balance
+      });
     } else if (action === 'reject') {
+      // Return the amount to user's balance
+      user.balance += withdrawal.amount;
       withdrawal.status = 'rejected';
       await user.save();
-      return res.json({ message: 'Withdrawal rejected' });
+      return res.json({ 
+        message: 'Withdrawal rejected',
+        userBalance: user.balance
+      });
     } else {
       return res.status(400).json({ message: 'Invalid action' });
     }
   } catch (error) {
+    console.error('Withdrawal processing error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
