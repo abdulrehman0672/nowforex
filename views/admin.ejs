@@ -35,34 +35,6 @@
                 transform: rotate(360deg);
             }
         }
-        
-        .image-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .image-close-btn:hover {
-            background: #dc2626;
-        }
-        
-        .image-container {
-            position: relative;
-            display: inline-block;
-        }
     </style>
 </head>
 
@@ -266,8 +238,7 @@
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Investment Tickets</h2>
                     <div>
-                        <button id="refresh-tickets"
-                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mr-2">
+                        <button id="refresh-tickets" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mr-2">
                             <i class="fas fa-sync-alt mr-2"></i>Refresh
                         </button>
                         <button id="add-ticket" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
@@ -282,18 +253,12 @@
                         <table class="min-w-full">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validity
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions
-                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validity</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="tickets-table-body" class="divide-y divide-gray-200">
@@ -315,10 +280,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="flex justify-center items-center min-h-[300px] image-container">
-                <button id="image-close-btn" class="image-close-btn hidden">
-                    ×
-                </button>
+            <div class="flex justify-center items-center min-h-[300px]">
                 <img id="modal-image" src="" alt="Proof Image" class="max-w-full max-h-[80vh] hidden">
                 <div id="image-loading" class="text-center py-8">
                     <div class="loading-spinner mx-auto mb-4"></div>
@@ -460,21 +422,17 @@
 
             // Close modals
             document.getElementById('close-modal').addEventListener('click', hideImageModal);
-<<<<<<< HEAD
             document.getElementById('close-ticket-modal').addEventListener('click', hideTicketModal);
             document.getElementById('cancel-ticket').addEventListener('click', hideTicketModal);
 
             // Ticket form
             document.getElementById('ticket-form').addEventListener('submit', handleTicketFormSubmit);
             document.getElementById('add-ticket').addEventListener('click', () => showTicketModal());
-            document.getElementById('custom-amount').addEventListener('change', function () {
+            document.getElementById('custom-amount').addEventListener('change', function() {
                 const isCustom = this.checked;
                 document.getElementById('fixed-amount-fields').classList.toggle('hidden', isCustom);
                 document.getElementById('custom-amount-fields').classList.toggle('hidden', !isCustom);
             });
-=======
-            document.getElementById('image-close-btn').addEventListener('click', hideImageModal);
->>>>>>> be410945df0956505791a242626b3e5f8c12f882
 
             // Event delegation for dynamic content
             document.addEventListener('click', function (e) {
@@ -537,14 +495,12 @@
             const img = document.getElementById('modal-image');
             const loading = document.getElementById('image-loading');
             const error = document.getElementById('image-error');
-            const closeBtn = document.getElementById('image-close-btn');
 
             // Reset modal state
             modal.classList.remove('hidden');
             img.classList.add('hidden');
             loading.classList.remove('hidden');
             error.classList.add('hidden');
-            closeBtn.classList.add('hidden');
 
             // Create authenticated URL if needed
             const token = localStorage.getItem('adminToken');
@@ -554,7 +510,6 @@
             img.onload = function () {
                 loading.classList.add('hidden');
                 img.classList.remove('hidden');
-                closeBtn.classList.remove('hidden');
             };
 
             img.onerror = function () {
@@ -570,7 +525,6 @@
             document.getElementById('modal-image').src = '';
             document.getElementById('modal-image').onload = null;
             document.getElementById('modal-image').onerror = null;
-            document.getElementById('image-close-btn').classList.add('hidden');
         }
 
         async function handleLogin(e) {
@@ -1107,7 +1061,7 @@
         async function handleTicketAction(ticketId, action) {
             try {
                 if (action === 'edit') {
-                    const response = await fetch(`/api/admin/updatetickets/${ticketId}`, {
+                    const response = await fetch(`/api/admin/tickets/${ticketId}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
@@ -1145,5 +1099,4 @@
         }
     </script>
 </body>
-
 </html>
