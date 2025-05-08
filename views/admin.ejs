@@ -65,6 +65,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" data-section="tickets">
+                        <i class="fas fa-ticket-alt mr-2"></i> Investment Tickets
+                    </a>
+                </li>
+                <li>
                     <a href="#" class="flex items-center p-2 rounded hover:bg-blue-700" id="logout-btn">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
@@ -227,6 +232,49 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tickets Section -->
+            <div id="tickets-section" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Investment Tickets</h2>
+                    <div>
+                        <button id="refresh-tickets"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mr-2">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </button>
+                        <button id="add-ticket" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                            <i class="fas fa-plus mr-2"></i>Add Ticket
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tickets Table -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validity
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tickets-table-body" class="divide-y divide-gray-200">
+                                <!-- Tickets will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -250,6 +298,89 @@
                     <p class="text-red-500">Could not load image</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div id="ticket-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold" id="ticket-modal-title">Add New Ticket</h3>
+                <button id="close-ticket-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="ticket-form">
+                <input type="hidden" id="ticket-id">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="ticket-name">Ticket Name</label>
+                    <input type="text" id="ticket-name"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="ticket-description">Description</label>
+                    <textarea id="ticket-description"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        rows="3"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">
+                        <input type="checkbox" id="custom-amount" class="mr-2"> Allow custom amount
+                    </label>
+                </div>
+                <div id="fixed-amount-fields">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="ticket-amount">Fixed Amount ($)</label>
+                        <input type="number" id="ticket-amount"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min="0" step="0.01">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="ticket-profit">Fixed Profit ($)</label>
+                        <input type="number" id="ticket-profit"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min="0" step="0.01">
+                    </div>
+                </div>
+                <div id="custom-amount-fields" class="hidden">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="min-amount">Minimum Amount ($)</label>
+                        <input type="number" id="min-amount"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min="0" step="0.01">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="max-amount">Maximum Amount ($)</label>
+                        <input type="number" id="max-amount"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min="0" step="0.01">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="profit-percentage">Profit Percentage (%)</label>
+                        <input type="number" id="profit-percentage"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min="0" step="0.01">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="validity-hours">Validity (Hours)</label>
+                    <input type="number" id="validity-hours"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        min="1" value="24">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">
+                        <input type="checkbox" id="is-active" class="mr-2" checked> Active
+                    </label>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancel-ticket"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                    <button type="submit" id="save-ticket"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -294,9 +425,21 @@
             document.getElementById('refresh-deposits').addEventListener('click', loadDeposits);
             document.getElementById('refresh-withdrawals').addEventListener('click', loadWithdrawals);
             document.getElementById('refresh-users').addEventListener('click', loadUsers);
+            document.getElementById('refresh-tickets').addEventListener('click', loadTickets);
 
-            // Close modal
+            // Close modals
             document.getElementById('close-modal').addEventListener('click', hideImageModal);
+            document.getElementById('close-ticket-modal').addEventListener('click', hideTicketModal);
+            document.getElementById('cancel-ticket').addEventListener('click', hideTicketModal);
+
+            // Ticket form
+            document.getElementById('ticket-form').addEventListener('submit', handleTicketFormSubmit);
+            document.getElementById('add-ticket').addEventListener('click', () => showTicketModal());
+            document.getElementById('custom-amount').addEventListener('change', function () {
+                const isCustom = this.checked;
+                document.getElementById('fixed-amount-fields').classList.toggle('hidden', isCustom);
+                document.getElementById('custom-amount-fields').classList.toggle('hidden', !isCustom);
+            });
 
             // Event delegation for dynamic content
             document.addEventListener('click', function (e) {
@@ -319,6 +462,13 @@
                     e.preventDefault();
                     const imageUrl = e.target.getAttribute('href');
                     showImageModal(imageUrl);
+                }
+
+                // Handle ticket actions
+                if (e.target.matches('[data-ticket-action]')) {
+                    const ticketId = e.target.getAttribute('data-ticket-id');
+                    const action = e.target.getAttribute('data-ticket-action');
+                    handleTicketAction(ticketId, action);
                 }
             });
         }
@@ -462,6 +612,9 @@
                 case 'users':
                     loadUsers();
                     break;
+                case 'tickets':
+                    loadTickets();
+                    break;
             }
         }
 
@@ -546,12 +699,12 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.transactionId}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             ${deposit.proofImage ?
-                                `<a href="/uploads/${deposit.proofImage}" 
+                            `<a href="/uploads/${deposit.proofImage}" 
                                 data-proof-image 
                                 class="text-blue-600 hover:text-blue-800">
                                 View Proof
                                 </a>` :
-                                'No proof'}
+                            'No proof'}
                             </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(deposit.createdAt).toLocaleString()}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -734,6 +887,222 @@
             showSection('login');
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
+        }
+
+        // Ticket management functions
+        async function loadTickets() {
+            const tableBody = document.getElementById('tickets-table-body');
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading...</td></tr>';
+
+            try {
+                console.log('Loading tickets...');
+                const response = await fetch('/api/admin/tickets', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                console.log('Response status:', response.status);
+
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+
+                const tickets = await response.json();
+                console.log('Tickets data:', tickets);
+
+                tableBody.innerHTML = '';
+
+                if (tickets.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No tickets found</td></tr>';
+                    return;
+                }
+
+                tickets.forEach(ticket => {
+                    const row = document.createElement('tr');
+
+                    let amountInfo;
+                    let profitInfo;
+
+                    if (ticket.isCustomAmount) {
+                        amountInfo = `Custom ($${ticket.minCustomAmount} - $${ticket.maxCustomAmount})`;
+                        profitInfo = `${ticket.profitPercentage}%`;
+                    } else {
+                        amountInfo = `$${ticket.amount}`;
+                        profitInfo = `$${ticket.profit}`;
+                    }
+
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${ticket.name}</div>
+                            <div class="text-sm text-gray-500">${ticket.description || 'No description'}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${amountInfo}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${profitInfo}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${ticket.validityHours} hours</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${ticket.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${ticket.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button data-ticket-id="${ticket._id}" data-ticket-action="edit" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
+                            <button data-ticket-id="${ticket._id}" data-ticket-action="delete" class="text-red-600 hover:text-red-900">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading tickets:', error);
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading tickets</td></tr>';
+            }
+        }
+
+        function showTicketModal(ticket = null) {
+            const modal = document.getElementById('ticket-modal');
+            const title = document.getElementById('ticket-modal-title');
+            const form = document.getElementById('ticket-form');
+            const customAmountCheckbox = document.getElementById('custom-amount');
+            const fixedAmountFields = document.getElementById('fixed-amount-fields');
+            const customAmountFields = document.getElementById('custom-amount-fields');
+
+            if (ticket) {
+                // Edit mode
+                title.textContent = 'Edit Ticket';
+                document.getElementById('ticket-id').value = ticket._id;
+                document.getElementById('ticket-name').value = ticket.name;
+                document.getElementById('ticket-description').value = ticket.description || '';
+                document.getElementById('validity-hours').value = ticket.validityHours;
+                document.getElementById('is-active').checked = ticket.isActive !== false;
+
+                if (ticket.isCustomAmount) {
+                    customAmountCheckbox.checked = true;
+                    fixedAmountFields.classList.add('hidden');
+                    customAmountFields.classList.remove('hidden');
+                    document.getElementById('min-amount').value = ticket.minCustomAmount || 0;
+                    document.getElementById('max-amount').value = ticket.maxCustomAmount;
+                    document.getElementById('profit-percentage').value = ticket.profitPercentage;
+                } else {
+                    customAmountCheckbox.checked = false;
+                    fixedAmountFields.classList.remove('hidden');
+                    customAmountFields.classList.add('hidden');
+                    document.getElementById('ticket-amount').value = ticket.amount;
+                    document.getElementById('ticket-profit').value = ticket.profit;
+                }
+            } else {
+                // Add mode
+                title.textContent = 'Add New Ticket';
+                form.reset();
+                customAmountCheckbox.checked = false;
+                fixedAmountFields.classList.remove('hidden');
+                customAmountFields.classList.add('hidden');
+                document.getElementById('validity-hours').value = 24;
+                document.getElementById('is-active').checked = true;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        async function handleTicketFormSubmit(e) {
+            e.preventDefault();
+
+            const saveBtn = document.getElementById('save-ticket');
+            const saveText = saveBtn.textContent;
+
+            try {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<span class="loading-spinner"></span> Saving...';
+
+                const formData = {
+                    name: document.getElementById('ticket-name').value,
+                    description: document.getElementById('ticket-description').value,
+                    validityHours: document.getElementById('validity-hours').value,
+                    isActive: document.getElementById('is-active').checked,
+                    isCustomAmount: document.getElementById('custom-amount').checked
+                };
+
+                if (formData.isCustomAmount) {
+                    formData.minCustomAmount = document.getElementById('min-amount').value;
+                    formData.maxCustomAmount = document.getElementById('max-amount').value;
+                    formData.profitPercentage = document.getElementById('profit-percentage').value;
+                } else {
+                    formData.amount = document.getElementById('ticket-amount').value;
+                    formData.profit = document.getElementById('ticket-profit').value;
+                }
+
+                const ticketId = document.getElementById('ticket-id').value;
+                const url = ticketId ? `/api/admin/tickets/${ticketId}` : '/api/admin/tickets';
+                const method = ticketId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to save ticket');
+                }
+
+                hideTicketModal();
+                loadTickets();
+            } catch (error) {
+                console.error('Error saving ticket:', error);
+                alert(error.message || 'An error occurred while saving the ticket');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = saveText;
+            }
+        }
+
+        function hideTicketModal() {
+            document.getElementById('ticket-modal').classList.add('hidden');
+        }
+
+        async function handleTicketAction(ticketId, action) {
+            try {
+                if (action === 'edit') {
+                    const response = await fetch(`/api/admin/updatetickets/${ticketId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch ticket details');
+                    }
+
+                    const ticket = await response.json();
+                    showTicketModal(ticket);
+                } else if (action === 'delete') {
+                    if (!confirm('Are you sure you want to delete this ticket?')) return;
+
+                    const response = await fetch(`/api/admin/tickets/${ticketId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || 'Failed to delete ticket');
+                    }
+
+                    loadTickets();
+                }
+            } catch (error) {
+                console.error(`Error ${action} ticket:`, error);
+                alert(error.message || `An error occurred while ${action}ing the ticket`);
+            }
         }
     </script>
 </body>

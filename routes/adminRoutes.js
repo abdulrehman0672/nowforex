@@ -6,6 +6,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {apiAdmin} from '../middleware/authMiddleware.js'; // Import the new middleware
+import Ticket from '../models/Ticket.js';
+import UserInvestment from '../models/UserInvestment.js';
 
 const router = express.Router();
 
@@ -321,6 +323,147 @@ router.get('/users', verifyAdmin, async (req, res) => {
 router.get('/admin', (req, res) => {
   res.render('admin', {});
 });
+
+router.get('/tickets', async (req, res) => {
+  try {
+    const tickets = await Ticket.find().sort({ createdAt: -1 });
+    res.json(tickets);
+  } catch (error) {
+    console.error('Error fetching tickets:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Create new ticket
+router.post('/createtickets', async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      amount,
+      profit,
+      validityHours,
+      isCustomAmount,
+      minCustomAmount,
+      maxCustomAmount,
+      profitPercentage,
+      isActive
+    } = req.body;
+
+    const ticketData = {
+      name,
+      description: description || '',
+      validityHours: validityHours || 24,
+      isActive: isActive !== false,
+      isCustomAmount: isCustomAmount || false
+    };
+
+    if (isCustomAmount) {
+      ticketData.minCustomAmount = minCustomAmount || 0;
+      ticketData.maxCustomAmount = maxCustomAmount;
+      ticketData.profitPercentage = profitPercentage;
+    } else {
+      ticketData.amount = amount;
+      ticketData.profit = profit;
+    }
+
+    const ticket = new Ticket(ticketData);
+    await ticket.save();
+
+    res.status(201).json(ticket);
+  } catch (error) {
+    console.error('Error creating ticket:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Update ticket
+router.put('/updatetickets/:id',  async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+
+    const {
+      name,
+      description,
+      amount,
+      profit,
+      validityHours,
+      isCustomAmount,
+      minCustomAmount,
+      maxCustomAmount,
+      profitPercentage,
+      isActive
+    } = req.body;
+
+    ticket.name = name;
+    ticket.description = description || '';
+    ticket.validityHours = validityHours || 24;
+    ticket.isActive = isActive !== false;
+    ticket.isCustomAmount = isCustomAmount || false;
+
+    if (isCustomAmount) {
+      ticket.amount = undefined;
+      ticket.profit = undefined;
+      ticket.minCustomAmount = minCustomAmount || 0;
+      ticket.maxCustomAmount = maxCustomAmount;
+      ticket.profitPercentage = profitPercentage;
+    } else {
+      ticket.amount = amount;
+      ticket.profit = profit;
+      ticket.minCustomAmount = undefined;
+      ticket.maxCustomAmount = undefined;
+      ticket.profitPercentage = undefined;
+    }
+
+    await ticket.save();
+    res.json(ticket);
+  } catch (error) {
+    console.error('Error updating ticket:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Delete ticket
+router.delete('/deletetickets/:id', async (req, res) => {
+  try {
+    // Check if there are any active investments with this ticket
+    const activeInvestments = await UserInvestment.countDocuments({
+      ticketId: req.params.id,
+      status: 'active'
+    });
+
+    if (activeInvestments > 0) {
+      return res.status(400).json({
+        message: 'Cannot delete ticket with active investments'
+      });
+    }
+
+    await Ticket.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Ticket deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting ticket:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get active user investments
+router.get('/investments', async (req, res) => {
+  try {
+    const investments = await UserInvestment.find()
+      .populate('userId', 'username name email')
+      .populate('ticketId', 'name')
+      .sort({ startDate: -1 });
+
+    res.json(investments);
+  } catch (error) {
+    console.error('Error fetching investments:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 
 export default router;
