@@ -99,6 +99,27 @@
         </a>
     </nav>
     <script>
+        document.getElementById("teambtn2").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/team'; // Redirect
+        });
+
+        document.getElementById("assetsbtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/assets'; // Redirect
+        });
+
+        document.getElementById("profilebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/profile'; // Redirect
+        });
+
+        document.getElementById("homebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+
+
         document.addEventListener('DOMContentLoaded', function () {
             // Form submission
             document.getElementById('withdrawal-form').addEventListener('submit', async (e) => {
