@@ -30,10 +30,10 @@
 
                 <!-- Desktop Navigation matching home page -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Invest</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#" id="homebtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#" id="Invest" class="text-gray-600 hover:text-blue-600 transition duration-300">Invest</a>
+                    <a href="#" id="profilebtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
+                    <a href="#" id="aboutbtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
                     <a href="/profile.html" class="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                         <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -179,6 +179,21 @@
     </nav>
 
     <script>
+
+
+ document.getElementById("homebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("profilebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/profile'; // Redirect
+        });
+        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
+
         // Reuse existing JavaScript functionality from home page
         function toggleMenu() {
             const mobileMenu = document.getElementById('mobile-menu');

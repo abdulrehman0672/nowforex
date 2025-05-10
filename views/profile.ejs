@@ -51,9 +51,9 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#" id="homebtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#" id="assetsbtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
+                    <a href="#" id="aboutbtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
                     <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                         Log out
                     </a>
@@ -365,6 +365,23 @@
     </nav>
 
     <script>
+
+ document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
+        document.getElementById("homebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+
+      
+ document.getElementById("assetsbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/assets'; // Redirect
+        });
+
+
         // Mobile Menu Toggle
         function toggleMenu() {
             const mobileMenu = document.getElementById('mobile-menu');

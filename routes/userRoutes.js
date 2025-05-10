@@ -69,6 +69,12 @@ router.get('/home', protect, (req, res) => {
 router.get('/assets', protect, (req, res) => {
   res.render('assets', {});
 });
+router.get('/history', protect, (req, res) => {
+  res.render('history', {});
+});
+router.get('/about', protect, (req, res) => {
+  res.render('about', {});
+});
 
 router.get('/deposit', protect, (req, res) => {
   res.render('deposit', {});
