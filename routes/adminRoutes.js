@@ -324,6 +324,20 @@ router.get('/admin', (req, res) => {
   res.render('admin', {});
 });
 
+// Get single ticket
+router.get('/tickets/:id', apiAdmin, async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+    res.json(ticket);
+  } catch (error) {
+    console.error('Error fetching ticket:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 router.get('/tickets', async (req, res) => {
   try {
     const tickets = await Ticket.find().sort({ createdAt: -1 });
@@ -335,7 +349,7 @@ router.get('/tickets', async (req, res) => {
 });
 
 // Create new ticket
-router.post('/createtickets', async (req, res) => {
+router.post('/tickets', async (req, res) => {
   try {
     const {
       name,
@@ -378,7 +392,7 @@ router.post('/createtickets', async (req, res) => {
 });
 
 // Update ticket
-router.put('/updatetickets/:id',  async (req, res) => {
+router.put('/tickets/:id',  async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
     if (!ticket) {
@@ -426,10 +440,10 @@ router.put('/updatetickets/:id',  async (req, res) => {
   }
 });
 
+
 // Delete ticket
-router.delete('/deletetickets/:id', async (req, res) => {
+router.delete('/tickets/:id', apiAdmin, async (req, res) => {
   try {
-    // Check if there are any active investments with this ticket
     const activeInvestments = await UserInvestment.countDocuments({
       ticketId: req.params.id,
       status: 'active'
@@ -441,7 +455,11 @@ router.delete('/deletetickets/:id', async (req, res) => {
       });
     }
 
-    await Ticket.findByIdAndDelete(req.params.id);
+    const deletedTicket = await Ticket.findByIdAndDelete(req.params.id);
+    if (!deletedTicket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+
     res.json({ message: 'Ticket deleted successfully' });
   } catch (error) {
     console.error('Error deleting ticket:', error);
