@@ -40,21 +40,26 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="" id="homebtn11" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="" id="assetsbtn11" class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
-                    <a href="" id="historybtn11" class="text-gray-600 hover:text-blue-600 transition duration-300">History</a>
+                    <a href="" id="assetsbtn11"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
+                    <a href="" id="historybtn11"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">History</a>
                     <a href="" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                         Log out
                     </a>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    </button>
+                <!-- Mobile Menu (add this) -->
+                <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+                    <div class="px-2 pt-2 pb-3 space-y-1">
+                        <a href="#" id="mobile-home" class="block px-3 py-2 text-gray-600 hover:text-blue-600">Home</a>
+                        <a href="#" id="mobile-assets"
+                            class="block px-3 py-2 text-gray-600 hover:text-blue-600">Assets</a>
+                        <a href="#" id="mobile-history"
+                            class="block px-3 py-2 text-gray-600 hover:text-blue-600">History</a>
+                        <a href="#" class="block px-3 py-2 text-red-600 hover:bg-gray-100">Log out</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -210,12 +215,29 @@
             window.location.href = '/home'; // Redirect
         });
         // Mobile Menu Toggle
+        // Mobile Menu Toggle
         function toggleMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             const menuBtn = document.getElementById('menu-btn');
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.classList.toggle('text-blue-600');
+
+            if (mobileMenu && menuBtn) {
+                mobileMenu.classList.toggle('hidden');
+                menuBtn.classList.toggle('text-blue-600');
+            }
         }
+
+        // Attach event listener (add this)
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuBtn = document.getElementById('menu-btn');
+            if (menuBtn) {
+                menuBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+            }
+
+            // Your existing navigation handlers...
+        });
     </script>
 </body>
 

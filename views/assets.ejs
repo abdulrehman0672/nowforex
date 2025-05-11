@@ -59,7 +59,7 @@
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
                     <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
-                        onclick="toggleMenu()" aria-label="Toggle menu">
+                        aria-label="Toggle menu">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16m-7 6h7" />
@@ -70,16 +70,13 @@
 
             <!-- Mobile Menu matching home page -->
             <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
+                <a href="" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+                <a href="" id="" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
+                <a href="" id="profilebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
+                <a href="" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
                 <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 items-center">
-                    <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Profile
+
+
                 </a>
             </div>
         </nav>
@@ -223,12 +220,22 @@
 
     <script>
         // Reuse existing JavaScript functionality from home page
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
+
+        document.addEventListener('DOMContentLoaded', function () {
             const menuBtn = document.getElementById('menu-btn');
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.classList.toggle('text-blue-600');
-        }
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuBtn.classList.toggle('text-blue-600');
+                });
+            }
+
+            // Your existing nav active state and redirection code here...
+        });
+
+
 
         // Navigation active state
         document.addEventListener('DOMContentLoaded', function () {
@@ -267,6 +274,16 @@
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
+
+        document.getElementById("profilebtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/profile'; // Redirect
+        });
+
+        document.getElementById("homebtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
         document.getElementById("homebtn33").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
@@ -276,6 +293,10 @@
             window.location.href = '/profile'; // Redirect
         });
         document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
+        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
         });
