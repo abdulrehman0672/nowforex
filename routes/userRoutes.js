@@ -78,38 +78,40 @@ router.get('/home', protect, async (req, res) => {
   }
 });
 
-router.get('/assets/:id', protect, async (req, res) => {
-  try {
-    const ticket = await Ticket.findById(req.params.id);
-    const investments = await UserInvestment.find({ userId: req.user._id })
-      .populate('ticketId');
-
-    res.render('assets', {
-      ticket,
-      investments,
-      user: req.user  // Use lowercase 'user' here for consistency
-    });
-  } catch (error) {
-    res.status(500).render('error', { message: error.message });
-  }
-});
-
 router.get('/assets', protect, async (req, res) => {
   try {
-    const investments = await UserInvestment.find({ userId: req.user._id })
-      .populate('ticketId');
+    const ticketId = req.query.ticket;
 
+    if (ticketId) {
+      // Fetch the specific ticket from your database
+      const ticket = await Ticket.findById(ticketId); // Adjust based on your DB model
+
+      if (!ticket) {
+        return res.status(404).render('assets', {
+          error: 'Ticket not found',
+          ticket: null
+        });
+      }
+
+      return res.render('assets', {
+        ticket: ticket,
+        error: null
+      });
+    }
+
+    // If no ticket ID provided, render empty assets page
     res.render('assets', {
-      investments,
-      user: req.user
+      ticket: null,
+      error: null
     });
   } catch (error) {
-    res.status(500).render('error', { message: error.message });
+    console.error('Error fetching ticket:', error);
+    res.status(500).render('assets', {
+      error: 'Error loading ticket details',
+      ticket: null
+    });
   }
 });
-
-
-
 
 router.get('/history', protect, (req, res) => {
   res.render('history', {});

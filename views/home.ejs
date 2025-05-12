@@ -137,7 +137,8 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
             <% tickets.forEach((ticket, index)=> { %>
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:-translate-y-1 transition-transform cursor-pointer ticket-item"
+                    data-ticket-id="<%= ticket.id %>">
                     <img src="<%= ticket.image %>" alt="<%= ticket.name %>" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <h3 class="text-lg text-blue-800 font-bold mb-2">
@@ -402,9 +403,9 @@
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
-       
 
-       
+
+
 
         document.getElementById("homebtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
@@ -440,6 +441,13 @@
                 alert('Could not log out. Please try again.');
             }
         }
+
+        document.querySelectorAll('.ticket-item').forEach(ticket => {
+            ticket.addEventListener('click', function () {
+                const ticketId = this.getAttribute('data-ticket-id');
+                window.location.href = `/assets?ticket=${ticketId}`;
+            });
+        });
     </script>
 </body>
 
