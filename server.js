@@ -13,6 +13,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import depositRoutes from './routes/depositRoutes.js';
 import withdrawalRoutes from './routes/withdrawalRoutes.js';
 import cookieParser from 'cookie-parser';
+import ticketRoutes from './routes/ticketRoutes.js';
 
 
 const app = express();
@@ -69,6 +70,12 @@ app.use("/api/forget", forgetRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/deposits', depositRoutes);
 app.use('/api/withdrawals', withdrawalRoutes);
+app.use('/api/tickets', ticketRoutes);
+
+// setInterval(() => {
+//   processCompletedInvestments();
+// }, 5 * 60 * 1000); // Run every 5 minutes
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

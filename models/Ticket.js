@@ -8,16 +8,22 @@ const ticketSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+    trim: true,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true,
     trim: true
   },
   amount: {
     type: Number,
-    required: function() { return !this.isCustomAmount; }, // Required only if not custom
+    required: function() { return !this.isCustomAmount; },
     min: 0
   },
   profit: {
     type: Number,
-    required: function() { return !this.isCustomAmount; }, // Required only if not custom
+    required: function() { return !this.isCustomAmount; },
     min: 0
   },
   validityHours: {
