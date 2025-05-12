@@ -11,6 +11,7 @@
             0% {
                 transform: translateX(100%);
             }
+
             100% {
                 transform: translateX(-100%);
             }
@@ -25,21 +26,26 @@
                 flex-direction: column;
                 gap: 0.75rem;
             }
+
             .payment-method-buttons button {
                 width: 100%;
             }
+
             .qr-code-container {
                 padding: 1rem;
             }
+
             .qr-code-image {
                 width: 36vw;
                 height: 36vw;
                 max-width: 180px;
                 max-height: 180px;
             }
+
             .deposit-form {
                 padding: 1.25rem;
             }
+
             main {
                 padding-top: 1.5rem;
                 padding-bottom: 5rem;
@@ -51,10 +57,12 @@
                 padding-left: 0.5rem;
                 padding-right: 0.5rem;
             }
+
             .footer-nav svg {
                 width: 1.25rem;
                 height: 1.25rem;
             }
+
             .footer-nav span {
                 font-size: 0.65rem;
             }
@@ -73,12 +81,15 @@
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Asset</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
-                    <a href="#"
-                        class="flex items-center text-gray-600 hover:text-blue-600 transition duration-300">Profile</a>
+                    <a href="#" id="homebtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#" id="assetsbtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Asset</a>
+                    <a href="#" id="profilebtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
+                    <a href="#" id="aboutbtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+
                 </div>
                 <div class="md:hidden">
                     <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
@@ -91,11 +102,10 @@
                 </div>
             </div>
             <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 items-center">Profile</a>
+                <a href="#" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+                <a href="#" id="Invest" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
+                <a href="#" id="profilebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
+                <a href="#" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
             </div>
         </nav>
     </header>
@@ -198,7 +208,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            <span class="text-xs md:text-sm">Home</span>
+            <span  class="text-xs md:text-sm">Home</span>
         </a>
         <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
             <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -225,11 +235,11 @@
             <span class="text-xs md:text-sm group-hover:text-blue-600">Profile</span>
         </a>
     </nav>
-    
+
 
     <script>
 
-document.getElementById("teambtn2").addEventListener("click", function (e) {
+        document.getElementById("teambtn2").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/team'; // Redirect
         });
@@ -248,158 +258,186 @@ document.getElementById("teambtn2").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
+        document.getElementById("homebtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("profilebtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("homebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("assetsbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
 
-
+        document.getElementById("profilebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/profile'; // Redirect
+        });
+        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
+        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
-    // Payment method selection
-    function selectPaymentMethod(method) {
-        const easypaisaQR = document.getElementById('easypaisa-qr');
-        const jazzcashQR = document.getElementById('jazzcash-qr');
-        const qrCodeTitle = document.getElementById('qr-code-title');
-        const qrCodeDetails = document.getElementById('qr-code-details');
+            // Payment method selection
+            function selectPaymentMethod(method) {
+                const easypaisaQR = document.getElementById('easypaisa-qr');
+                const jazzcashQR = document.getElementById('jazzcash-qr');
+                const qrCodeTitle = document.getElementById('qr-code-title');
+                const qrCodeDetails = document.getElementById('qr-code-details');
 
-        if (method === 'easypaisa') {
-            easypaisaQR.classList.remove('hidden');
-            jazzcashQR.classList.add('hidden');
-            qrCodeTitle.textContent = 'EasyPaisa QR Code';
-            qrCodeDetails.textContent = 'EasyPaisa Number: 0310-1234567';
-        } else if (method === 'jazzcash') {
-            jazzcashQR.classList.remove('hidden');
-            easypaisaQR.classList.add('hidden');
-            qrCodeTitle.textContent = 'JazzCash QR Code';
-            qrCodeDetails.textContent = 'JazzCash Number: 0300-1234567';
-        }
-    }
-
-    // Add event listeners for payment method buttons
-    document.getElementById('easypaisa-btn').addEventListener('click', function () {
-        selectPaymentMethod('easypaisa');
-    });
-
-    document.getElementById('jazzcash-btn').addEventListener('click', function () {
-        selectPaymentMethod('jazzcash');
-    });
-
-    // Image upload preview functionality
-    const fileInput = document.querySelector('input[type="file"]');
-    const uploadLabel = fileInput.parentElement;
-    const uploadContainer = uploadLabel.querySelector('div');
-
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                // Remove existing preview if any
-                const existingPreview = uploadLabel.querySelector('.image-preview');
-                if (existingPreview) {
-                    existingPreview.remove();
+                if (method === 'easypaisa') {
+                    easypaisaQR.classList.remove('hidden');
+                    jazzcashQR.classList.add('hidden');
+                    qrCodeTitle.textContent = 'EasyPaisa QR Code';
+                    qrCodeDetails.textContent = 'EasyPaisa Number: 0310-1234567';
+                } else if (method === 'jazzcash') {
+                    jazzcashQR.classList.remove('hidden');
+                    easypaisaQR.classList.add('hidden');
+                    qrCodeTitle.textContent = 'JazzCash QR Code';
+                    qrCodeDetails.textContent = 'JazzCash Number: 0300-1234567';
                 }
-                
-                // Create image preview
-                const imgPreview = document.createElement('img');
-                imgPreview.src = event.target.result;
-                imgPreview.classList.add('image-preview');
-                imgPreview.style.maxWidth = '100%';
-                imgPreview.style.maxHeight = '100%';
-                imgPreview.style.objectFit = 'contain';
-                
-                // Hide the upload icon and text
-                uploadContainer.style.display = 'none';
-                
-                // Add the preview image
-                uploadLabel.appendChild(imgPreview);
             }
-            
-            reader.readAsDataURL(file);
-        }
-    });
 
-    // Reset preview when clicking on the label (optional)
-    uploadLabel.addEventListener('click', function(e) {
-        // Don't reset if clicking on the file input
-        if (e.target === fileInput) return;
-        
-        // If there's already a preview, remove it and show the upload UI again
-        const existingPreview = uploadLabel.querySelector('.image-preview');
-        if (existingPreview) {
-            existingPreview.remove();
-            uploadContainer.style.display = 'flex';
-            fileInput.value = ''; // Clear the file input
-        }
-    });
-
-    // Form submission
-    document.getElementById('deposit-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const form = e.target;
-        const formData = new FormData(form);
-        
-        // Get the payment method
-        const method = document.getElementById('qr-code-title').textContent.includes('EasyPaisa') ? 'easypaisa' : 'jazzcash';
-        formData.append('method', method);
-
-        // Check if file was selected
-        const fileInput = form.querySelector('input[type="file"]');
-        if (fileInput.files.length === 0) {
-            alert('Please upload proof screenshot.');
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/deposits/deposit', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: formData
+            // Add event listeners for payment method buttons
+            document.getElementById('easypaisa-btn').addEventListener('click', function () {
+                selectPaymentMethod('easypaisa');
             });
 
-            const data = await response.json();
+            document.getElementById('jazzcash-btn').addEventListener('click', function () {
+                selectPaymentMethod('jazzcash');
+            });
 
-            if (response.ok) {
-                alert('Deposit request submitted for admin approval!');
-                form.reset();
-                // Hide any visible QR codes
-                document.getElementById('easypaisa-qr').classList.add('hidden');
-                document.getElementById('jazzcash-qr').classList.add('hidden');
-                document.getElementById('qr-code-title').textContent = 'Select Payment Method';
-                document.getElementById('qr-code-details').textContent = 'Select a payment method to view details';
-                
-                // Reset the upload preview
+            // Image upload preview functionality
+            const fileInput = document.querySelector('input[type="file"]');
+            const uploadLabel = fileInput.parentElement;
+            const uploadContainer = uploadLabel.querySelector('div');
+
+            fileInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        // Remove existing preview if any
+                        const existingPreview = uploadLabel.querySelector('.image-preview');
+                        if (existingPreview) {
+                            existingPreview.remove();
+                        }
+
+                        // Create image preview
+                        const imgPreview = document.createElement('img');
+                        imgPreview.src = event.target.result;
+                        imgPreview.classList.add('image-preview');
+                        imgPreview.style.maxWidth = '100%';
+                        imgPreview.style.maxHeight = '100%';
+                        imgPreview.style.objectFit = 'contain';
+
+                        // Hide the upload icon and text
+                        uploadContainer.style.display = 'none';
+
+                        // Add the preview image
+                        uploadLabel.appendChild(imgPreview);
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Reset preview when clicking on the label (optional)
+            uploadLabel.addEventListener('click', function (e) {
+                // Don't reset if clicking on the file input
+                if (e.target === fileInput) return;
+
+                // If there's already a preview, remove it and show the upload UI again
                 const existingPreview = uploadLabel.querySelector('.image-preview');
                 if (existingPreview) {
                     existingPreview.remove();
                     uploadContainer.style.display = 'flex';
+                    fileInput.value = ''; // Clear the file input
                 }
-            } else {
-                alert(data.message || 'Deposit request failed');
-            }
-        } catch (error) {
-            console.error('Deposit error:', error);
-            alert('An error occurred while submitting your deposit request');
-        }
-    });
+            });
 
-    // Mobile menu toggle
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+            // Form submission
+            document.getElementById('deposit-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-    menuBtn.addEventListener('click', function () {
-        mobileMenu.classList.toggle('hidden');
-        menuBtn.classList.toggle('text-blue-600');
-    });
+                const form = e.target;
+                const formData = new FormData(form);
 
-    document.addEventListener('click', function (event) {
-        if (!mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
-            mobileMenu.classList.add('hidden');
-            menuBtn.classList.remove('text-blue-600');
-        }
-    });
-});
+                // Get the payment method
+                const method = document.getElementById('qr-code-title').textContent.includes('EasyPaisa') ? 'easypaisa' : 'jazzcash';
+                formData.append('method', method);
+
+                // Check if file was selected
+                const fileInput = form.querySelector('input[type="file"]');
+                if (fileInput.files.length === 0) {
+                    alert('Please upload proof screenshot.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/deposits/deposit', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Deposit request submitted for admin approval!');
+                        form.reset();
+                        // Hide any visible QR codes
+                        document.getElementById('easypaisa-qr').classList.add('hidden');
+                        document.getElementById('jazzcash-qr').classList.add('hidden');
+                        document.getElementById('qr-code-title').textContent = 'Select Payment Method';
+                        document.getElementById('qr-code-details').textContent = 'Select a payment method to view details';
+
+                        // Reset the upload preview
+                        const existingPreview = uploadLabel.querySelector('.image-preview');
+                        if (existingPreview) {
+                            existingPreview.remove();
+                            uploadContainer.style.display = 'flex';
+                        }
+                    } else {
+                        alert(data.message || 'Deposit request failed');
+                    }
+                } catch (error) {
+                    console.error('Deposit error:', error);
+                    alert('An error occurred while submitting your deposit request');
+                }
+            });
+
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuBtn.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+                menuBtn.classList.toggle('text-blue-600');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                    menuBtn.classList.remove('text-blue-600');
+                }
+            });
+        });
     </script>
 </body>
+
 </html>

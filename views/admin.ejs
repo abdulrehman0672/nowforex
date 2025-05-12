@@ -35,6 +35,35 @@
                 transform: rotate(360deg);
             }
         }
+
+
+        .image-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-close-btn:hover {
+            background: #dc2626;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -238,7 +267,8 @@
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Investment Tickets</h2>
                     <div>
-                        <button id="refresh-tickets" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mr-2">
+                        <button id="refresh-tickets"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mr-2">
                             <i class="fas fa-sync-alt mr-2"></i>Refresh
                         </button>
                         <button id="add-ticket" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
@@ -253,12 +283,18 @@
                         <table class="min-w-full">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validity</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validity
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody id="tickets-table-body" class="divide-y divide-gray-200">
@@ -279,410 +315,428 @@
                 <button id="close-modal" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times"></i>
                 </button>
-            </div>
-            <div class="flex justify-center items-center min-h-[300px]">
-                <img id="modal-image" src="" alt="Proof Image" class="max-w-full max-h-[80vh] hidden">
-                <div id="image-loading" class="text-center py-8">
-                    <div class="loading-spinner mx-auto mb-4"></div>
-                    <p>Loading image...</p>
-                </div>
-                <div id="image-error" class="text-center py-8 hidden">
-                    <i class="fas fa-exclamation-circle text-red-500 text-4xl mb-4"></i>
-                    <p class="text-red-500">Could not load image</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Ticket Modal -->
-    <div id="ticket-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-6 rounded-lg max-w-md w-full">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold" id="ticket-modal-title">Add New Ticket</h3>
-                <button id="close-ticket-modal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
+            </div>
+
+            <div class="flex justify-center items-center min-h-[300px] image-container">
+                <button id="image-close-btn" class="image-close-btn hidden">
+                    ×
                 </button>
+
+                <div class="flex justify-center items-center min-h-[300px]">
+                    <img id="modal-image" src="" alt="Proof Image" class="max-w-full max-h-[80vh] hidden">
+                    <div id="image-loading" class="text-center py-8">
+                        <div class="loading-spinner mx-auto mb-4"></div>
+                        <p>Loading image...</p>
+                    </div>
+                    <div id="image-error" class="text-center py-8 hidden">
+                        <i class="fas fa-exclamation-circle text-red-500 text-4xl mb-4"></i>
+                        <p class="text-red-500">Could not load image</p>
+                    </div>
+                </div>
             </div>
-            <form id="ticket-form">
-                <input type="hidden" id="ticket-id">
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2" for="ticket-name">Ticket Name</label>
-                    <input type="text" id="ticket-name"
-                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2" for="ticket-description">Description</label>
-                    <textarea id="ticket-description"
-                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        rows="3"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">
-                        <input type="checkbox" id="custom-amount" class="mr-2"> Allow custom amount
-                    </label>
-                </div>
-                <div id="fixed-amount-fields">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="ticket-amount">Fixed Amount ($)</label>
-                        <input type="number" id="ticket-amount"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            min="0" step="0.01">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="ticket-profit">Fixed Profit ($)</label>
-                        <input type="number" id="ticket-profit"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            min="0" step="0.01">
-                    </div>
-                </div>
-                <div id="custom-amount-fields" class="hidden">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="min-amount">Minimum Amount ($)</label>
-                        <input type="number" id="min-amount"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            min="0" step="0.01">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="max-amount">Maximum Amount ($)</label>
-                        <input type="number" id="max-amount"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            min="0" step="0.01">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="profit-percentage">Profit Percentage (%)</label>
-                        <input type="number" id="profit-percentage"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            min="0" step="0.01">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2" for="validity-hours">Validity (Hours)</label>
-                    <input type="number" id="validity-hours"
-                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        min="1" value="24">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">
-                        <input type="checkbox" id="is-active" class="mr-2" checked> Active
-                    </label>
-                </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" id="cancel-ticket"
-                        class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
-                    <button type="submit" id="save-ticket"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save</button>
-                </div>
-            </form>
         </div>
-    </div>
 
-    <script>
-        let token = localStorage.getItem('adminToken') || null;
-        let currentUser = null;
+        <!-- Ticket Modal -->
+        <div id="ticket-modal"
+            class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg max-w-md w-full">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold" id="ticket-modal-title">Add New Ticket</h3>
+                    <button id="close-ticket-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="ticket-form">
+                    <input type="hidden" id="ticket-id">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="ticket-name">Ticket Name</label>
+                        <input type="text" id="ticket-name"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="ticket-description">Description</label>
+                        <textarea id="ticket-description"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">
+                            <input type="checkbox" id="custom-amount" class="mr-2"> Allow custom amount
+                        </label>
+                    </div>
+                    <div id="fixed-amount-fields">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="ticket-amount">Fixed Amount ($)</label>
+                            <input type="number" id="ticket-amount"
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                min="0" step="0.01">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="ticket-profit">Fixed Profit ($)</label>
+                            <input type="number" id="ticket-profit"
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div id="custom-amount-fields" class="hidden">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="min-amount">Minimum Amount ($)</label>
+                            <input type="number" id="min-amount"
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                min="0" step="0.01">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="max-amount">Maximum Amount ($)</label>
+                            <input type="number" id="max-amount"
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                min="0" step="0.01">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="profit-percentage">Profit Percentage
+                                (%)</label>
+                            <input type="number" id="profit-percentage"
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="validity-hours">Validity (Hours)</label>
+                        <input type="number" id="validity-hours"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min="1" value="24">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">
+                            <input type="checkbox" id="is-active" class="mr-2" checked> Active
+                        </label>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancel-ticket"
+                            class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                        <button type="submit" id="save-ticket"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-        // Check authentication status on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            setupEventListeners();
+        <script>
+            let token = localStorage.getItem('adminToken') || null;
+            let currentUser = null;
 
-            if (token) {
-                verifyTokenAndLoad();
-            } else {
-                showSection('login');
-            }
-        });
+            // Check authentication status on page load
+            document.addEventListener('DOMContentLoaded', function () {
+                setupEventListeners();
 
-        function setupEventListeners() {
-            // Navigation links
-            document.querySelectorAll('[data-section]').forEach(link => {
-                link.addEventListener('click', function (e) {
+                if (token) {
+                    verifyTokenAndLoad();
+                } else {
+                    showSection('login');
+                }
+            });
+
+            function setupEventListeners() {
+                // Navigation links
+                document.querySelectorAll('[data-section]').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (token) {
+                            showSection(this.getAttribute('data-section'));
+                        } else {
+                            showSection('login');
+                        }
+                    });
+                });
+
+                // Logout button
+                document.getElementById('logout-btn').addEventListener('click', function (e) {
                     e.preventDefault();
-                    if (token) {
-                        showSection(this.getAttribute('data-section'));
+                    logout();
+                });
+
+                // Login form
+                document.getElementById('login-form').addEventListener('submit', handleLogin);
+
+                // Refresh buttons
+                document.getElementById('refresh-deposits').addEventListener('click', loadDeposits);
+                document.getElementById('refresh-withdrawals').addEventListener('click', loadWithdrawals);
+                document.getElementById('refresh-users').addEventListener('click', loadUsers);
+                document.getElementById('refresh-tickets').addEventListener('click', loadTickets);
+
+                // Close modals
+                document.getElementById('close-modal').addEventListener('click', hideImageModal);
+                document.getElementById('image-close-btn').addEventListener('click', hideImageModal);
+                document.getElementById('close-ticket-modal').addEventListener('click', hideTicketModal);
+                document.getElementById('cancel-ticket').addEventListener('click', hideTicketModal);
+
+                // Ticket form
+                document.getElementById('ticket-form').addEventListener('submit', handleTicketFormSubmit);
+                document.getElementById('add-ticket').addEventListener('click', () => showTicketModal());
+                document.getElementById('custom-amount').addEventListener('change', function () {
+                    const isCustom = this.checked;
+                    document.getElementById('fixed-amount-fields').classList.toggle('hidden', isCustom);
+                    document.getElementById('custom-amount-fields').classList.toggle('hidden', !isCustom);
+                });
+
+                // Event delegation for dynamic content
+                document.addEventListener('click', function (e) {
+                    // Handle deposit actions
+                    if (e.target.matches('[data-deposit-action]')) {
+                        const depositId = e.target.getAttribute('data-deposit-id');
+                        const action = e.target.getAttribute('data-deposit-action');
+                        handleDepositAction(depositId, action);
+                    }
+
+                    // Handle withdrawal actions
+                    if (e.target.matches('[data-withdrawal-action]')) {
+                        const withdrawalId = e.target.getAttribute('data-withdrawal-id');
+                        const action = e.target.getAttribute('data-withdrawal-action');
+                        handleWithdrawalAction(withdrawalId, action);
+                    }
+
+                    // Handle image proof clicks
+                    if (e.target.matches('[data-proof-image]')) {
+                        e.preventDefault();
+                        const imageUrl = e.target.getAttribute('href');
+                        showImageModal(imageUrl);
+                    }
+
+                    // Handle ticket actions
+                    if (e.target.matches('[data-ticket-action]')) {
+                        const ticketId = e.target.getAttribute('data-ticket-id');
+                        const action = e.target.getAttribute('data-ticket-action');
+                        handleTicketAction(ticketId, action);
+                    }
+                });
+            }
+
+            async function verifyTokenAndLoad() {
+                try {
+                    const response = await fetch('/api/admin/verify', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        currentUser = data.admin;
+                        document.getElementById('login-section').style.display = 'none';
+                        showSection('dashboard');
+                        loadDashboard();
                     } else {
-                        showSection('login');
+                        logout();
                     }
-                });
-            });
+                } catch (error) {
+                    console.error('Token verification error:', error);
+                    logout();
+                }
+            }
 
-            // Logout button
-            document.getElementById('logout-btn').addEventListener('click', function (e) {
+            // Image modal functions
+            function showImageModal(imageUrl) {
+                const modal = document.getElementById('image-modal');
+                const img = document.getElementById('modal-image');
+                const loading = document.getElementById('image-loading');
+                const error = document.getElementById('image-error');
+                const closeBtn = document.getElementById('image-close-btn');
+
+
+                // Reset modal state
+                modal.classList.remove('hidden');
+                img.classList.add('hidden');
+                loading.classList.remove('hidden');
+                error.classList.add('hidden');
+                closeBtn.classList.add('hidden');
+
+
+                // Create authenticated URL if needed
+                const token = localStorage.getItem('adminToken');
+                const authenticatedUrl = token ? `${imageUrl}?token=${token}` : imageUrl;
+
+                // Set up image loading
+                img.onload = function () {
+                    loading.classList.add('hidden');
+                    img.classList.remove('hidden');
+                    closeBtn.classList.remove('hidden');
+
+                };
+
+                img.onerror = function () {
+                    loading.classList.add('hidden');
+                    error.classList.remove('hidden');
+                };
+
+                img.src = authenticatedUrl;
+            }
+
+            function hideImageModal() {
+                document.getElementById('image-modal').classList.add('hidden');
+                document.getElementById('modal-image').src = '';
+                document.getElementById('modal-image').onload = null;
+                document.getElementById('modal-image').onerror = null;
+                document.getElementById('image-close-btn').classList.add('hidden');
+
+            }
+
+            async function handleLogin(e) {
                 e.preventDefault();
-                logout();
-            });
+                const loginBtn = document.getElementById('login-btn');
+                const loginText = document.getElementById('login-text');
+                const loginSpinner = document.getElementById('login-spinner');
+                const loginError = document.getElementById('login-error');
 
-            // Login form
-            document.getElementById('login-form').addEventListener('submit', handleLogin);
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
 
-            // Refresh buttons
-            document.getElementById('refresh-deposits').addEventListener('click', loadDeposits);
-            document.getElementById('refresh-withdrawals').addEventListener('click', loadWithdrawals);
-            document.getElementById('refresh-users').addEventListener('click', loadUsers);
-            document.getElementById('refresh-tickets').addEventListener('click', loadTickets);
+                // Show loading state
+                loginText.classList.add('hidden');
+                loginSpinner.classList.remove('hidden');
+                loginError.classList.add('hidden');
 
-            // Close modals
-            document.getElementById('close-modal').addEventListener('click', hideImageModal);
-            document.getElementById('close-ticket-modal').addEventListener('click', hideTicketModal);
-            document.getElementById('cancel-ticket').addEventListener('click', hideTicketModal);
+                try {
+                    const response = await fetch('/api/admin/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
 
-            // Ticket form
-            document.getElementById('ticket-form').addEventListener('submit', handleTicketFormSubmit);
-            document.getElementById('add-ticket').addEventListener('click', () => showTicketModal());
-            document.getElementById('custom-amount').addEventListener('change', function() {
-                const isCustom = this.checked;
-                document.getElementById('fixed-amount-fields').classList.toggle('hidden', isCustom);
-                document.getElementById('custom-amount-fields').classList.toggle('hidden', !isCustom);
-            });
-
-            // Event delegation for dynamic content
-            document.addEventListener('click', function (e) {
-                // Handle deposit actions
-                if (e.target.matches('[data-deposit-action]')) {
-                    const depositId = e.target.getAttribute('data-deposit-id');
-                    const action = e.target.getAttribute('data-deposit-action');
-                    handleDepositAction(depositId, action);
-                }
-
-                // Handle withdrawal actions
-                if (e.target.matches('[data-withdrawal-action]')) {
-                    const withdrawalId = e.target.getAttribute('data-withdrawal-id');
-                    const action = e.target.getAttribute('data-withdrawal-action');
-                    handleWithdrawalAction(withdrawalId, action);
-                }
-
-                // Handle image proof clicks
-                if (e.target.matches('[data-proof-image]')) {
-                    e.preventDefault();
-                    const imageUrl = e.target.getAttribute('href');
-                    showImageModal(imageUrl);
-                }
-
-                // Handle ticket actions
-                if (e.target.matches('[data-ticket-action]')) {
-                    const ticketId = e.target.getAttribute('data-ticket-id');
-                    const action = e.target.getAttribute('data-ticket-action');
-                    handleTicketAction(ticketId, action);
-                }
-            });
-        }
-
-        async function verifyTokenAndLoad() {
-            try {
-                const response = await fetch('/api/admin/verify', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
                     const data = await response.json();
-                    currentUser = data.admin;
-                    document.getElementById('login-section').style.display = 'none';
-                    showSection('dashboard');
-                    loadDashboard();
-                } else {
-                    logout();
-                }
-            } catch (error) {
-                console.error('Token verification error:', error);
-                logout();
-            }
-        }
 
-        // Image modal functions
-        function showImageModal(imageUrl) {
-            const modal = document.getElementById('image-modal');
-            const img = document.getElementById('modal-image');
-            const loading = document.getElementById('image-loading');
-            const error = document.getElementById('image-error');
-
-            // Reset modal state
-            modal.classList.remove('hidden');
-            img.classList.add('hidden');
-            loading.classList.remove('hidden');
-            error.classList.add('hidden');
-
-            // Create authenticated URL if needed
-            const token = localStorage.getItem('adminToken');
-            const authenticatedUrl = token ? `${imageUrl}?token=${token}` : imageUrl;
-
-            // Set up image loading
-            img.onload = function () {
-                loading.classList.add('hidden');
-                img.classList.remove('hidden');
-            };
-
-            img.onerror = function () {
-                loading.classList.add('hidden');
-                error.classList.remove('hidden');
-            };
-
-            img.src = authenticatedUrl;
-        }
-
-        function hideImageModal() {
-            document.getElementById('image-modal').classList.add('hidden');
-            document.getElementById('modal-image').src = '';
-            document.getElementById('modal-image').onload = null;
-            document.getElementById('modal-image').onerror = null;
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            const loginBtn = document.getElementById('login-btn');
-            const loginText = document.getElementById('login-text');
-            const loginSpinner = document.getElementById('login-spinner');
-            const loginError = document.getElementById('login-error');
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Show loading state
-            loginText.classList.add('hidden');
-            loginSpinner.classList.remove('hidden');
-            loginError.classList.add('hidden');
-
-            try {
-                const response = await fetch('/api/admin/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    token = data.token;
-                    localStorage.setItem('adminToken', token);
-                    currentUser = data.admin;
-                    document.getElementById('login-section').style.display = 'none';
-                    showSection('dashboard');
-                    loadDashboard();
-                } else {
-                    loginError.textContent = data.message || 'Login failed';
-                    loginError.classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                loginError.textContent = 'An error occurred during login';
-                loginError.classList.remove('hidden');
-            } finally {
-                loginText.classList.remove('hidden');
-                loginSpinner.classList.add('hidden');
-            }
-        }
-
-        function showSection(sectionId) {
-            if (!token && sectionId !== 'login') {
-                showSection('login');
-                return;
-            }
-
-            // Hide all sections
-            document.querySelectorAll('[id$="-section"]').forEach(section => {
-                section.style.display = 'none';
-            });
-
-            // Show requested section
-            const section = document.getElementById(`${sectionId}-section`);
-            if (section) {
-                section.style.display = 'block';
-            }
-
-            // Load data when section is shown
-            switch (sectionId) {
-                case 'dashboard':
-                    loadDashboard();
-                    break;
-                case 'deposits':
-                    loadDeposits();
-                    break;
-                case 'withdrawals':
-                    loadWithdrawals();
-                    break;
-                case 'users':
-                    loadUsers();
-                    break;
-                case 'tickets':
-                    loadTickets();
-                    break;
-            }
-        }
-
-        async function loadDashboard() {
-            try {
-                const [usersRes, depositsRes, withdrawalsRes] = await Promise.all([
-                    fetch('/api/admin/users', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    }),
-                    fetch('/api/admin/deposits/pending', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    }),
-                    fetch('/api/admin/withdrawals/pending', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                ]);
-
-                // Check for unauthorized responses
-                if (usersRes.status === 401 || depositsRes.status === 401 || withdrawalsRes.status === 401) {
-                    logout();
-                    return;
-                }
-
-                const users = await usersRes.json();
-                const deposits = await depositsRes.json();
-                const withdrawals = await withdrawalsRes.json();
-
-                document.getElementById('total-users').textContent = users.length;
-                document.getElementById('pending-deposits').textContent = deposits.length;
-                document.getElementById('pending-withdrawals').textContent = withdrawals.length;
-            } catch (error) {
-                console.error('Error loading dashboard:', error);
-                if (error.status === 401) {
-                    logout();
-                }
-            }
-        }
-
-        async function loadDeposits() {
-            const tableBody = document.getElementById('deposits-table-body');
-            tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Loading...</td></tr>';
-
-            try {
-                const response = await fetch('/api/admin/deposits/pending', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                    if (response.ok) {
+                        token = data.token;
+                        localStorage.setItem('adminToken', token);
+                        currentUser = data.admin;
+                        document.getElementById('login-section').style.display = 'none';
+                        showSection('dashboard');
+                        loadDashboard();
+                    } else {
+                        loginError.textContent = data.message || 'Login failed';
+                        loginError.classList.remove('hidden');
                     }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    loginError.textContent = 'An error occurred during login';
+                    loginError.classList.remove('hidden');
+                } finally {
+                    loginText.classList.remove('hidden');
+                    loginSpinner.classList.add('hidden');
+                }
+            }
+
+            function showSection(sectionId) {
+                if (!token && sectionId !== 'login') {
+                    showSection('login');
+                    return;
+                }
+
+                // Hide all sections
+                document.querySelectorAll('[id$="-section"]').forEach(section => {
+                    section.style.display = 'none';
                 });
 
-                if (response.status === 401) {
-                    logout();
-                    return;
+                // Show requested section
+                const section = document.getElementById(`${sectionId}-section`);
+                if (section) {
+                    section.style.display = 'block';
                 }
 
-                const deposits = await response.json();
-                tableBody.innerHTML = '';
-
-                if (deposits.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">No pending deposits</td></tr>';
-                    return;
+                // Load data when section is shown
+                switch (sectionId) {
+                    case 'dashboard':
+                        loadDashboard();
+                        break;
+                    case 'deposits':
+                        loadDeposits();
+                        break;
+                    case 'withdrawals':
+                        loadWithdrawals();
+                        break;
+                    case 'users':
+                        loadUsers();
+                        break;
+                    case 'tickets':
+                        loadTickets();
+                        break;
                 }
+            }
 
-                deposits.forEach(deposit => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+            async function loadDashboard() {
+                try {
+                    const [usersRes, depositsRes, withdrawalsRes] = await Promise.all([
+                        fetch('/api/admin/users', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        }),
+                        fetch('/api/admin/deposits/pending', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        }),
+                        fetch('/api/admin/withdrawals/pending', {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                    ]);
+
+                    // Check for unauthorized responses
+                    if (usersRes.status === 401 || depositsRes.status === 401 || withdrawalsRes.status === 401) {
+                        logout();
+                        return;
+                    }
+
+                    const users = await usersRes.json();
+                    const deposits = await depositsRes.json();
+                    const withdrawals = await withdrawalsRes.json();
+
+                    document.getElementById('total-users').textContent = users.length;
+                    document.getElementById('pending-deposits').textContent = deposits.length;
+                    document.getElementById('pending-withdrawals').textContent = withdrawals.length;
+                } catch (error) {
+                    console.error('Error loading dashboard:', error);
+                    if (error.status === 401) {
+                        logout();
+                    }
+                }
+            }
+
+            async function loadDeposits() {
+                const tableBody = document.getElementById('deposits-table-body');
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Loading...</td></tr>';
+
+                try {
+                    const response = await fetch('/api/admin/deposits/pending', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        logout();
+                        return;
+                    }
+
+                    const deposits = await response.json();
+                    tableBody.innerHTML = '';
+
+                    if (deposits.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">No pending deposits</td></tr>';
+                        return;
+                    }
+
+                    deposits.forEach(deposit => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">${deposit.username}</div>
                             <div class="text-sm text-gray-500">${deposit.name}</div>
@@ -692,12 +746,12 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${deposit.transactionId}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             ${deposit.proofImage ?
-                            `<a href="/uploads/${deposit.proofImage}" 
+                                `<a href="/uploads/${deposit.proofImage}" 
                                 data-proof-image 
                                 class="text-blue-600 hover:text-blue-800">
                                 View Proof
                                 </a>` :
-                            'No proof'}
+                                'No proof'}
                             </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(deposit.createdAt).toLocaleString()}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -705,76 +759,76 @@
                             <button data-deposit-id="${deposit._id}" data-deposit-action="reject" class="text-red-600 hover:text-red-900">Reject</button>
                         </td>
                     `;
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error loading deposits:', error);
-                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-red-500">Error loading deposits</td></tr>';
-                if (error.status === 401) {
-                    logout();
-                }
-            }
-        }
-
-        async function handleDepositAction(depositId, action) {
-            if (!confirm(`Are you sure you want to ${action} this deposit?`)) return;
-
-            try {
-                const response = await fetch(`/api/admin/deposits/${depositId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ action })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert(data.message);
-                    loadDeposits();
-                    loadDashboard();
-                } else {
-                    alert(data.message || 'Action failed');
-                }
-            } catch (error) {
-                console.error('Error handling deposit action:', error);
-                alert('An error occurred');
-                if (error.status === 401) {
-                    logout();
-                }
-            }
-        }
-
-        async function loadWithdrawals() {
-            const tableBody = document.getElementById('withdrawals-table-body');
-            tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Loading...</td></tr>';
-
-            try {
-                const response = await fetch('/api/admin/withdrawals/pending', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error loading deposits:', error);
+                    tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-red-500">Error loading deposits</td></tr>';
+                    if (error.status === 401) {
+                        logout();
                     }
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    return;
                 }
+            }
 
-                const withdrawals = await response.json();
-                tableBody.innerHTML = '';
+            async function handleDepositAction(depositId, action) {
+                if (!confirm(`Are you sure you want to ${action} this deposit?`)) return;
 
-                if (withdrawals.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">No pending withdrawals</td></tr>';
-                    return;
+                try {
+                    const response = await fetch(`/api/admin/deposits/${depositId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ action })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert(data.message);
+                        loadDeposits();
+                        loadDashboard();
+                    } else {
+                        alert(data.message || 'Action failed');
+                    }
+                } catch (error) {
+                    console.error('Error handling deposit action:', error);
+                    alert('An error occurred');
+                    if (error.status === 401) {
+                        logout();
+                    }
                 }
+            }
 
-                withdrawals.forEach(withdrawal => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+            async function loadWithdrawals() {
+                const tableBody = document.getElementById('withdrawals-table-body');
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Loading...</td></tr>';
+
+                try {
+                    const response = await fetch('/api/admin/withdrawals/pending', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        logout();
+                        return;
+                    }
+
+                    const withdrawals = await response.json();
+                    tableBody.innerHTML = '';
+
+                    if (withdrawals.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4">No pending withdrawals</td></tr>';
+                        return;
+                    }
+
+                    withdrawals.forEach(withdrawal => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">${withdrawal.username}</div>
                             <div class="text-sm text-gray-500">${withdrawal.name}</div>
@@ -789,71 +843,71 @@
                             <button data-withdrawal-id="${withdrawal._id}" data-withdrawal-action="reject" class="text-red-600 hover:text-red-900">Reject</button>
                         </td>
                     `;
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error loading withdrawals:', error);
-                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-red-500">Error loading withdrawals</td></tr>';
-                if (error.status === 401) {
-                    logout();
-                }
-            }
-        }
-
-        async function handleWithdrawalAction(withdrawalId, action) {
-            if (!confirm(`Are you sure you want to ${action} this withdrawal?`)) return;
-
-            try {
-                const response = await fetch(`/api/admin/withdrawals/${withdrawalId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ action })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert(data.message);
-                    loadWithdrawals();
-                    loadDashboard();
-                } else {
-                    alert(data.message || 'Action failed');
-                }
-            } catch (error) {
-                console.error('Error handling withdrawal action:', error);
-                alert('An error occurred');
-                if (error.status === 401) {
-                    logout();
-                }
-            }
-        }
-
-        async function loadUsers() {
-            const tableBody = document.getElementById('users-table-body');
-            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading...</td></tr>';
-
-            try {
-                const response = await fetch('/api/admin/users', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error loading withdrawals:', error);
+                    tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-red-500">Error loading withdrawals</td></tr>';
+                    if (error.status === 401) {
+                        logout();
                     }
-                });
-
-                if (response.status === 401) {
-                    logout();
-                    return;
                 }
+            }
 
-                const users = await response.json();
-                tableBody.innerHTML = '';
+            async function handleWithdrawalAction(withdrawalId, action) {
+                if (!confirm(`Are you sure you want to ${action} this withdrawal?`)) return;
 
-                users.forEach(user => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+                try {
+                    const response = await fetch(`/api/admin/withdrawals/${withdrawalId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ action })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert(data.message);
+                        loadWithdrawals();
+                        loadDashboard();
+                    } else {
+                        alert(data.message || 'Action failed');
+                    }
+                } catch (error) {
+                    console.error('Error handling withdrawal action:', error);
+                    alert('An error occurred');
+                    if (error.status === 401) {
+                        logout();
+                    }
+                }
+            }
+
+            async function loadUsers() {
+                const tableBody = document.getElementById('users-table-body');
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading...</td></tr>';
+
+                try {
+                    const response = await fetch('/api/admin/users', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        logout();
+                        return;
+                    }
+
+                    const users = await response.json();
+                    tableBody.innerHTML = '';
+
+                    users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${user.username}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.name}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
@@ -861,73 +915,73 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${user.totalDeposits.toFixed(2)}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${user.totalWithdrawals.toFixed(2)}</td>
                     `;
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error loading users:', error);
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading users</td></tr>';
-                if (error.status === 401) {
-                    logout();
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error loading users:', error);
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading users</td></tr>';
+                    if (error.status === 401) {
+                        logout();
+                    }
                 }
             }
-        }
 
-        function logout() {
-            token = null;
-            currentUser = null;
-            localStorage.removeItem('adminToken');
-            document.getElementById('login-section').style.display = 'block';
-            showSection('login');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-        }
+            function logout() {
+                token = null;
+                currentUser = null;
+                localStorage.removeItem('adminToken');
+                document.getElementById('login-section').style.display = 'block';
+                showSection('login');
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
 
-        // Ticket management functions
-        async function loadTickets() {
-            const tableBody = document.getElementById('tickets-table-body');
-            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading...</td></tr>';
+            // Ticket management functions
+            async function loadTickets() {
+                const tableBody = document.getElementById('tickets-table-body');
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading...</td></tr>';
 
-            try {
-                console.log('Loading tickets...');
-                const response = await fetch('/api/admin/tickets', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+                try {
+                    console.log('Loading tickets...');
+                    const response = await fetch('/api/admin/tickets', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
 
-                console.log('Response status:', response.status);
+                    console.log('Response status:', response.status);
 
-                if (response.status === 401) {
-                    logout();
-                    return;
-                }
-
-                const tickets = await response.json();
-                console.log('Tickets data:', tickets);
-
-                tableBody.innerHTML = '';
-
-                if (tickets.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No tickets found</td></tr>';
-                    return;
-                }
-
-                tickets.forEach(ticket => {
-                    const row = document.createElement('tr');
-
-                    let amountInfo;
-                    let profitInfo;
-
-                    if (ticket.isCustomAmount) {
-                        amountInfo = `Custom ($${ticket.minCustomAmount} - $${ticket.maxCustomAmount})`;
-                        profitInfo = `${ticket.profitPercentage}%`;
-                    } else {
-                        amountInfo = `$${ticket.amount}`;
-                        profitInfo = `$${ticket.profit}`;
+                    if (response.status === 401) {
+                        logout();
+                        return;
                     }
 
-                    row.innerHTML = `
+                    const tickets = await response.json();
+                    console.log('Tickets data:', tickets);
+
+                    tableBody.innerHTML = '';
+
+                    if (tickets.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No tickets found</td></tr>';
+                        return;
+                    }
+
+                    tickets.forEach(ticket => {
+                        const row = document.createElement('tr');
+
+                        let amountInfo;
+                        let profitInfo;
+
+                        if (ticket.isCustomAmount) {
+                            amountInfo = `Custom ($${ticket.minCustomAmount} - $${ticket.maxCustomAmount})`;
+                            profitInfo = `${ticket.profitPercentage}%`;
+                        } else {
+                            amountInfo = `$${ticket.amount}`;
+                            profitInfo = `$${ticket.profit}`;
+                        }
+
+                        row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">${ticket.name}</div>
                             <div class="text-sm text-gray-500">${ticket.description || 'No description'}</div>
@@ -945,158 +999,159 @@
                             <button data-ticket-id="${ticket._id}" data-ticket-action="delete" class="text-red-600 hover:text-red-900">Delete</button>
                         </td>
                     `;
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error loading tickets:', error);
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading tickets</td></tr>';
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error loading tickets:', error);
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading tickets</td></tr>';
+                }
             }
-        }
 
-        function showTicketModal(ticket = null) {
-            const modal = document.getElementById('ticket-modal');
-            const title = document.getElementById('ticket-modal-title');
-            const form = document.getElementById('ticket-form');
-            const customAmountCheckbox = document.getElementById('custom-amount');
-            const fixedAmountFields = document.getElementById('fixed-amount-fields');
-            const customAmountFields = document.getElementById('custom-amount-fields');
+            function showTicketModal(ticket = null) {
+                const modal = document.getElementById('ticket-modal');
+                const title = document.getElementById('ticket-modal-title');
+                const form = document.getElementById('ticket-form');
+                const customAmountCheckbox = document.getElementById('custom-amount');
+                const fixedAmountFields = document.getElementById('fixed-amount-fields');
+                const customAmountFields = document.getElementById('custom-amount-fields');
 
-            if (ticket) {
-                // Edit mode
-                title.textContent = 'Edit Ticket';
-                document.getElementById('ticket-id').value = ticket._id;
-                document.getElementById('ticket-name').value = ticket.name;
-                document.getElementById('ticket-description').value = ticket.description || '';
-                document.getElementById('validity-hours').value = ticket.validityHours;
-                document.getElementById('is-active').checked = ticket.isActive !== false;
+                if (ticket) {
+                    // Edit mode
+                    title.textContent = 'Edit Ticket';
+                    document.getElementById('ticket-id').value = ticket._id;
+                    document.getElementById('ticket-name').value = ticket.name;
+                    document.getElementById('ticket-description').value = ticket.description || '';
+                    document.getElementById('validity-hours').value = ticket.validityHours;
+                    document.getElementById('is-active').checked = ticket.isActive !== false;
 
-                if (ticket.isCustomAmount) {
-                    customAmountCheckbox.checked = true;
-                    fixedAmountFields.classList.add('hidden');
-                    customAmountFields.classList.remove('hidden');
-                    document.getElementById('min-amount').value = ticket.minCustomAmount || 0;
-                    document.getElementById('max-amount').value = ticket.maxCustomAmount;
-                    document.getElementById('profit-percentage').value = ticket.profitPercentage;
+                    if (ticket.isCustomAmount) {
+                        customAmountCheckbox.checked = true;
+                        fixedAmountFields.classList.add('hidden');
+                        customAmountFields.classList.remove('hidden');
+                        document.getElementById('min-amount').value = ticket.minCustomAmount || 0;
+                        document.getElementById('max-amount').value = ticket.maxCustomAmount;
+                        document.getElementById('profit-percentage').value = ticket.profitPercentage;
+                    } else {
+                        customAmountCheckbox.checked = false;
+                        fixedAmountFields.classList.remove('hidden');
+                        customAmountFields.classList.add('hidden');
+                        document.getElementById('ticket-amount').value = ticket.amount;
+                        document.getElementById('ticket-profit').value = ticket.profit;
+                    }
                 } else {
+                    // Add mode
+                    title.textContent = 'Add New Ticket';
+                    form.reset();
                     customAmountCheckbox.checked = false;
                     fixedAmountFields.classList.remove('hidden');
                     customAmountFields.classList.add('hidden');
-                    document.getElementById('ticket-amount').value = ticket.amount;
-                    document.getElementById('ticket-profit').value = ticket.profit;
+                    document.getElementById('validity-hours').value = 24;
+                    document.getElementById('is-active').checked = true;
                 }
-            } else {
-                // Add mode
-                title.textContent = 'Add New Ticket';
-                form.reset();
-                customAmountCheckbox.checked = false;
-                fixedAmountFields.classList.remove('hidden');
-                customAmountFields.classList.add('hidden');
-                document.getElementById('validity-hours').value = 24;
-                document.getElementById('is-active').checked = true;
+
+                modal.classList.remove('hidden');
             }
 
-            modal.classList.remove('hidden');
-        }
+            async function handleTicketFormSubmit(e) {
+                e.preventDefault();
 
-        async function handleTicketFormSubmit(e) {
-            e.preventDefault();
+                const saveBtn = document.getElementById('save-ticket');
+                const saveText = saveBtn.textContent;
 
-            const saveBtn = document.getElementById('save-ticket');
-            const saveText = saveBtn.textContent;
+                try {
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = '<span class="loading-spinner"></span> Saving...';
 
-            try {
-                saveBtn.disabled = true;
-                saveBtn.innerHTML = '<span class="loading-spinner"></span> Saving...';
+                    const formData = {
+                        name: document.getElementById('ticket-name').value,
+                        description: document.getElementById('ticket-description').value,
+                        validityHours: document.getElementById('validity-hours').value,
+                        isActive: document.getElementById('is-active').checked,
+                        isCustomAmount: document.getElementById('custom-amount').checked
+                    };
 
-                const formData = {
-                    name: document.getElementById('ticket-name').value,
-                    description: document.getElementById('ticket-description').value,
-                    validityHours: document.getElementById('validity-hours').value,
-                    isActive: document.getElementById('is-active').checked,
-                    isCustomAmount: document.getElementById('custom-amount').checked
-                };
-
-                if (formData.isCustomAmount) {
-                    formData.minCustomAmount = document.getElementById('min-amount').value;
-                    formData.maxCustomAmount = document.getElementById('max-amount').value;
-                    formData.profitPercentage = document.getElementById('profit-percentage').value;
-                } else {
-                    formData.amount = document.getElementById('ticket-amount').value;
-                    formData.profit = document.getElementById('ticket-profit').value;
-                }
-
-                const ticketId = document.getElementById('ticket-id').value;
-                const url = ticketId ? `/api/admin/tickets/${ticketId}` : '/api/admin/tickets';
-                const method = ticketId ? 'PUT' : 'POST';
-
-                const response = await fetch(url, {
-                    method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.message || 'Failed to save ticket');
-                }
-
-                hideTicketModal();
-                loadTickets();
-            } catch (error) {
-                console.error('Error saving ticket:', error);
-                alert(error.message || 'An error occurred while saving the ticket');
-            } finally {
-                saveBtn.disabled = false;
-                saveBtn.textContent = saveText;
-            }
-        }
-
-        function hideTicketModal() {
-            document.getElementById('ticket-modal').classList.add('hidden');
-        }
-
-        async function handleTicketAction(ticketId, action) {
-            try {
-                if (action === 'edit') {
-                    const response = await fetch(`/api/admin/tickets/${ticketId}`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch ticket details');
+                    if (formData.isCustomAmount) {
+                        formData.minCustomAmount = document.getElementById('min-amount').value;
+                        formData.maxCustomAmount = document.getElementById('max-amount').value;
+                        formData.profitPercentage = document.getElementById('profit-percentage').value;
+                    } else {
+                        formData.amount = document.getElementById('ticket-amount').value;
+                        formData.profit = document.getElementById('ticket-profit').value;
                     }
 
-                    const ticket = await response.json();
-                    showTicketModal(ticket);
-                } else if (action === 'delete') {
-                    if (!confirm('Are you sure you want to delete this ticket?')) return;
+                    const ticketId = document.getElementById('ticket-id').value;
+                    const url = ticketId ? `/api/admin/tickets/${ticketId}` : '/api/admin/tickets';
+                    const method = ticketId ? 'PUT' : 'POST';
 
-                    const response = await fetch(`/api/admin/tickets/${ticketId}`, {
-                        method: 'DELETE',
+                    const response = await fetch(url, {
+                        method,
                         headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(formData)
                     });
 
                     if (!response.ok) {
                         const error = await response.json();
-                        throw new Error(error.message || 'Failed to delete ticket');
+                        throw new Error(error.message || 'Failed to save ticket');
                     }
 
+                    hideTicketModal();
                     loadTickets();
+                } catch (error) {
+                    console.error('Error saving ticket:', error);
+                    alert(error.message || 'An error occurred while saving the ticket');
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = saveText;
                 }
-            } catch (error) {
-                console.error(`Error ${action} ticket:`, error);
-                alert(error.message || `An error occurred while ${action}ing the ticket`);
             }
-        }
-    </script>
+
+            function hideTicketModal() {
+                document.getElementById('ticket-modal').classList.add('hidden');
+            }
+
+            async function handleTicketAction(ticketId, action) {
+                try {
+                    if (action === 'edit') {
+                        const response = await fetch(`/api/admin/tickets/${ticketId}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch ticket details');
+                        }
+
+                        const ticket = await response.json();
+                        showTicketModal(ticket);
+                    } else if (action === 'delete') {
+                        if (!confirm('Are you sure you want to delete this ticket?')) return;
+
+                        const response = await fetch(`/api/admin/tickets/${ticketId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (!response.ok) {
+                            const error = await response.json();
+                            throw new Error(error.message || 'Failed to delete ticket');
+                        }
+
+                        loadTickets();
+                    }
+                } catch (error) {
+                    console.error(`Error ${action} ticket:`, error);
+                    alert(error.message || `An error occurred while ${action}ing the ticket`);
+                }
+            }
+        </script>
 </body>
+
 </html>

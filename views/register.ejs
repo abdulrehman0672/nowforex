@@ -56,6 +56,8 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">
             Create Account
         </h1>
+        <div id="messageBox" class="text-center font-bold mb-4"></div>
+
 
         <form id="signupForm" class="space-y-6">
             <!-- Full Name -->
@@ -177,107 +179,113 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    const passwordInput = document.getElementById('password');
-    const toggleButton = document.querySelector('.password-toggle');
-    const eyeOpen = document.getElementById('eye-open');
-    const eyeClosed = document.getElementById('eye-closed');
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const toggleButton = document.querySelector('.password-toggle');
+        const eyeOpen = document.getElementById('eye-open');
+        const eyeClosed = document.getElementById('eye-closed');
 
-    toggleButton.addEventListener('click', function () {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleButton.addEventListener('click', function () {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
 
-        eyeOpen.classList.toggle('hidden', !isPassword);
-        eyeClosed.classList.toggle('hidden', isPassword);
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const checkbox = document.getElementById('referralCheck');
-    const referralBox = document.getElementById('referralBox');
-
-    checkbox.addEventListener('change', function () {
-        referralBox.classList.toggle('hidden', !this.checked);
-    });
-});
-
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const signupForm = document.getElementById('signupForm');
-
-            signupForm.addEventListener('submit', async function (e) {
-                e.preventDefault();
-
-                // Show loading state
-                const submitBtn = signupForm.querySelector('button[type="submit"]');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = 'Creating Account...';
-
-                try {
-                    // 1. Get form values
-                    const formData = {
-                        name: document.getElementById('name').value.trim(),
-                        username: document.getElementById('username').value.trim(),
-                        email: document.getElementById('email').value.trim(),
-                        password: document.getElementById('password').value,
-                        referralCode: document.getElementById('referralCheck').checked
-                            ? document.getElementById('referralCode').value.trim()
-                            : undefined
-                    };
-
-                    // 2. Validation
-                    const errors = [];
-                    if (!formData.name) errors.push('Full name is required');
-                    if (!formData.username) errors.push('Username is required');
-                    if (!formData.email) errors.push('Email is required');
-                    if (!formData.password) errors.push('Password is required');
-                    if (formData.password.length < 6) errors.push('Password must be at least 6 characters');
-                    if (formData.username.length < 5) errors.push('Username must be at least 5 characters');
-                    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-                        errors.push('Invalid email format');
-                    }
-
-                    if (errors.length > 0) {
-                        throw new Error(errors.join('\n'));
-                    }
-
-                    // 3. Make API request
-                    const response = await fetch('/api/auth/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Registration failed');
-                    }
-
-                    // 4. Success handling
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.User));
-
-                    
-                    window.location.href = '/login';
-
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert(error.message || 'Something went wrong. Please try again.');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Create Account';
-                }
-            });
+            eyeOpen.classList.toggle('hidden', !isPassword);
+            eyeClosed.classList.toggle('hidden', isPassword);
         });
+
+        const checkbox = document.getElementById('referralCheck');
+        const referralBox = document.getElementById('referralBox');
+
+        checkbox.addEventListener('change', function () {
+            referralBox.classList.toggle('hidden', !this.checked);
+        });
+
+        const signupForm = document.getElementById('signupForm');
+        const messageBox = document.getElementById('messageBox');
+
+        signupForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = signupForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Creating Account...';
+            showMessage('', ''); // Clear any previous message
+
+            try {
+                const formData = {
+                    name: document.getElementById('name').value.trim(),
+                    username: document.getElementById('username').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    password: document.getElementById('password').value,
+                    referralCode: document.getElementById('referralCheck').checked
+                        ? document.getElementById('referralCode').value.trim()
+                        : undefined
+                };
+
+                const errors = [];
+                if (!formData.name) errors.push('Full name is required');
+                if (!formData.username) errors.push('Username is required');
+                if (!formData.email) errors.push('Email is required');
+                if (!formData.password) errors.push('Password is required');
+                if (formData.password.length < 6) errors.push('Password must be at least 6 characters');
+                if (formData.username.length < 5) errors.push('Username must be at least 5 characters');
+                if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                    errors.push('Invalid email format');
+                }
+
+                if (errors.length > 0) {
+                    throw new Error(errors.join('\n'));
+                }
+
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Registration failed');
+                }
+
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.User));
+
+                showMessage('You have successfully created account and redirecting to login page...', 'green');
+
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 3000);
+
+            } catch (error) {
+                showMessage(error.message || 'Something went wrong. Please try again.', 'red');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Create Account';
+            }
+        });
+
+        function showMessage(message, color) {
+            messageBox.textContent = message;
+            messageBox.className = `text-center font-bold mb-4 ${color === 'green' ? 'text-green-600' : 'text-red-600'}`;
+            if (message) {
+                setTimeout(() => {
+                    messageBox.textContent = '';
+                    messageBox.className = 'text-center font-bold mb-4';
+                }, 3000);
+            }
+        }
+
         document.getElementById("loginLink").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/login'; // Redirect
-        });   
-    </script>
+            e.preventDefault();
+            window.location.href = '/login';
+        });
+    });
+</script>
+
 </body>
 
 </html>
