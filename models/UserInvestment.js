@@ -1,3 +1,4 @@
+// UserInvestment.js
 import mongoose from 'mongoose';
 
 const userInvestmentSchema = new mongoose.Schema({
@@ -36,6 +37,10 @@ const userInvestmentSchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'completed', 'cancelled'],
     default: 'active'
+  },
+  profitPaid: {
+    type: Boolean,
+    default: false
   },
   createdAt: {
     type: Date,

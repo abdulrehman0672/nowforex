@@ -13,8 +13,8 @@ import adminRoutes from './routes/adminRoutes.js';
 import depositRoutes from './routes/depositRoutes.js';
 import withdrawalRoutes from './routes/withdrawalRoutes.js';
 import cookieParser from 'cookie-parser';
-import ticketRoutes from './routes/ticketRoutes.js';
-
+import { startInvestmentProcessor } from './controllers/investmentController.js';
+import investmentRoutes from './routes/investmentRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -70,11 +70,9 @@ app.use("/api/forget", forgetRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/deposits', depositRoutes);
 app.use('/api/withdrawals', withdrawalRoutes);
-app.use('/api/tickets', ticketRoutes);
+app.use('/api/invest', investmentRoutes);
 
-// setInterval(() => {
-//   processCompletedInvestments();
-// }, 5 * 60 * 1000); // Run every 5 minutes
+startInvestmentProcessor();
 
 
 // Error handling middleware
