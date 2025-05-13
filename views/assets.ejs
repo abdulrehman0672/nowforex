@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assets</title>
     <link href="./assets.css" rel="stylesheet">
-        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
     <style>
         /* Maintain existing animations from home page */
@@ -184,46 +184,57 @@
                     <tbody>
                         <% if (investments && investments.length> 0) { %>
                             <% investments.forEach(investment=> { %>
-                                <tr class="border-b hover:bg-gray-50 transition-colors">
-                                    <td class="px-4 py-3 flex items-center">
-                                        <img src="<%= investment.ticketId.image %>"
-                                            alt="<%= investment.ticketId.name %>" class="w-8 h-8 rounded-full mr-3"
-                                            loading="lazy">
-                                        <span class="text-gray-700">
-                                            <%= investment.ticketId.name %>
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-gray-600">
-                                        <%= investment.amount %> PKR
-                                    </td>
-                                    <td
-                                        class="px-4 py-3 <%= investment.status === 'completed' ? 'text-green-600' : 'text-gray-600' %> font-medium">
-                                        <%= investment.status==='completed' ? (investment.amount +
-                                            investment.actualProfit) : investment.amount %> PKR
-                                    </td>
-                                    <td class="px-4 py-3 text-blue-600 font-medium">
-                                        <% if (investment.status==='completed' ) { %>
-                                            +<%= ((investment.actualProfit / investment.amount) * 100).toFixed(2) %>%
+                                <% if (investment.ticketId) { %>
+                                    <tr class="border-b hover:bg-gray-50 transition-colors">
+                                        <td class="px-4 py-3 flex items-center">
+                                            <img src="<%= investment.ticketId.image %>"
+                                                alt="<%= investment.ticketId.name %>" class="w-8 h-8 rounded-full mr-3"
+                                                loading="lazy">
+                                            <span class="text-gray-700">
+                                                <%= investment.ticketId.name %>
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-gray-600">
+                                            <%= investment.amount %> PKR
+                                        </td>
+                                        <td
+                                            class="px-4 py-3 <%= investment.status === 'completed' ? 'text-green-600' : 'text-gray-600' %> font-medium">
+                                            <%= investment.status==='completed' ? (investment.amount +
+                                                investment.actualProfit) : investment.amount %> PKR
+                                        </td>
+                                        <td class="px-4 py-3 text-blue-600 font-medium">
+                                            <% if (investment.status==='completed' ) { %>
+                                                +<%= ((investment.actualProfit / investment.amount) * 100).toFixed(2) %>
+                                                    %
+                                                    <% } else { %>
+                                                        Pending
+                                                        <% } %>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <% if (investment.status==='active' ) { %>
+                                                <span class="text-gray-500">In progress</span>
                                                 <% } else { %>
-                                                    Pending
+                                                    <span class="text-green-500">Completed</span>
                                                     <% } %>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <% if (investment.status==='active' ) { %>
-                                            <span class="text-gray-500">In progress</span>
-                                            <% } else { %>
-                                                <span class="text-green-500">Completed</span>
-                                                <% } %>
-                                    </td>
-                                </tr>
-                                <% }); %>
+                                        </td>
+                                    </tr>
                                     <% } else { %>
-                                        <tr>
-                                            <td colspan="5" class="px-4 py-3 text-center text-gray-500">No investments
-                                                yet</td>
+                                        <!-- Optional: Handle investments with missing ticketId -->
+                                        <tr class="border-b bg-yellow-50">
+                                            <td colspan="5" class="px-4 py-3 text-sm text-yellow-800">
+                                                Investment data is missing or invalid (ticket not found).
+                                            </td>
                                         </tr>
                                         <% } %>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="5" class="px-4 py-3 text-center text-gray-500">No
+                                                            investments yet</td>
+                                                    </tr>
+                                                    <% } %>
                     </tbody>
+
                 </table>
             </div>
         </div>
