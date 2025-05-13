@@ -46,8 +46,8 @@ const tickets = [
     description: "Custom investment in high-end collectibles and rare assets. Includes art, watches, and other appreciating luxury items.",
     image: "/project5.svg",
     isCustomAmount: true,
-    minCustomAmount: 100,
-    maxCustomAmount: 10000,
+    minCustomAmount: 10000,
+    maxCustomAmount: 50000,
     profitPercentage: 4,
     validityHours: 24,
     isActive: true
