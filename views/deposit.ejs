@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deposit</title>
     <link href="./deposit.css" rel="stylesheet">
-        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
     <style>
         @keyframes marquee {
@@ -69,10 +69,66 @@
                 font-size: 0.65rem;
             }
         }
+
+        /* Added message styles */
+        .message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
+        }
+
+        .message.success {
+            background-color: #4CAF50;
+        }
+
+        .message.error {
+            background-color: #f44336;
+        }
+
+        .message.warning {
+            background-color: #ff9800;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
 <body class="pt-16 pb-20">
+    <!-- Message container for showing notifications -->
+    <div class="message-container" id="message-container"></div>
+
     <header class="fixed w-full top-0 z-50 bg-white shadow-md">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -210,7 +266,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            <span  class="text-xs md:text-sm">Home</span>
+            <span class="text-xs md:text-sm">Home</span>
         </a>
         <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
             <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -240,54 +296,73 @@
 
 
     <script>
+        // Function to show messages
+        function showMessage(type, message) {
+            const container = document.getElementById('message-container');
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${type}`;
+            messageElement.textContent = message;
+            container.appendChild(messageElement);
+
+            // Remove message after animation completes
+            setTimeout(() => {
+                messageElement.remove();
+            }, 5000);
+        }
 
         document.getElementById("teambtn2").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
+            e.preventDefault();
+            window.location.href = '/team';
         });
 
         document.getElementById("assetsbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
+            e.preventDefault();
+            window.location.href = '/assets';
         });
 
         document.getElementById("profilebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
+            e.preventDefault();
+            window.location.href = '/profile';
         });
 
         document.getElementById("homebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
+
         document.getElementById("homebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
+
         document.getElementById("profilebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
+
         document.getElementById("homebtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
+
         document.getElementById("assetsbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
 
         document.getElementById("profilebtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
+            e.preventDefault();
+            window.location.href = '/profile';
         });
+
         document.getElementById("aboutbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
+            e.preventDefault();
+            window.location.href = '/about';
         });
+
         document.getElementById("aboutbtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
+            e.preventDefault();
+            window.location.href = '/about';
         });
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -310,6 +385,7 @@
                     qrCodeDetails.textContent = 'JazzCash Number: 0300-1234567';
                 }
             }
+            
 
             // Add event listeners for payment method buttons
             document.getElementById('easypaisa-btn').addEventListener('click', function () {
@@ -366,7 +442,7 @@
                 if (existingPreview) {
                     existingPreview.remove();
                     uploadContainer.style.display = 'flex';
-                    fileInput.value = ''; // Clear the file input
+                    fileInput.value = '';
                 }
             });
 
@@ -381,10 +457,35 @@
                 const method = document.getElementById('qr-code-title').textContent.includes('EasyPaisa') ? 'easypaisa' : 'jazzcash';
                 formData.append('method', method);
 
-                // Check if file was selected
+                // Validate payment method
+                if (document.getElementById('easypaisa-qr').classList.contains('hidden') &&
+                    document.getElementById('jazzcash-qr').classList.contains('hidden')) {
+                    showMessage('error', 'Please select a payment method first');
+                    return;
+                }
+
+
+                // Validate transaction ID
+                const transactionId = form.querySelector('input[name="transactionId"]').value.trim();
+                if (!transactionId) {
+                    showMessage('error', 'Please enter your transaction ID');
+                    return;
+                }
+
+                // Validate amount
+                const amount = form.querySelector('input[name="amount"]').value.trim();
+                if (!amount) {
+                    showMessage('error', 'Please enter the deposit amount');
+                    return;
+                } else if (parseFloat(amount) <= 0) {
+                    showMessage('error', 'Deposit amount must be greater than 0');
+                    return;
+                }
+
+                // Validate proof image
                 const fileInput = form.querySelector('input[type="file"]');
                 if (fileInput.files.length === 0) {
-                    alert('Please upload proof screenshot.');
+                    showMessage('error', 'Please upload proof screenshot of your transaction');
                     return;
                 }
 
@@ -400,7 +501,7 @@
                     const data = await response.json();
 
                     if (response.ok) {
-                        alert('Deposit request submitted for admin approval!');
+                        showMessage('success', 'Deposit request submitted for admin approval!');
                         form.reset();
                         // Hide any visible QR codes
                         document.getElementById('easypaisa-qr').classList.add('hidden');
@@ -415,11 +516,11 @@
                             uploadContainer.style.display = 'flex';
                         }
                     } else {
-                        alert(data.message || 'Deposit request failed');
+                        showMessage('error', data.message || 'Deposit request failed');
                     }
                 } catch (error) {
                     console.error('Deposit error:', error);
-                    alert('An error occurred while submitting your deposit request');
+                    showMessage('error', 'An error occurred while submitting your deposit request');
                 }
             });
 
