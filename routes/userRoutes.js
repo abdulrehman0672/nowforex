@@ -138,8 +138,30 @@ router.get('/deposit', protect, (req, res) => {
   res.render('deposit', {});
 });
 
-router.get('/profile', protect, (req, res) => {
-  res.render('profile', {});
+router.get('/profile', protect, async (req, res) => {
+  try {
+    // Get the logged-in user's data
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    
+    res.render('profile', {
+      user: {
+        name: user.name,
+        balance: user.balance,
+        earn: user.earn,
+        totalDeposits: user.totalDeposits,
+        totalWithdrawals: user.totalWithdrawals,
+        depositRequests: user.depositRequests,
+        withdrawalRequests: user.withdrawalRequests
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Server Error');
+  }
 });
 
 router.get('/team', protect, (req, res) => {

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <!-- Tailwind CSS served locally -->
-    <link href="/profile.css" rel="stylesheet">
-        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
+
+    <link href="/profile2.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
     <style>
         .profile-card {
@@ -15,21 +15,21 @@
             border-radius: 1rem;
             box-shadow: 0 10px 30px rgba(67, 97, 238, 0.2);
         }
-        
+
         .balance-display {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
         }
-        
+
         .data-card {
             transition: all 0.3s ease;
         }
-        
+
         .data-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         @media (max-width: 640px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -53,9 +53,12 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" id="homebtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="#" id="assetsbtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
-                    <a href="#" id="aboutbtn33" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#" id="homebtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                    <a href="#" id="assetsbtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
+                    <a href="#" id="aboutbtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
                     <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                         Log out
                     </a>
@@ -90,37 +93,46 @@
             <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
                 <!-- Company Logo as Profile Picture -->
                 <div class="relative">
-                    <img src="logo.svg" alt="FOURx Logo" 
-                         class="w-24 h-24 rounded-full border-4 border-white object-cover shadow-lg bg-white p-2">
+                    <img src="logo.svg" alt="FOURx Logo"
+                        class="w-24 h-24 rounded-full border-4 border-white object-cover shadow-lg bg-white p-2">
                 </div>
-                
+
                 <!-- User Info -->
                 <div class="flex-1 text-center md:text-left">
-                    <h2 class="text-2xl font-bold mb-1">Alex Johnson</h2>
-                    
+                    <h2 class="text-2xl font-bold mb-1">
+                        <%= user.name %>
+                    </h2>
+
                     <!-- Balance with Toggle -->
                     <div class="balance-display p-4 rounded-xl mb-4 max-w-md">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-blue-100 text-sm">Available Balance</p>
-                                <p id="balanceAmount" class="text-2xl font-bold">123 PKR</p>
+                                <p id="balanceAmount" class="text-2xl font-bold">
+                                    <%= user.balance %> PKR
+                                </p>
                             </div>
                             <button id="toggleBalance" class="text-blue-200 hover:text-white">
-                                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </button>
                         </div>
                         <div class="flex justify-between mt-2">
-                            <span class="text-blue-100 text-sm">Total Earnings: <span class="text-green-300 font-medium">+142.80 PKR</span></span>
+                            <span class="text-blue-100 text-sm">Total Earnings: <span
+                                    class="text-green-300 font-medium">+<%= user.earn %> PKR</span></span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Quick Actions -->
                 <div class="flex gap-3">
-                    <button class="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 flex items-center">
+                    <button
+                        class="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 flex items-center">
                         Change password
                     </button>
                 </div>
@@ -130,33 +142,40 @@
         <!-- User Data Container -->
         <div class="mt-8">
             <h2 class="text-xl font-bold text-gray-800 mb-4">My Investment Data</h2>
-            
+
             <!-- Stats Grid -->
             <div class="stats-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- Total Invested -->
                 <!-- Total Invested -->
                 <div class="data-card bg-white p-4 rounded-xl shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Invested</p>
-                            <p class="text-xl font-bold text-gray-800">$15,240.00</p>
+                            <p class="text-xl font-bold text-gray-800">PKR <%= user.totalDeposits.toFixed(2) %>
+                            </p>
                         </div>
                         <div class="bg-blue-100 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
                         </div>
                     </div>
                     <div class="mt-2 flex items-center text-xs text-gray-500">
                         <span class="text-green-500 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                                    clip-rule="evenodd" />
                             </svg>
                             12.5% growth
                         </span>
                     </div>
                 </div>
-                
-                <!-- Active Plans -->
+
+                <!-- Active Plans (you might want to update this based on your actual data) -->
                 <div class="data-card bg-white p-4 rounded-xl shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
@@ -164,130 +183,124 @@
                             <p class="text-xl font-bold text-gray-800">3 Plans</p>
                         </div>
                         <div class="bg-green-100 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
                     </div>
                     <div class="mt-2 text-xs text-gray-500">All plans active</div>
                 </div>
-                
-                <!-- Referral Earnings -->
-                <div class="data-card bg-white p-4 rounded-xl shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm">Referral Earnings</p>
-                            <p class="text-xl font-bold text-gray-800">$1,845.00</p>
-                        </div>
-                        <div class="bg-purple-100 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-2 text-xs text-gray-500">From 14 friends</div>
-                </div>
-                
+
                 <!-- Total Withdrawn -->
                 <div class="data-card bg-white p-4 rounded-xl shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Withdrawn</p>
-                            <p class="text-xl font-bold text-gray-800">$4,200.00</p>
+                            <p class="text-xl font-bold text-gray-800">PKR <%= user.totalWithdrawals.toFixed(2) %>
+                            </p>
                         </div>
                         <div class="bg-red-100 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                         </div>
                     </div>
-                    <div class="mt-2 text-xs text-gray-500">Available: $3,150.00</div>
+                    <div class="mt-2 text-xs text-gray-500">Available: PKR <%= (user.balance + user.earn).toFixed(2) %>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="font-semibold text-gray-800">Recent Transactions</h3>
+                        <button class="text-blue-600 text-sm font-medium">View All</button>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        <% user.depositRequests.slice(0, 3).forEach(transaction=> { %>
+                            <div class="p-4 flex items-center hover:bg-gray-50">
+                                <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">Deposit <%= transaction.status %>
+                                    </p>
+                                    <p class="text-gray-500 text-xs">
+                                        <%= new Date(transaction.createdAt).toLocaleString() %>
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-green-600 text-sm">+PKR <%= transaction.amount.toFixed(2)
+                                            %>
+                                    </p>
+                                    <p class="text-gray-400 text-xs">
+                                        <%= transaction.method %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }) %>
+
+                                <% user.withdrawalRequests.slice(0, 3).forEach(transaction=> { %>
+                                    <div class="p-4 flex items-center hover:bg-gray-50">
+                                        <div class="bg-red-100 p-2 rounded-lg mr-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-sm">Withdrawal <%= transaction.status %>
+                                            </p>
+                                            <p class="text-gray-500 text-xs">
+                                                <%= new Date(transaction.createdAt).toLocaleString() %>
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-semibold text-red-600 text-sm">-PKR <%=
+                                                    transaction.amount.toFixed(2) %>
+                                            </p>
+                                            <p class="text-gray-400 text-xs">
+                                                <%= transaction.method %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                    </div>
+                </div>
+                <!-- APK Download Section -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
+                    <div class="p-4 border-b border-gray-100">
+                        <h3 class="font-semibold text-gray-800">Download Our Mobile App</h3>
+                    </div>
+                    <div class="p-4 flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">FOURx Mobile Application</p>
+                                <p class="text-sm text-gray-500">Get the best experience on your mobile device</p>
+                            </div>
+                        </div>
+                        <a href="FOURx.apk" download
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
+                            Download APK
+                        </a>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Recent Transactions -->
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-                <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                    <h3 class="font-semibold text-gray-800">Recent Transactions</h3>
-                    <button class="text-blue-600 text-sm font-medium">View All</button>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <!-- Transaction 1 -->
-                    <div class="p-4 flex items-center hover:bg-gray-50">
-                        <div class="bg-green-100 p-2 rounded-lg mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-medium text-sm">Deposit Completed</p>
-                            <p class="text-gray-500 text-xs">Today, 10:45 AM</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-semibold text-green-600 text-sm">+$500.00</p>
-                            <p class="text-gray-400 text-xs">EasyPaisa</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Transaction 2 -->
-                    <div class="p-4 flex items-center hover:bg-gray-50">
-                        <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-medium text-sm">Investment Profit</p>
-                            <p class="text-gray-500 text-xs">Yesterday, 3:20 PM</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-semibold text-green-600 text-sm">+$87.25</p>
-                            <p class="text-gray-400 text-xs">Gold Plan</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Transaction 3 -->
-                    <div class="p-4 flex items-center hover:bg-gray-50">
-                        <div class="bg-red-100 p-2 rounded-lg mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-medium text-sm">Withdrawal Request</p>
-                            <p class="text-gray-500 text-xs">2 days ago, 9:15 AM</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-semibold text-red-600 text-sm">-$300.00</p>
-                            <p class="text-gray-400 text-xs">Processing</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- APK Download Section -->
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-                <div class="p-4 border-b border-gray-100">
-                    <h3 class="font-semibold text-gray-800">Download Our Mobile App</h3>
-                </div>
-                <div class="p-4 flex flex-col md:flex-row items-center justify-between">
-                    <div class="flex items-center mb-4 md:mb-0">
-                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="font-medium text-gray-800">FOURx Mobile Application</p>
-                            <p class="text-sm text-gray-500">Get the best experience on your mobile device</p>
-                        </div>
-                    </div>
-                    <a href="FOURx.apk" download class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
-                        Download APK
-                    </a>
-                </div>
-            </div>
-        </div>
     </main>
 
     <!-- Footer Navigation with SVG icons -->
@@ -313,9 +326,13 @@
             </svg>
             <span id="teambtn333" class="text-xs md:text-sm">Team</span>
         </a>
-        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2 transition-colors duration-200 group" aria-label="User profile">
-            <svg class="h-6 w-6 text-blue-700 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        <a href="#"
+            class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2 transition-colors duration-200 group"
+            aria-label="User profile">
+            <svg class="h-6 w-6 text-blue-700 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span id="profilebtn333" class="text-xs md:text-sm group-hover:text-blue-600">Profile</span>
         </a>
@@ -341,7 +358,7 @@
             }
         });
 
-          document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -359,18 +376,19 @@
         const toggleBalance = document.getElementById('toggleBalance');
         const balanceAmount = document.getElementById('balanceAmount');
         const eyeIcon = document.getElementById('eyeIcon');
-        
-        toggleBalance.addEventListener('click', function() {
-            if (balanceAmount.textContent === '123 PKR') {
+        const actualBalance = '<%= user.balance %> PKR'; // Store the actual balance
+
+        toggleBalance.addEventListener('click', function () {
+            if (balanceAmount.textContent === actualBalance) {
                 balanceAmount.textContent = '•••••••';
                 eyeIcon.innerHTML = '<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
             } else {
-                balanceAmount.textContent = '123 PKR';
+                balanceAmount.textContent = actualBalance;
                 eyeIcon.innerHTML = '<path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />';
             }
         });
 
-           document.getElementById("homebtn").addEventListener("click", function (e) {
+        document.getElementById("homebtn").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
@@ -379,11 +397,11 @@
             window.location.href = '/assets'; // Redirect
         });
 
-         document.getElementById("aboutbtn").addEventListener("click", function (e) {
+        document.getElementById("aboutbtn").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
         });
-           document.getElementById("homebtn33").addEventListener("click", function (e) {
+        document.getElementById("homebtn33").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
@@ -392,11 +410,11 @@
             window.location.href = '/assets'; // Redirect
         });
 
-         document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
         });
-           document.getElementById("homebtn333").addEventListener("click", function (e) {
+        document.getElementById("homebtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
@@ -409,14 +427,15 @@
             window.location.href = '/team'; // Redirect
         });
 
-         document.getElementById("aboutbtn333").addEventListener("click", function (e) {
+        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
         });
-         document.getElementById("profilebtn333").addEventListener("click", function (e) {
+        document.getElementById("profilebtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/profile'; // Redirect
         });
     </script>
 </body>
+
 </html>
