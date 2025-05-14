@@ -133,8 +133,7 @@
                         class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
                     <a href="#" id="assetsbtn33"
                         class="text-gray-600 hover:text-blue-600 transition duration-300">Asset</a>
-                    <a href="#" id="profilebtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
+                    
                     <a href="#" id="aboutbtn33"
                         class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
 
@@ -152,7 +151,6 @@
             <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
                 <a href="#" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
                 <a href="#" id="Invest" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
-                <a href="#" id="profilebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
                 <a href="#" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
             </div>
         </nav>
@@ -286,6 +284,8 @@
 
 
     <script>
+         let selectedPaymentMethod = null;
+
         // Function to show messages
         function showMessage(type, message) {
             const container = document.getElementById('message-container');
@@ -293,65 +293,19 @@
             messageElement.className = `message ${type}`;
             messageElement.textContent = message;
             container.appendChild(messageElement);
-            
+
             // Remove message after animation completes
             setTimeout(() => {
                 messageElement.remove();
-            }, 3000);
+            }, 5000);
         }
 
-        document.getElementById("teambtn2").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
-        });
-
-        document.getElementById("assetsbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
-        });
-
-        document.getElementById("profilebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
-        });
-
-        document.getElementById("homebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("homebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("profilebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("homebtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("assetsbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-
-        document.getElementById("profilebtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
-        });
-        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
-        });
-        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
-        });
+        // ... (all your existing navigation button event listeners)
 
         document.addEventListener('DOMContentLoaded', function () {
             // Payment method selection
             function selectPaymentMethod(method) {
+                selectedPaymentMethod = method; // Track the selected method
                 const easypaisaQR = document.getElementById('easypaisa-qr');
                 const jazzcashQR = document.getElementById('jazzcash-qr');
                 const qrCodeTitle = document.getElementById('qr-code-title');
@@ -415,39 +369,36 @@
                 }
             });
 
-            // Reset preview when clicking on the label (optional)
-            uploadLabel.addEventListener('click', function (e) {
-                // Don't reset if clicking on the file input
-                if (e.target === fileInput) return;
-
-                // If there's already a preview, remove it and show the upload UI again
-                const existingPreview = uploadLabel.querySelector('.image-preview');
-                if (existingPreview) {
-                    existingPreview.remove();
-                    uploadContainer.style.display = 'flex';
-                    fileInput.value = ''; // Clear the file input
-                }
-            });
-
             // Form submission
             document.getElementById('deposit-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                const form = e.target;
-                const formData = new FormData(form);
-
-                // Get the payment method
-                const method = document.getElementById('qr-code-title').textContent.includes('EasyPaisa') ? 'easypaisa' : 'jazzcash';
-                formData.append('method', method);
+                // Check if payment method is selected
+                if (!selectedPaymentMethod) {
+                    showMessage('error', 'Please select a payment method (EasyPaisa or JazzCash)');
+                    return;
+                }
 
                 // Check if file was selected
-                const fileInput = form.querySelector('input[type="file"]');
+                const fileInput = e.target.querySelector('input[type="file"]');
                 if (fileInput.files.length === 0) {
-                    showMessage('error', 'Please upload proof screenshot.');
+                    showMessage('error', 'Please upload proof screenshot');
+                    return;
+                }
+
+                // Check if required fields are filled
+                const transactionId = e.target.querySelector('input[name="transactionId"]').value;
+                const amount = e.target.querySelector('input[name="amount"]').value;
+                
+                if (!transactionId || !amount) {
+                    showMessage('error', 'Please fill all required fields');
                     return;
                 }
 
                 try {
+                    const formData = new FormData(e.target);
+                    formData.append('method', selectedPaymentMethod);
+
                     const response = await fetch('/api/deposits/deposit', {
                         method: 'POST',
                         headers: {
@@ -460,7 +411,9 @@
 
                     if (response.ok) {
                         showMessage('success', 'Deposit request submitted for admin approval!');
-                        form.reset();
+                        e.target.reset();
+                        // Reset payment method selection
+                        selectedPaymentMethod = null;
                         // Hide any visible QR codes
                         document.getElementById('easypaisa-qr').classList.add('hidden');
                         document.getElementById('jazzcash-qr').classList.add('hidden');
@@ -498,7 +451,47 @@
                 }
             });
         });
-    </script>
+        document.getElementById("teambtn2").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/team'; // Redirect
+        });
+        
+        document.getElementById("assetsbtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/assets'; // Redirect
+        });
+        
+        document.getElementById("profilebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/profile'; // Redirect
+        });
+        
+        document.getElementById("homebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("homebtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+       
+        document.getElementById("homebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("assetsbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
+        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
+        });
+        </script>
 </body>
 
 </html>

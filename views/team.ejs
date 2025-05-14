@@ -43,12 +43,11 @@
                 <!-- Desktop Navigation matching home page -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#" id="homebtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="#" id="Invest" class="text-gray-600 hover:text-blue-600 transition duration-300">Invest</a>
-                    <a href="#" id="profilebtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">Portfolio</a>
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>                    
                     <a href="#" id="aboutbtn33"
                         class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#" id="assetsbtn33"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">assets</a>
 
                 </div>
 
@@ -67,8 +66,7 @@
             <!-- Mobile Menu matching home page -->
             <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
                 <a href="" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
-                <a href="" id="invest" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Invest</a>
-                <a href="" id="profilebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Portfolio</a>
+                <a href="" id="assetsbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">assests</a>
                 <a href="" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
 
             </div>
@@ -197,14 +195,7 @@
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
-        document.getElementById("profilebtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
-        });
-        document.getElementById("profilebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
-        });
+      
         document.getElementById("aboutbtn33").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
@@ -212,6 +203,14 @@
         document.getElementById("aboutbtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
+        });
+        document.getElementById("assetsbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/assets'; // Redirect
+        });
+        document.getElementById("assetsbtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/assets'; // Redirect
         });
 
         // Reuse existing JavaScript functionality from home page

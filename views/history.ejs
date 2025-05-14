@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Withdrawal History</title>
     <link href="./history.css" rel="stylesheet">
-        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
     <style>
         .status-approved {
@@ -44,11 +44,9 @@
                     <a href="" id="homebtn11" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
                     <a href="" id="assetsbtn11"
                         class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
-                    <a href="" id="historybtn11"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">History</a>
-                    <a href="" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                        Log out
-                    </a>
+                    <a href="" id="aboutbtn333"
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">about</a>
+
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -58,9 +56,7 @@
                         <a href="#" id="mobile-home" class="block px-3 py-2 text-gray-600 hover:text-blue-600">Home</a>
                         <a href="#" id="mobile-assets"
                             class="block px-3 py-2 text-gray-600 hover:text-blue-600">Assets</a>
-                        <a href="#" id="mobile-history"
-                            class="block px-3 py-2 text-gray-600 hover:text-blue-600">History</a>
-                        <a href="#" class="block px-3 py-2 text-red-600 hover:bg-gray-100">Log out</a>
+                        <a href="#" id="aboutbtn33" class="block px-3 py-2 text-gray-600 hover:text-blue-600">about</a>
                     </div>
                 </div>
             </div>
@@ -187,10 +183,13 @@
     <script>
 
 
-
-        document.getElementById("historybtn11").addEventListener("click", function (e) {
+        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
-            window.location.href = '/history'; // Redirect
+            window.location.href = '/about'; // Redirect
+        });
+        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/about'; // Redirect
         });
         document.getElementById("teambtn22").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
