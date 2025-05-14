@@ -164,8 +164,36 @@ router.get('/profile', protect, async (req, res) => {
   }
 });
 
-router.get('/team', protect, (req, res) => {
-  res.render('team', {});
+router.get('/team', protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const referredUsers = await User.find({ referredBy: user.referralCode })
+      .select('name email createdAt depositRequests');
+
+    const totalReferrals = referredUsers.length;
+    const activeReferrals = referredUsers.filter(u => 
+      u.depositRequests && u.depositRequests.some(d => d.status === 'approved')
+    ).length;
+    const referralEarnings = user.earn || 0;
+
+    res.render('team', {
+      user: {
+        referralCode: user.referralCode,
+        referredUsers,
+        totalReferrals,
+        activeReferrals,
+        referralEarnings
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching team data:', error);
+    res.status(500).send('Server Error');
+  }
 });
 
 export default router;

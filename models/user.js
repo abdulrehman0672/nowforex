@@ -67,6 +67,10 @@ const userSchema = mongoose.Schema({
         status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
         createdAt: { type: Date, default: Date.now }
     }],
+    referredUsers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     totalDeposits: { type: Number, default: 0 },
     totalWithdrawals: { type: Number, default: 0 }
 

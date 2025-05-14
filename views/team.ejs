@@ -7,7 +7,7 @@
     <title>Referral </title>
     <!-- Local Tailwind CSS -->
     <link href="./team.css" rel="stylesheet">
-        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
     <style>
         /* Maintain existing animations from home page */
@@ -43,7 +43,7 @@
                 <!-- Desktop Navigation matching home page -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#" id="homebtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>                    
+                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
                     <a href="#" id="aboutbtn33"
                         class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
                     <a href="#" id="assetsbtn33"
@@ -78,7 +78,9 @@
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Referral Code</h2>
             <div class="flex items-center justify-between bg-blue-50 p-4 rounded-lg">
-                <span class="text-lg font-mono text-blue-600">FOURX-123456</span>
+                <span class="text-lg font-mono text-blue-600">
+                    <%= user.referralCode %>
+                </span>
                 <button onclick="copyReferralCode()"
                     class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                     Copy Code
@@ -90,15 +92,20 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Referrals</h3>
-                <p class="text-3xl font-bold text-blue-600">42</p>
+                <p class="text-3xl font-bold text-blue-600">
+                    <%= user.totalReferrals %>
+                </p>
             </div>
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Valid Members</h3>
-                <p class="text-3xl font-bold text-green-600">5</p>
+                <p class="text-3xl font-bold text-green-600">
+                    <%= user.activeReferrals %>
+                </p>
             </div>
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Referral Earnings</h3>
-                <p class="text-3xl font-bold text-yellow-600">$350</p>
+                <p class="text-3xl font-bold text-yellow-600">$<%= user.referralEarnings.toFixed(2) %>
+                </p>
             </div>
         </div>
 
@@ -116,33 +123,48 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example Row -->
-                        <tr class="border-b hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 flex items-center">
-                                <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3"
-                                    loading="lazy">
-                                <span class="text-gray-700">John Doe</span>
-                            </td>
-                            <td class="px-4 py-3 text-gray-600">#12345</td>
-                            <td class="px-4 py-3 text-green-600 font-medium">$250</td>
-                            <td class="px-4 py-3">
-                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                        <tr class="border-b hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 flex items-center">
-                                <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full mr-3"
-                                    loading="lazy">
-                                <span class="text-gray-700">Jane Smith</span>
-                            </td>
-                            <td class="px-4 py-3 text-gray-600">#12346</td>
-                            <td class="px-4 py-3 text-green-600 font-medium">$150</td>
-                            <td class="px-4 py-3">
-                                <span
-                                    class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Pending</span>
-                            </td>
-                        </tr>
+                        <% if (user.referredUsers.length> 0) { %>
+                            <% user.referredUsers.forEach(member=> { %>
+                                <% // Calculate earnings for this member let memberEarnings=0; if
+                                    (member.depositRequests && member.depositRequests.length> 0) {
+                                    memberEarnings = member.depositRequests
+                                    .filter(d => d.status === 'approved')
+                                    .reduce((sum, d) => sum + (d.amount * 0.1), 0);
+                                    }
+
+                                    // Check if member has active deposits
+                                    const hasActiveDeposit = member.depositRequests &&
+                                    member.depositRequests.some(d => d.status === 'approved');
+                                    %>
+                                    <tr class="border-b hover:bg-gray-50 transition-colors">
+                                        <td class="px-4 py-3 flex items-center">
+                                            <img src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(member.name) %>&background=random"
+                                                alt="<%= member.name %>" class="w-8 h-8 rounded-full mr-3"
+                                                loading="lazy">
+                                            <span class="text-gray-700">
+                                                <%= member.name %>
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-gray-600">#<%= member._id.toString().slice(-6) %>
+                                        </td>
+                                        <td class="px-4 py-3 text-green-600 font-medium">
+                                            $<%= memberEarnings.toFixed(2) %>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span
+                                                class="<%= hasActiveDeposit ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %> px-3 py-1 rounded-full text-sm">
+                                                <%= hasActiveDeposit ? 'Active' : 'Pending' %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4" class="px-4 py-6 text-center text-gray-500">
+                                                    No referred members yet. Share your referral code to earn bonuses!
+                                                </td>
+                                            </tr>
+                                            <% } %>
                     </tbody>
                 </table>
             </div>
@@ -195,7 +217,7 @@
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
-      
+
         document.getElementById("aboutbtn33").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/about'; // Redirect
@@ -223,10 +245,22 @@
         });
 
         // Copy Referral Code Function
+        // Copy Referral Code Function
         function copyReferralCode() {
-            const code = "FOURX-123456";
+            const code = "FOURX-<%= user.referralCode %>";
             navigator.clipboard.writeText(code).then(() => {
-                alert("Referral code copied to clipboard: " + code);
+                // Create a nicer notification instead of alert
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                notification.textContent = 'Referral code copied: ' + code;
+                document.body.appendChild(notification);
+
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
             });
         }
 
