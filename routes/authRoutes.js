@@ -24,15 +24,13 @@ router.post('/register', async (req, res) => {
     }
 
     // Check if user already exists
-   const existingemail = await User.findOne({email});
+    const existingemail = await User.findOne({email});
     if (existingemail) {
       return res.status(400).json({message:'Email already exists'});
     }
     const existingUsername = await User.findOne({username});
     if (existingUsername) {
       return res.status(400).json({message:'Username already exists'});
-
-      
     }
 
     let referredByUser = null;
@@ -43,11 +41,24 @@ router.post('/register', async (req, res) => {
       }
     }
 
-
     // Create a new user
-    const user = new User({ username, name, email, password, referredBy: referredByUser ? referredByUser._id : null });
+    const user = new User({ 
+      username, 
+      name, 
+      email, 
+      password, 
+      referredBy: referredByUser ? referredByUser._id : null 
+    });
     await user.save();
     
+    // If referral code was used, just add to referredUsers (no bonus yet)
+    if (referredByUser) {
+      await User.findByIdAndUpdate(referredByUser._id, {
+        $push: {
+          referredUsers: user._id
+        }
+      });
+    }
     
     const token = generateToken(user._id);
     res.status(201).json({
@@ -57,14 +68,11 @@ router.post('/register', async (req, res) => {
         username: user.username,
         name: user.name,
         email: user.email,
-        
       }
     });
   } catch (error) {
     console.log("Error in the auth Routes", error);
     res.status(500).json({message:'auth Router Server Error'});
-   
-    
   }
 });
 

@@ -35,7 +35,7 @@ router.get('/withdraw', protect, async (req, res) => {
     res.render('withdrawal', {
 
       user: {
-        balance: user.balance
+        earn: user.earn
 
       }
     });
@@ -166,25 +166,29 @@ router.get('/profile', protect, async (req, res) => {
 
 router.get('/team', protect, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
-    
+    // Find the current user and populate their referredUsers
+    const user = await User.findById(req.user._id)
+      .populate({
+        path: 'referredUsers',
+        select: 'name username email createdAt depositRequests',
+        options: { sort: { createdAt: -1 } } // Sort by newest first
+      });
+
     if (!user) {
       return res.status(404).send('User not found');
     }
 
-    const referredUsers = await User.find({ referredBy: user.referralCode })
-      .select('name email createdAt depositRequests');
-
-    const totalReferrals = referredUsers.length;
-    const activeReferrals = referredUsers.filter(u => 
+    // Calculate statistics
+    const totalReferrals = user.referredUsers.length;
+    const activeReferrals = user.referredUsers.filter(u => 
       u.depositRequests && u.depositRequests.some(d => d.status === 'approved')
     ).length;
-    const referralEarnings = user.earn || 0;
+    const referralEarnings = user.referredEarn || 0;
 
     res.render('team', {
       user: {
+        ...user.toObject(), // Spread all user properties
         referralCode: user.referralCode,
-        referredUsers,
         totalReferrals,
         activeReferrals,
         referralEarnings
