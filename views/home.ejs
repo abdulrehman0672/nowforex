@@ -37,7 +37,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="#" class="flex items-center">
-                        <img class="h-16 w-auto" src="/logo.svg" alt="Logo">
+                        <img id="imagebtn" class="h-16 w-auto" src="/logo.svg" alt="Logo">
                         <span class="ml-2 text-xl font-bold text-blue-800">FOURx</span>
                     </a>
                 </div>
@@ -297,6 +297,10 @@
             window.location.href = '/deposit'; // Redirect
         });
         document.getElementById("homebtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("imagebtn").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });

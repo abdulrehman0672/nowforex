@@ -46,7 +46,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="#" class="flex items-center">
-                        <img class="h-16 w-auto" src="logo.svg" alt="Logo">
+                        <img id="imagebtn" class="h-16 w-auto" src="logo.svg" alt="Logo">
                         <span class="ml-2 text-xl font-bold text-blue-800">FOURx</span>
                     </a>
                 </div>
@@ -109,7 +109,7 @@
                             <div>
                                 <p class="text-blue-100 text-sm">Available Balance</p>
                                 <p id="balanceAmount" class="text-2xl font-bold">
-                                    <%= user.balance %> PKR
+                                    <%= Math.floor(user.balance) %> PKR
                                 </p>
                             </div>
                             <button id="toggleBalance" class="text-blue-200 hover:text-white">
@@ -123,14 +123,14 @@
                             </button>
                         </div>
                         <div class="flex justify-between mt-2">
-                            <span id="totalearning" class="text-blue-100 text-sm">Total Earnings: <span
-                                    class="text-green-300 font-medium">+<%= user.earn %> PKR</span></span>
+                            <span id="totalearning" class="text-blue-100 text-sm">Total Earnings: <span <span
+                                    class="text-green-300 font-medium">+<%= Math.floor(user.earn) %> PKR</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quick Actions -->
-                <div  class="flex gap-3">
+                <div class="flex gap-3">
                     <button id="passwordbtn"
                         class="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 flex items-center">
                         Change password
@@ -145,14 +145,13 @@
 
             <!-- Stats Grid -->
             <div class="stats-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                
-               
+
+
                 <div class="data-card bg-white p-4 rounded-xl shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Deposit</p>
-                            <p class="text-xl font-bold text-gray-800">PKR <%= user.totalDeposits.toFixed(2) %>
-                            </p>
+<p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalDeposits) %>                            </p>
                         </div>
                         <div class="bg-blue-100 p-2 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
@@ -198,8 +197,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Withdrawn</p>
-                            <p class="text-xl font-bold text-gray-800">PKR <%= user.totalWithdrawals.toFixed(2) %>
-                            </p>
+<p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %>                            </p>
                         </div>
                         <div class="bg-red-100 p-2 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none"
@@ -209,8 +207,7 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="mt-2 text-xs text-gray-500">Available: PKR <%= (user.balance + user.earn).toFixed(2) %>
-                    </div>
+<p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %>                    </div>
                 </div>
 
                 <!-- Recent Transactions -->
@@ -237,8 +234,7 @@
                                     </p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="font-semibold text-green-600 text-sm">+PKR <%= transaction.amount.toFixed(2)
-                                            %>
+                                   <p class="font-semibold text-green-600 text-sm">+PKR <%= Math.floor(transaction.amount) %>
                                     </p>
                                     <p class="text-gray-400 text-xs">
                                         <%= transaction.method %>
@@ -383,7 +379,7 @@
                 balanceAmount.textContent = '•••••••';
                 eyeIcon.innerHTML = '<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
             } else {
-                balanceAmount.textContent = math.floor(actualBalance);
+                balanceAmount.textContent = actualBalance;
                 eyeIcon.innerHTML = '<path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />';
             }
         });
@@ -392,7 +388,7 @@
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
-        
+
         document.getElementById("historybtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/history'; // Redirect
@@ -411,6 +407,10 @@
             window.location.href = '/about'; // Redirect
         });
         document.getElementById("homebtn33").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("imagebtn").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
