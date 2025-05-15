@@ -42,7 +42,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="#" class="flex items-center">
-                        <img class="h-16 w-auto" src="logo.svg" alt="Logo">
+                        <img id="logobtn" class="h-16 w-auto" src="logo.svg" alt="Logo">
                         <span class="ml-2 text-xl font-bold text-blue-800">FOURx</span>
                     </a>
                 </div>
@@ -245,6 +245,10 @@
             window.location.href = '/profile';
         });
         document.getElementById("homebtn11").addEventListener("click", function (e) {
+            e.preventDefault();
+            window.location.href = '/home';
+        });
+        document.getElementById("logobtn").addEventListener("click", function (e) {
             e.preventDefault();
             window.location.href = '/home';
         });
