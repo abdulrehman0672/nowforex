@@ -35,7 +35,7 @@
                 <!-- Logo matching home page -->
                 <div class="flex-shrink-0">
                     <a href="#" class="flex items-center">
-                        <img class="h-16 w-auto" src="logo.svg" alt="Logo" width="64" height="64">
+                        <img id="imagebtn" class="h-16 w-auto" src="logo.svg" alt="Logo" width="64" height="64">
                         <span class="ml-2 text-xl font-bold text-blue-800">FOURx</span>
                     </a>
                 </div>
@@ -214,6 +214,10 @@
             window.location.href = '/home'; // Redirect
         });
         document.getElementById("homebtn333").addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default navigation
+            window.location.href = '/home'; // Redirect
+        });
+        document.getElementById("imagebtn").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
         });
