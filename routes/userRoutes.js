@@ -179,7 +179,7 @@ router.get('/team', protect, async (req, res) => {
     const activeReferrals = referredUsers.filter(u => 
       u.depositRequests && u.depositRequests.some(d => d.status === 'approved')
     ).length;
-    const referralEarnings = user.earn || 0;
+    const referralEarnings = user.referredEarn || 0;
 
     res.render('team', {
       user: {
