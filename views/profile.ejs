@@ -59,7 +59,8 @@
                         class="text-gray-600 hover:text-blue-600 transition duration-300">Assets</a>
                     <a href="#" id="aboutbtn33"
                         class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
-                    <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#"
+                        class="logout-btn bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                         Log out
                     </a>
                 </div>
@@ -81,7 +82,7 @@
                 <a href="#" id="homebtn" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
                 <a href="#" id="assetsbtn" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Assets</a>
                 <a href="#" id="aboutbtn" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
-                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Log out</a>
+                <a href="#" class="logout-btn block px-4 py-2 text-red-600 hover:bg-gray-100">Log out</a>
             </div>
         </nav>
     </header>
@@ -151,7 +152,8 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Deposit</p>
-<p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalDeposits) %>                            </p>
+                            <p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalDeposits) %>
+                            </p>
                         </div>
                         <div class="bg-blue-100 p-2 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none"
@@ -197,7 +199,8 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Withdrawn</p>
-<p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %>                            </p>
+                            <p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %>
+                            </p>
                         </div>
                         <div class="bg-red-100 p-2 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none"
@@ -207,96 +210,98 @@
                             </svg>
                         </div>
                     </div>
-<p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %>                    </div>
-                </div>
-
-                <!-- Recent Transactions -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-                    <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                        <h3 class="font-semibold text-gray-800">Recent Transactions</h3>
-                        <button id="historybtn333" class="text-blue-600 text-sm font-medium">View All</button>
-                    </div>
-                    <div class="divide-y divide-gray-100">
-                        <% user.depositRequests.slice(0, 3).forEach(transaction=> { %>
-                            <div class="p-4 flex items-center hover:bg-gray-50">
-                                <div class="bg-green-100 p-2 rounded-lg mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium text-sm">Deposit <%= transaction.status %>
-                                    </p>
-                                    <p class="text-gray-500 text-xs">
-                                        <%= new Date(transaction.createdAt).toLocaleString() %>
-                                    </p>
-                                </div>
-                                <div class="text-right">
-                                   <p class="font-semibold text-green-600 text-sm">+PKR <%= Math.floor(transaction.amount) %>
-                                    </p>
-                                    <p class="text-gray-400 text-xs">
-                                        <%= transaction.method %>
-                                    </p>
-                                </div>
-                            </div>
-                            <% }) %>
-
-                                <% user.withdrawalRequests.slice(0, 3).forEach(transaction=> { %>
-                                    <div class="p-4 flex items-center hover:bg-gray-50">
-                                        <div class="bg-red-100 p-2 rounded-lg mr-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="font-medium text-sm">Withdrawal <%= transaction.status %>
-                                            </p>
-                                            <p class="text-gray-500 text-xs">
-                                                <%= new Date(transaction.createdAt).toLocaleString() %>
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-semibold text-red-600 text-sm">-PKR <%=
-                                                    transaction.amount.toFixed(2) %>
-                                            </p>
-                                            <p class="text-gray-400 text-xs">
-                                                <%= transaction.method %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <% }) %>
-                    </div>
-                </div>
-                <!-- APK Download Section -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-                    <div class="p-4 border-b border-gray-100">
-                        <h3 class="font-semibold text-gray-800">Download Our Mobile App</h3>
-                    </div>
-                    <div class="p-4 flex flex-col md:flex-row items-center justify-between">
-                        <div class="flex items-center mb-4 md:mb-0">
-                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-800">FOURx Mobile Application</p>
-                                <p class="text-sm text-gray-500">Get the best experience on your mobile device</p>
-                            </div>
-                        </div>
-                        <a href="FOURx.apk" download
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
-                            Download APK
-                        </a>
-                    </div>
+                    <p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %>
                 </div>
             </div>
+
+            <!-- Recent Transactions -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="font-semibold text-gray-800">Recent Transactions</h3>
+                    <button id="historybtn333" class="text-blue-600 text-sm font-medium">View All</button>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    <% user.depositRequests.slice(0, 3).forEach(transaction=> { %>
+                        <div class="p-4 flex items-center hover:bg-gray-50">
+                            <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-sm">Deposit <%= transaction.status %>
+                                </p>
+                                <p class="text-gray-500 text-xs">
+                                    <%= new Date(transaction.createdAt).toLocaleString() %>
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-green-600 text-sm">+PKR <%= Math.floor(transaction.amount)
+                                        %>
+                                </p>
+                                <p class="text-gray-400 text-xs">
+                                    <%= transaction.method %>
+                                </p>
+                            </div>
+                        </div>
+                        <% }) %>
+
+                            <% user.withdrawalRequests.slice(0, 3).forEach(transaction=> { %>
+                                <div class="p-4 flex items-center hover:bg-gray-50">
+                                    <div class="bg-red-100 p-2 rounded-lg mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-medium text-sm">Withdrawal <%= transaction.status %>
+                                        </p>
+                                        <p class="text-gray-500 text-xs">
+                                            <%= new Date(transaction.createdAt).toLocaleString() %>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-semibold text-red-600 text-sm">-PKR <%=
+                                                transaction.amount.toFixed(2) %>
+                                        </p>
+                                        <p class="text-gray-400 text-xs">
+                                            <%= transaction.method %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% }) %>
+                </div>
+            </div>
+            <!-- APK Download Section -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
+                <div class="p-4 border-b border-gray-100">
+                    <h3 class="font-semibold text-gray-800">Download Our Mobile App</h3>
+                </div>
+                <div class="p-4 flex flex-col md:flex-row items-center justify-between">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">FOURx Mobile Application</p>
+                            <p class="text-sm text-gray-500">Get the best experience on your mobile device</p>
+                        </div>
+                    </div>
+                    <a href="FOURx.apk" download
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
+                        Download APK
+                    </a>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer Navigation with SVG icons -->
@@ -335,6 +340,36 @@
     </nav>
 
     <script>
+
+
+        document.querySelectorAll('.logout-btn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                logout();
+            });
+        });
+
+        async function logout() {
+            try {
+                const response = await fetch('/api/auth/logout', {  // Updated endpoint
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Logout failed');
+                }
+
+                window.location.href = '/login';
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Could not log out. Please try again.');
+            }
+        }
+
         // Mobile Menu Toggle
         function toggleMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
