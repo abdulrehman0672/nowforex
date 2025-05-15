@@ -127,8 +127,21 @@ router.get('/assets', protect, async (req, res) => {
   }
 });
 
-router.get('/history', protect, (req, res) => {
-  res.render('history', {});
+router.get('/history', protect, async (req, res) => {
+  try {
+    // Get the logged-in user with their deposit and withdrawal history
+    const user = await User.findById(req.user._id)
+      .select('depositRequests withdrawalRequests')
+      .sort({ 'depositRequests.createdAt': -1, 'withdrawalRequests.createdAt': -1 });
+
+    res.render('history', { 
+      deposits: user.depositRequests,
+      withdrawals: user.withdrawalRequests
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
 });
 router.get('/about', protect, (req, res) => {
   res.render('about', {});

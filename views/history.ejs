@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Withdrawal History</title>
+    <title>Transaction History</title>
     <link href="./history.css" rel="stylesheet">
     <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
@@ -22,6 +22,14 @@
         .status-pending {
             background-color: #FEF3C7;
             color: #92400E;
+        }
+        
+        .section-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1F2937;
         }
     </style>
 </head>
@@ -65,80 +73,111 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="bg-white shadow rounded-lg overflow-hidden">
-            <!-- Page Header -->
+        <!-- Withdrawal History Section -->
+        <div class="bg-white shadow rounded-lg overflow-hidden mb-8">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h1 class="text-2xl font-bold text-gray-800">Withdrawal History</h1>
             </div>
 
-            <!-- Simplified Withdrawal Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Date</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Amount</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Payment Method</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account Details</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Approved Withdrawal -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 15, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$1,250.00</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Bank Transfer</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 text-xs font-medium rounded-full status-approved">Approved</span>
-                            </td>
-                        </tr>
+                        <% if (withdrawals && withdrawals.length > 0) { %>
+                            <% withdrawals.forEach(withdrawal => { %>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <%= new Date(withdrawal.createdAt).toLocaleDateString() %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        $<%= withdrawal.amount.toFixed(2) %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <%= withdrawal.method %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <%= withdrawal.accountDetails %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                            <% if (withdrawal.status === 'approved') { %>status-approved<% } %>
+                                            <% if (withdrawal.status === 'rejected') { %>status-declined<% } %>
+                                            <% if (withdrawal.status === 'pending') { %>status-pending<% } %>">
+                                            <%= withdrawal.status.charAt(0).toUpperCase() + withdrawal.status.slice(1) %>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    No withdrawal history found.
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                        <!-- Declined Withdrawal -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Apr 28, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$750.00</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">PayPal</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 text-xs font-medium rounded-full status-declined">Declined</span>
-                            </td>
-                        </tr>
+        <!-- Deposit History Section -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-800">Deposit History</h1>
+            </div>
 
-                        <!-- Pending Withdrawal -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 2, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$2,000.00</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Crypto (BTC)</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 text-xs font-medium rounded-full status-pending">Pending</span>
-                            </td>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         </tr>
-
-                        <!-- More entries -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 10, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$500.00</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Bank Transfer</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 text-xs font-medium rounded-full status-approved">Approved</span>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 18, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$1,000.00</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">PayPal</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 text-xs font-medium rounded-full status-declined">Declined</span>
-                            </td>
-                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% if (deposits && deposits.length > 0) { %>
+                            <% deposits.forEach(deposit => { %>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <%= new Date(deposit.createdAt).toLocaleDateString() %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        $<%= deposit.amount.toFixed(2) %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <%= deposit.method %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <%= deposit.transactionId || 'N/A' %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                            <% if (deposit.status === 'approved') { %>status-approved<% } %>
+                                            <% if (deposit.status === 'rejected') { %>status-declined<% } %>
+                                            <% if (deposit.status === 'pending') { %>status-pending<% } %>">
+                                            <%= deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1) %>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    No deposit history found.
+                                </td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
@@ -181,41 +220,39 @@
     </nav>
 
     <script>
-
-
         document.getElementById("aboutbtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
+            e.preventDefault();
+            window.location.href = '/about';
         });
         document.getElementById("aboutbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
+            e.preventDefault();
+            window.location.href = '/about';
         });
         document.getElementById("teambtn22").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
+            e.preventDefault();
+            window.location.href = '/team';
         });
         document.getElementById("assetsbtn11").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
+            e.preventDefault();
+            window.location.href = '/assets';
         });
         document.getElementById("assetsbtn22").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
+            e.preventDefault();
+            window.location.href = '/assets';
         });
         document.getElementById("profilebtn22").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
+            e.preventDefault();
+            window.location.href = '/profile';
         });
         document.getElementById("homebtn11").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
         document.getElementById("homebtn22").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
-        // Mobile Menu Toggle
+
         // Mobile Menu Toggle
         function toggleMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
@@ -227,7 +264,6 @@
             }
         }
 
-        // Attach event listener (add this)
         document.addEventListener('DOMContentLoaded', function () {
             const menuBtn = document.getElementById('menu-btn');
             if (menuBtn) {
@@ -236,10 +272,7 @@
                     toggleMenu();
                 });
             }
-
-            // Your existing navigation handlers...
         });
     </script>
 </body>
-
 </html>
