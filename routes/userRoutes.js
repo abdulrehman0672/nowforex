@@ -35,7 +35,7 @@ router.get('/withdraw', protect, async (req, res) => {
     res.render('withdrawal', {
 
       user: {
-        balance: user.balance
+        earn: user.earn
 
       }
     });

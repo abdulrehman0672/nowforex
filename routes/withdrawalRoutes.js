@@ -24,11 +24,28 @@ router.post('/withdraw', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    if (user.balance < amount) {
-      return res.status(400).json({ message: 'Insufficient balance' });
+    // Check if user has enough in earn balance
+    if (user.earn < amount) {
+      return res.status(400).json({ 
+        message: 'Insufficient earnings balance',
+        availableEarnings: user.earn
+      });
     }
 
-    // Deduct the amount from balance immediately
+    // Check if withdrawal is profitable (remaining balance stays positive)
+    const remainingEarn = user.earn - amount;
+    const remainingBalance = user.balance - amount;
+    
+    if (remainingEarn < 0 || remainingBalance < 0) {
+      return res.status(400).json({ 
+        message: 'Withdrawal would make balances negative',
+        currentEarn: user.earn,
+        currentBalance: user.balance
+      });
+    }
+
+    // Deduct from both earn and main balance
+    user.earn -= amount;
     user.balance -= amount;
     
     user.withdrawalRequests.push({
@@ -43,7 +60,8 @@ router.post('/withdraw', async (req, res) => {
     res.status(201).json({
       message: 'Withdrawal request submitted for admin approval',
       request: user.withdrawalRequests[user.withdrawalRequests.length - 1],
-      newBalance: user.balance
+      newBalance: user.balance,
+      newEarn: user.earn
     });
   } catch (error) {
     console.error('Withdrawal error:', error);
