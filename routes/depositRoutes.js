@@ -92,7 +92,7 @@ router.post('/deposit', upload.single('proofImage'), async (req, res) => {
       console.error('Deposit error:', error);
       res.status(500).json({ message: 'Server error' });
     }
-  });
+});
 
 // Get deposit history
 router.get('/history', async (req, res) => {

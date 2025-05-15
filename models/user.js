@@ -76,6 +76,10 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
+    hasAwardedReferralBonus: {
+        type: Boolean,
+        default: false
+    },
     totalDeposits: { type: Number, default: 0 },
     totalWithdrawals: { type: Number, default: 0 }
 

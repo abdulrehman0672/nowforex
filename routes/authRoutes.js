@@ -51,16 +51,9 @@ router.post('/register', async (req, res) => {
     });
     await user.save();
     
-    // If referral code was used, update the referrer's balance and earnings
+    // If referral code was used, just add to referredUsers (no bonus yet)
     if (referredByUser) {
-      const referralBonus = 50;
-      
       await User.findByIdAndUpdate(referredByUser._id, {
-        $inc: {
-          balance: referralBonus,
-          earn: referralBonus,
-          referredEarn: referralBonus
-        },
         $push: {
           referredUsers: user._id
         }

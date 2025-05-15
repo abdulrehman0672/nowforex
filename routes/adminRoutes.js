@@ -200,6 +200,7 @@ router.get('/deposits/pending', apiAdmin, async (req, res) => {
 });
 
 // Approve/Reject deposit
+// Approve/Reject deposit
 router.put('/deposits/:depositId', verifyAdmin, async (req, res) => {
   try {
     const { depositId } = req.params;
@@ -222,6 +223,24 @@ router.put('/deposits/:depositId', verifyAdmin, async (req, res) => {
       deposit.status = 'approved';
       user.balance += deposit.amount;
       user.totalDeposits += deposit.amount;
+      
+      // Check if this is the first approved deposit and user was referred
+      if (user.referredBy && !user.hasAwardedReferralBonus) {
+        const referralBonus = 50;
+        const referrer = await User.findById(user.referredBy);
+        
+        if (referrer) {
+          // Update referrer's balance and earnings
+          referrer.balance += referralBonus;
+          referrer.earn += referralBonus;
+          referrer.referredEarn += referralBonus;
+          await referrer.save();
+          
+          // Mark that the bonus has been awarded
+          user.hasAwardedReferralBonus = true;
+        }
+      }
+      
       await user.save();
       return res.json({ message: 'Deposit approved successfully' });
     } else if (action === 'reject') {
@@ -232,6 +251,7 @@ router.put('/deposits/:depositId', verifyAdmin, async (req, res) => {
       return res.status(400).json({ message: 'Invalid action' });
     }
   } catch (error) {
+    console.error('Deposit processing error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
