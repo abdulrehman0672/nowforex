@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
 
-    <link href="/profile2.css" rel="stylesheet">
+    <link href="/profile.css" rel="stylesheet">
     <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
 
     <style>
@@ -68,7 +68,7 @@
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
                     <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
-                        onclick="toggleMenu()">
+                        >
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16m-7 6h7" />
@@ -171,7 +171,7 @@
                                     d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
                                     clip-rule="evenodd" />
                             </svg>
-                            12.5% growth
+                            Deposit
                         </span>
                     </div>
                 </div>
@@ -195,24 +195,22 @@
                 </div>
 
                 <!-- Total Withdrawn -->
-                <div class="data-card bg-white p-4 rounded-xl shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm">Total Withdrawn</p>
-                            <p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %>
-                            </p>
-                        </div>
-                        <div class="bg-red-100 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %>
-                </div>
-            </div>
+<div class="data-card bg-white p-4 rounded-xl shadow-sm">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-gray-500 text-sm">Total Withdraw</p>
+            <p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %></p>
+        </div>
+        <div class="bg-red-100 p-2 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" 
+                 viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+        </div>
+    </div>
+    <p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %></p>
+</div>
 
             <!-- Recent Transactions -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
@@ -341,6 +339,70 @@
 
     <script>
 
+    // Format number with commas (e.g., 1234567 => 1,234,567)
+    function formatNumberWithCommas(amount) {
+        return amount.toLocaleString('en-PK'); // or use 'en-US' if preferred
+    }
+
+    // Apply formatting to specific elements by ID
+    function applyFormattedAmounts() {
+        const ids = [
+            'balanceAmount',
+            'totalearning',
+        ];
+
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.textContent) {
+                // Extract number from content
+                const match = el.textContent.match(/\d+(\.\d+)?/g);
+                if (match) {
+                    let original = match[0];
+                    let formatted = formatNumberWithCommas(parseFloat(original));
+                    el.innerHTML = el.innerHTML.replace(original, formatted);
+                }
+            }
+        });
+
+        // Apply formatting to transaction values
+        document.querySelectorAll('.text-green-600.text-sm, .text-red-600.text-sm').forEach(el => {
+            const match = el.textContent.match(/-?\d+(\.\d+)?/g);
+            if (match) {
+                let original = match[0];
+                let formatted = formatNumberWithCommas(parseFloat(original));
+                el.innerHTML = el.innerHTML.replace(original, formatted);
+            }
+        });
+
+        // Format other cards (e.g., total deposit/withdraw)
+        document.querySelectorAll('.data-card p.text-xl').forEach(el => {
+            const match = el.textContent.match(/\d+(\.\d+)?/g);
+            if (match) {
+                let original = match[0];
+                let formatted = formatNumberWithCommas(parseFloat(original));
+                el.innerHTML = el.innerHTML.replace(original, formatted);
+            }
+        });
+
+        // Format "Available" amount
+        document.querySelectorAll('p.text-xs.text-gray-500').forEach(el => {
+            if (el.textContent.includes('Available')) {
+                const match = el.textContent.match(/\d+(\.\d+)?/g);
+                if (match) {
+                    let original = match[0];
+                    let formatted = formatNumberWithCommas(parseFloat(original));
+                    el.innerHTML = el.innerHTML.replace(original, formatted);
+                }
+            }
+        });
+    }
+
+    // Run formatting after content is loaded
+    window.addEventListener('DOMContentLoaded', applyFormattedAmounts);
+
+
+        
+
 
         document.querySelectorAll('.logout-btn').forEach(button => {
             button.addEventListener('click', function (event) {
@@ -419,6 +481,7 @@
             }
         });
 
+        document.getElementById("menu-btn").addEventListener("click", toggleMenu() );
         document.getElementById("homebtn").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/home'; // Redirect
@@ -471,10 +534,7 @@
             window.location.href = '/team'; // Redirect
         });
 
-        document.getElementById("aboutbtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
-        });
+       
         document.getElementById("profilebtn333").addEventListener("click", function (e) {
             e.preventDefault(); // Prevent default navigation
             window.location.href = '/profile'; // Redirect

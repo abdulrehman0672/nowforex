@@ -56,8 +56,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
-                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
-                        onclick="toggleMenu()">
+                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16m-7 6h7" />
@@ -160,20 +159,20 @@
                     <% if (!ticket.isCustomAmount) { %>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Value:</span>
-                            <span class="font-semibold text-blue-800"><%= ticket.amount %> <%= ticket.currency || 'PKR' %></span>
+                            <span class="font-semibold text-blue-800 format-amount"><%= ticket.amount %> <%= ticket.currency || 'PKR' %></span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Profit:</span>
-                            <span class="font-semibold text-green-600"><%= Math.round(ticket.profit) %> <%= ticket.currency || 'PKR' %></span>
+                            <span class="font-semibold text-green-600 format-amount"><%= Math.round(ticket.profit) %> <%= ticket.currency || 'PKR' %></span>
                         </div>
                     <% } else { %>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Min Investment:</span>
-                            <span class="font-semibold text-blue-800"><%= ticket.minCustomAmount %>+ <%= ticket.currency || 'PKR' %></span>
+                            <span class="font-semibold text-blue-800 format-amount"><%= ticket.minCustomAmount %>+ <%= ticket.currency || 'PKR' %></span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Profit Rate:</span>
-                            <span class="font-semibold text-green-600"><%= ticket.profitPercentage %>% Daily</span>
+                            <span class="font-semibold text-green-600 format-amount"><%= ticket.profitPercentage %>% Daily</span>
                         </div>
                     <% } %>
                     <div class="flex justify-between">
@@ -395,6 +394,40 @@
                 window.location.href = `/assets?ticket=${ticketId}`;
             });
         });
+
+
+      
+           function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Format all amounts with commas
+            document.querySelectorAll('.format-amount').forEach(element => {
+                const amount = parseFloat(element.textContent.trim());
+                if (!isNaN(amount)) {
+                    element.textContent = formatNumberWithCommas(amount);
+                }
+            });
+
+            // Also format amounts in the investments table
+            document.querySelectorAll('tbody td:nth-child(2), tbody td:nth-child(3)').forEach(element => {
+                const text = element.textContent.trim();
+                const amountMatch = text.match(/(\d+)/);
+                if (amountMatch) {
+                    const amount = parseFloat(amountMatch[1]);
+                    if (!isNaN(amount)) {
+                        element.textContent = text.replace(amountMatch[1], formatNumberWithCommas(amount));
+                    }
+                }
+            });
+
+            const investmentForm = document.querySelector('form[action="/invest"]');
+            // ... rest of your existing DOMContentLoaded code ...
+        });
+        // ... rest of your existing JavaScript code ...
+
+        
     </script>
 </body>
 

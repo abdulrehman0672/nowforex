@@ -7,12 +7,54 @@
     <title>Withdraw</title>
     <link rel="stylesheet" href="/witdraw.css">
     <link rel="shortcut icon" href="/logo.svg" type="image/x-icon">
+    <style>
+         .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transform: translateX(150%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background-color: #48BB78;
+            color: white;
+        }
+        
+        .notification.error {
+            background-color: #F56565;
+            color: white;
+        }
+        
+        .notification-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .close-notification {
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
 
 </head>
 
 <body class="bg-gray-100">
     <!-- Your header/navigation -->
-
+<div id="notification" class="notification">
+        <span id="notification-message"></span>
+    </div>
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="max-w-2xl mx-auto">
             <div class="bg-white rounded-2xl shadow-lg p-6">
@@ -20,7 +62,7 @@
 
                 <div class="mb-6 p-4 bg-blue-50 rounded-lg">
                     <p class="text-blue-800 font-semibold">Current Earn Balance: <span id="current-balance">
-                            <%=user.earn%>
+                              <%= Math.floor(user.earn) %>
                         </span> PKR</p>
                 </div>
 
@@ -101,102 +143,105 @@
         </a>
     </nav>
     <script>
-        document.getElementById("teambtn2").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
-        });
+      
+    // Navigation button handlers
+    document.getElementById("teambtn2").addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = '/team';
+    });
 
-        document.getElementById("assetsbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
-        });
+    document.getElementById("assetsbtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = '/assets';
+    });
 
-        document.getElementById("profilebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
-        });
+    document.getElementById("profilebtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = '/profile';
+    });
 
-        document.getElementById("homebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
+    document.getElementById("homebtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = '/home';
+    });
 
+    // Show notification
+    function showNotification(message, type) {
+        const notification = document.getElementById('notification');
+        const messageElement = document.getElementById('notification-message');
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Form submission
-            document.getElementById('withdrawal-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
+        messageElement.textContent = message;
+        notification.className = 'notification ' + type;
 
-                const form = e.target;
-                const formData = {
-                    amount: document.getElementById('withdrawal-amount').value,
-                    method: document.getElementById('withdrawal-method').value,
-                    accountDetails: document.getElementById('account-details').value
-                };
+        // Show notification with animation
+        notification.classList.remove('hidden');
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
 
-                // Validate minimum amount
-                if (parseFloat(formData.amount) < 500) {
-                    showMessage('Minimum withdrawal amount is 500 PKR', 'error');
-                    return;
-                }
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            hideNotification();
+        }, 5000);
+    }
 
-                try {
-                    const response = await fetch('/api/withdrawals/withdraw', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
-                        },
-                        body: JSON.stringify(formData)
-                    });
+    // Hide notification
+    function hideNotification() {
+        const notification = document.getElementById('notification');
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 300);
+    }
 
-                    const data = await response.json();
+    // Form submission handler
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('withdrawal-form');
 
-                    if (response.ok) {
-                        showMessage('Withdrawal request submitted for admin approval!', 'success');
-                        form.reset();
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-                        // Update balance display if available in response
-                        if (data.updatedBalance) {
-                            document.getElementById('current-balance').textContent = data.updatedBalance;
-                        }
-                    } else {
-                        showMessage(data.message || 'Withdrawal request failed', 'error');
-                    }
-                } catch (error) {
-                    console.error('Withdrawal error:', error);
-                    showMessage('An error occurred while submitting your withdrawal request', 'error');
-                }
-            });
+            const formData = {
+                amount: document.getElementById('withdrawal-amount').value,
+                method: document.getElementById('withdrawal-method').value,
+                accountDetails: document.getElementById('account-details').value
+            };
 
-            // Function to show messages
-            function showMessage(message, type) {
-                const messageContainer = document.getElementById('message-container');
-                const messageContent = document.getElementById('message-content');
-
-                // Set message and style based on type
-                messageContent.textContent = message;
-                messageContent.className = 'p-4 rounded-lg'; // Reset classes
-
-                if (type === 'success') {
-                    messageContent.classList.add('bg-green-100', 'text-green-800');
-                } else if (type === 'error') {
-                    messageContent.classList.add('bg-red-100', 'text-red-800');
-                } else {
-                    messageContent.classList.add('bg-blue-100', 'text-blue-800');
-                }
-
-                // Show the container
-                messageContainer.classList.remove('hidden');
-
-                // Hide after 5 seconds
-                setTimeout(() => {
-                    messageContainer.classList.add('hidden');
-                }, 5000);
+            if (parseFloat(formData.amount) < 500) {
+                showNotification('Minimum withdrawal amount is 500 PKR', 'error');
+                return;
             }
 
+            try {
+                const response = await fetch('/api/withdrawals/withdraw', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(formData)
+                });
 
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNotification('Withdrawal request sent for approval!', 'success');
+                    form.reset();
+
+                    if (data.updatedBalance) {
+                        document.getElementById('current-balance').textContent = data.updatedBalance;
+                    }
+                } else {
+                    showNotification(data.message || 'Withdrawal request failed', 'error');
+                }
+            } catch (error) {
+                console.error('Withdrawal error:', error);
+                showNotification('An error occurred while submitting your withdrawal request', 'error');
+            }
         });
+    });
+
+
     </script>
 
 </body>

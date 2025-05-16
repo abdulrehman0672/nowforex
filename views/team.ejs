@@ -91,20 +91,20 @@
         <!-- Referral Usage Statistics -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Referrals</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-2 format-amount">Total Referrals</h3>
                 <p class="text-3xl font-bold text-blue-600">
                     <%= user.totalReferrals %>
                 </p>
             </div>
             <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Valid Members</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-2 format-amount">Valid Members</h3>
                 <p class="text-3xl font-bold text-green-600">
                     <%= user.activeReferrals %>
                 </p>
             </div>
             <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Referral Earnings</h3>
-                <p class="text-3xl font-bold text-yellow-600">PKR<%= user.referralEarnings.toFixed(2) %>
+                <h3 id="referralbtn" class="text-lg font-semibold text-gray-700 mb-2">Referral Earnings</h3>
+                <p class="text-3xl font-bold text-yellow-600 format-amount">PKR <%= user.referralEarnings.toFixed(2) %>
                 </p>
             </div>
         </div>
@@ -232,6 +232,39 @@
             window.location.href = '/assets'; // Redirect
         });
 
+           function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Format all amounts with commas
+            document.querySelectorAll('.format-amount').forEach(element => {
+                const amount = parseFloat(element.textContent.trim());
+                if (!isNaN(amount)) {
+                    element.textContent = formatNumberWithCommas(amount);
+                }
+            });
+
+            // Also format amounts in the investments table
+            document.querySelectorAll('tbody td:nth-child(2), tbody td:nth-child(3)').forEach(element => {
+                const text = element.textContent.trim();
+                const amountMatch = text.match(/(\d+)/);
+                if (amountMatch) {
+                    const amount = parseFloat(amountMatch[1]);
+                    if (!isNaN(amount)) {
+                        element.textContent = text.replace(amountMatch[1], formatNumberWithCommas(amount));
+                    }
+                }
+            });
+
+            const investmentForm = document.querySelector('form[action="/invest"]');
+            // ... rest of your existing DOMContentLoaded code ...
+        });
+        // ... rest of your existing JavaScript code ...
+
+        
+
+
         // Reuse existing JavaScript functionality from home page
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("menu-btn").addEventListener("click", function () {
@@ -240,7 +273,8 @@
                 mobileMenu.classList.toggle('hidden');
             });
         });
-
+         document.getElementById("referralbtn").addEventListener("click",copyReferralCode() 
+        );
         // Copy Referral Code Function
         // Copy Referral Code Function
         function copyReferralCode() {
