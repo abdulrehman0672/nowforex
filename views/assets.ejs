@@ -93,296 +93,286 @@
 
         /* Add this to your existing styles */
         /* Add this to your existing styles */
-     /* Floating Message Styles - Top Right */
-.floating-message {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 12px 24px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    animation: slideInRight 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 300px;
-}
+        /* Floating Message Styles - Top Right */
+        .floating-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 300px;
+        }
 
-.floating-message.success {
-    background-color: #10B981; /* Green */
-    color: white;
-}
+        .floating-message.success {
+            background-color: #10B981;
+            /* Green */
+            color: white;
+        }
 
-.floating-message.error {
-    background-color: #EF4444; /* Red */
-    color: white;
-}
+        .floating-message.error {
+            background-color: #EF4444;
+            /* Red */
+            color: white;
+        }
 
-@keyframes slideInRight {
-    from {
-        right: -100%;
-        opacity: 0;
-    }
-    to {
-        right: 20px;
-        opacity: 1;
-    }
-}
+        @keyframes slideInRight {
+            from {
+                right: -100%;
+                opacity: 0;
+            }
 
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        visibility: hidden;
-    }
-}
+            to {
+                right: 20px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
     </style>
 </head>
 
-<body class="pt-16 pb-20 bg-gray-50">
-    <!-- Consistent Header -->
-    <header class="fixed w-full top-0 z-50 bg-white shadow-md">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo matching home page -->
-                <div class="flex-shrink-0">
-                    <a href="#" class="flex items-center">
-                        <img id="imagebtn" class="h-16 w-auto" src="logo.svg" alt="Logo" width="64" height="64">
-                        <span class="ml-2 text-xl font-bold text-gray-800">FOURx</span>
-                    </a>
+<body>
+
+    <body class="pt-16 pb-20 bg-gray-50">
+        <!-- Consistent Header -->
+        <header class="fixed w-full top-0 z-50 bg-white shadow-md">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="flex items-center">
+                            <img id="imagebtn" class="h-16 w-auto" src="logo.svg" alt="Logo" width="64" height="64">
+                            <span class="ml-2 text-xl font-bold text-gray-800">FOURx</span>
+                        </a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#" id="homebtn33"
+                            class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                        <a href="#" id="assetsbtn33"
+                            class="text-gray-600 hover:text-blue-600 transition duration-300">assets</a>
+                        <a href="#" id="aboutbtn33"
+                            class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    </div>
+                    <div class="md:hidden">
+                        <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
+                            aria-label="Toggle menu">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-
-                <!-- Desktop Navigation matching home page -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" id="homebtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                    <a href="#" id="assetsbtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">assets</a>
-                    <a href="#" id="aboutbtn33"
-                        class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+                    <a href="" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+                    <a href="" id="assetsbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Assets</a>
+                    <a href="" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
                 </div>
+            </nav>
+        </header>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
-                        aria-label="Toggle menu">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu matching home page -->
-            <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-                <a href="" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
-                <a href="" id="assetsbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Assets</a>
-                <a href="" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 items-center">
-
-
-                </a>
-            </div>
-        </nav>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <% if (ticket) { %>
-                <!-- Project Picture and Details -->
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <img src="<%= ticket.image %>" alt="<%= ticket.name %>"
-                        class="w-full h-48 object-cover rounded-lg mb-6" loading="lazy">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">
-                        <%= ticket.name %>
-                    </h2>
-                    <div class="space-y-4">
-                        <% if (!ticket.isCustomAmount) { %>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Ticket Value</span>
-                                <span class="text-blue-600 font-semibold format-amount">
-                                    <%= ticket.amount %>
-                                </span> PKR
-
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Profit</span>
-                                <span class="text-blue-600 font-semibold">
-                                    <%= Math.round(ticket.profit) %>
-                                        <%= ticket.currency || 'PKR' %>
-                                </span>
-                            </div>
-                            <% } else { %>
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <% if (ticket) { %>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <img src="<%= ticket.image %>" alt="<%= ticket.name %>"
+                            class="w-full h-48 object-cover rounded-lg mb-6" loading="lazy">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                            <%= ticket.name %>
+                        </h2>
+                        <div class="space-y-4">
+                            <% if (!ticket.isCustomAmount) { %>
                                 <div class="flex justify-between">
-                                    <span class="text-gray-600">Minimum Investment</span>
-                                    <span class="text-blue-600 font-semibold">
-                                        <%= ticket.minCustomAmount %>+ <%= ticket.currency || 'PKR' %>
+                                    <span class="text-gray-600">Ticket Value</span>
+                                    <span class="text-blue-600 font-semibold format-amount">
+                                        <%= Math.floor(ticket.amount) %> PKR
                                     </span>
                                 </div>
+
                                 <div class="flex justify-between">
-                                    <span class="text-gray-600">Profit Percentage</span>
+                                    <span class="text-gray-600">Profit</span>
                                     <span class="text-blue-600 font-semibold">
-                                        <%= ticket.profitPercentage %>% Daily
+                                        <%= Math.floor(ticket.profit) %>
+                                            <%= ticket.currency || 'PKR' %>
                                     </span>
                                 </div>
-                                <% } %>
+                                <% } else { %>
                                     <div class="flex justify-between">
-                                        <span class="text-gray-600">Validity</span>
-                                        <span class="text-gray-800 font-semibold">
-                                            <%= ticket.validityHours %> Hours
+                                        <span class="text-gray-600">Minimum Investment</span>
+                                        <span class="text-blue-600 font-semibold">
+                                            <%= Math.floor(ticket.minCustomAmount) %>+ <%= ticket.currency || 'PKR' %>
                                         </span>
                                     </div>
-                    </div>
-                </div>
-
-                <!-- Investment Form -->
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Invest in <%= ticket.name %>
-                    </h2>
-                    <form class="space-y-6" action="/invest" method="POST">
-                        <input type="hidden" name="ticketId" value="<%=ticket.id %>">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Investment Amount (PKR)</label>
-                            <input type="number" name="amount"
-                                class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 format-amount"
-                                placeholder="Enter amount"
-                                min="<%= ticket.isCustomAmount ? ticket.minCustomAmount : ticket.amount %>" step="100"
-                                value="<%= ticket.isCustomAmount ? ticket.minCustomAmount : ticket.amount %>" required>
-                        </div>
-                        <button type="submit"
-                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                            Invest Now
-                        </button>
-                    </form>
-                </div>
-                <% } else if (error) { %>
-                    <div class="col-span-2 bg-white rounded-2xl shadow-lg p-6 text-center">
-                        <p class="text-red-500">
-                            <%= error %>
-                        </p>
-                    </div>
-                    <% } else { %>
-                        <!-- Default content when no ticket is selected -->
-                        <div class="col-span-2 bg-white rounded-2xl shadow-lg p-6 text-center">
-                            <p>Please select a ticket from the home page to view details</p>
-                        </div>
-                        <% } %>
-        </div>
-
-        <!-- User Invested Projects -->
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Your Investments</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full">
-                    <thead>
-                        <tr class="border-b">
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Project</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Amount Invested</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Current Value</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Profit</th>
-                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Action</th>
-                        </tr>
-                    </thead>
-                    <!-- Replace the example rows in the table with this: -->
-                    <tbody>
-                        <% if (investments && investments.length> 0) { %>
-                            <% investments.forEach(investment=> { %>
-                                <% if (investment.ticketId) { %>
-                                    <tr class="border-b hover:bg-gray-50 transition-colors">
-                                        <td class="px-4 py-3 flex items-center">
-                                            <img src="<%= investment.ticketId.image %>"
-                                                alt="<%= investment.ticketId.name %>" class="w-8 h-8 rounded-full mr-3"
-                                                loading="lazy">
-                                            <span class="text-gray-700">
-                                                <%= investment.ticketId.name %>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Profit Percentage</span>
+                                        <span class="text-blue-600 font-semibold">
+                                            <%= ticket.profitPercentage %>% Daily
+                                        </span>
+                                    </div>
+                                    <% } %>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Validity</span>
+                                            <span class="text-gray-800 font-semibold">
+                                                <%= ticket.validityHours %> Hours
                                             </span>
-                                        </td>
-                                        <td class="px-4 py-3 text-gray-600 format-amount">
-                                            <%= investment.amount %> PKR
-                                        </td>
-                                        <td
-                                            class="px-4 py-3 <%= investment.status === 'completed' ? 'text-green-600' : 'text-gray-600' %> font-medium format-amount">
-                                            <%= investment.status==='completed' ? (investment.amount +
-                                                investment.actualProfit) : investment.amount %> PKR
-                                        </td>
-                                        <td class="px-4 py-3 text-blue-600 font-medium format-amount">
-                                            <% if (investment.status==='completed' ) { %>
-                                                +<%= ((investment.actualProfit / investment.amount) * 100).toFixed(2) %>
-                                                    %
+                                        </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Invest in <%= ticket.name %>
+                        </h2>
+                        <form class="space-y-6" action="/invest" method="POST">
+                            <input type="hidden" name="ticketId" value="<%= ticket.id %>">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Investment Amount
+                                    (PKR)</label>
+                                <input type="number" name="amount"
+                                    class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 format-amount"
+                                    placeholder="Enter amount"
+                                    min="<%= ticket.isCustomAmount ? Math.floor(ticket.minCustomAmount) : Math.floor(ticket.amount) %>"
+                                    step="100"
+                                    value="<%= ticket.isCustomAmount ? Math.floor(ticket.minCustomAmount) : Math.floor(ticket.amount) %>"
+                                    required>
+                            </div>
+                            <button type="submit"
+                                class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                Invest Now
+                            </button>
+                        </form>
+                    </div>
+                    <% } else if (error) { %>
+                        <div class="col-span-2 bg-white rounded-2xl shadow-lg p-6 text-center">
+                            <p class="text-red-500">
+                                <%= error %>
+                            </p>
+                        </div>
+                        <% } else { %>
+                            <div class="col-span-2 bg-white rounded-2xl shadow-lg p-6 text-center">
+                                <p>Please select a ticket from the home page to view details</p>
+                            </div>
+                            <% } %>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Your Investments</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Project</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Amount Invested</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Current Value</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Profit</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (investments && investments.length> 0) { %>
+                                <% investments.forEach(investment=> { %>
+                                    <% if (investment.ticketId) { %>
+                                        <tr class="border-b hover:bg-gray-50 transition-colors">
+                                            <td class="px-4 py-3 flex items-center">
+                                                <img src="<%= investment.ticketId.image %>"
+                                                    alt="<%= investment.ticketId.name %>"
+                                                    class="w-8 h-8 rounded-full mr-3" loading="lazy">
+                                                <span class="text-gray-700">
+                                                    <%= investment.ticketId.name %>
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-3 text-gray-600 format-amount">
+                                                <%= Math.floor(investment.amount) %> PKR
+                                            </td>
+                                            <td
+                                                class="px-4 py-3 <%= investment.status === 'completed' ? 'text-green-600' : 'text-gray-600' %> font-medium format-amount">
+                                                <%= investment.status==='completed' ? Math.floor(investment.amount +
+                                                    investment.actualProfit) : Math.floor(investment.amount) %> PKR
+                                            </td>
+                                            <td class="px-4 py-3 text-blue-600 font-medium format-amount">
+                                                <% if (investment.status==='completed' ) { %>
+                                                    +<%= ((investment.actualProfit / investment.amount) *
+                                                        100).toFixed(2) %> %
+                                                        <% } else { %>
+                                                            Pending
+                                                            <% } %>
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <% if (investment.status==='active' ) { %>
+                                                    <span class="text-gray-500">In progress</span>
                                                     <% } else { %>
-                                                        Pending
+                                                        <span class="text-green-500">Completed</span>
                                                         <% } %>
-                                        </td>
-                                        <td class="px-4 py-3">
-                                            <% if (investment.status==='active' ) { %>
-                                                <span class="text-gray-500">In progress</span>
-                                                <% } else { %>
-                                                    <span class="text-green-500">Completed</span>
-                                                    <% } %>
-                                        </td>
-                                    </tr>
-                                    <% } else { %>
-                                        <!-- Optional: Handle investments with missing ticketId -->
-                                        <tr class="border-b bg-yellow-50">
-                                            <td colspan="5" class="px-4 py-3 text-sm text-yellow-800">
-                                                Investment data is missing or invalid (ticket not found).
                                             </td>
                                         </tr>
-                                        <% } %>
-                                            <% }); %>
-                                                <% } else { %>
-                                                    <tr>
-                                                        <td colspan="5" class="px-4 py-3 text-center text-gray-500">No
-                                                            investments yet</td>
-                                                    </tr>
-                                                    <% } %>
-                    </tbody>
-
-                </table>
+                                        <% } else { %>
+                                            <tr class="border-b bg-yellow-50">
+                                                <td colspan="5" class="px-4 py-3 text-sm text-yellow-800">
+                                                    Investment data is missing or invalid (ticket not found).
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                                <% }); %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="5" class="px-4 py-3 text-center text-gray-500">
+                                                                No investments yet</td>
+                                                        </tr>
+                                                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <!-- Footer Navigation with SVG icons -->
-    <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-around py-3 z-50">
-        <a href="" id="homebtn" class="flex flex-col items-center text-blue-700 px-2">
-            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span id="homebtn33" class="text-xs md:text-sm">Home</span>
-        </a>
-        <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
-            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            <span class="text-xs md:text-sm">Assets</span>
-        </a>
+        <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-around py-3 z-50">
+            <a href="" id="homebtn" class="flex flex-col items-center text-blue-700 px-2">
+                <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span id="homebtn33" class="text-xs md:text-sm">Home</span>
+            </a>
+            <a href="#" id="assetsbtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+                <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <span class="text-xs md:text-sm">Assets</span>
+            </a>
+            <a href="#" id="teambtn2" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
+                <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <span class="text-xs md:text-sm">Team</span>
+            </a>
+            <a href="#" id="profilebtn" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2 group"
+                aria-label="User profile">
+                <svg class="h-6 w-6 text-blue-700 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="text-xs md:text-sm group-hover:text-blue-600">Profile</span>
+            </a>
+        </nav>
+    </body>
 
-        <a href="#" id="teambtn2" class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2">
-            <svg class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            <span class="text-xs md:text-sm">Team</span>
-        </a>
-        <a href="#" id="profilebtn"
-            class="flex flex-col items-center text-gray-500 hover:text-blue-600 px-2 transition-colors duration-200 group"
-            aria-label="User profile">
-            <svg class="h-6 w-6 text-blue-700 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            <span class="text-xs md:text-sm group-hover:text-blue-600">Profile</span>
-        </a>
-    </nav>
+</body>
 
-    <script>
+<script>
 
-     
+
     // Function to format numbers with commas
     function formatNumberWithCommas(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -399,9 +389,9 @@
         const messageDiv = document.createElement('div');
         messageDiv.id = 'floating-message';
         messageDiv.className = `floating-message ${isSuccess ? 'success' : 'error'}`;
-        
+
         // Success icon or error icon
-        const iconPath = isSuccess 
+        const iconPath = isSuccess
             ? 'M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
             : 'M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z';
 
@@ -438,12 +428,12 @@
 
         // Also format amounts in input fields
         document.querySelectorAll('input.format-amount').forEach(input => {
-            input.addEventListener('blur', function() {
+            input.addEventListener('blur', function () {
                 const value = parseFloat(this.value.replace(/,/g, '')) || 0;
                 this.value = formatNumberWithCommas(value);
             });
-            
-            input.addEventListener('focus', function() {
+
+            input.addEventListener('focus', function () {
                 this.value = this.value.replace(/,/g, '');
             });
         });
@@ -608,7 +598,7 @@
         }
     });
 
-    </script>
+</script>
 </body>
 
 </html>

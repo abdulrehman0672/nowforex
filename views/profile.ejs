@@ -67,8 +67,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
-                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none"
-                        >
+                    <button id="menu-btn" class="text-gray-600 hover:text-blue-600 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16m-7 6h7" />
@@ -195,111 +194,113 @@
                 </div>
 
                 <!-- Total Withdrawn -->
-<div class="data-card bg-white p-4 rounded-xl shadow-sm">
-    <div class="flex items-center justify-between">
-        <div>
-            <p class="text-gray-500 text-sm">Total Withdraw</p>
-            <p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %></p>
-        </div>
-        <div class="bg-red-100 p-2 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" 
-                 viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                      d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-            </svg>
-        </div>
-    </div>
-    <p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %></p>
-</div>
-
-            <!-- Recent Transactions -->
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-                <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                    <h3 class="font-semibold text-gray-800">Recent Transactions</h3>
-                    <button id="historybtn333" class="text-blue-600 text-sm font-medium">View All</button>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <% user.depositRequests.slice(0, 3).forEach(transaction=> { %>
-                        <div class="p-4 flex items-center hover:bg-gray-50">
-                            <div class="bg-green-100 p-2 rounded-lg mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-medium text-sm">Deposit <%= transaction.status %>
-                                </p>
-                                <p class="text-gray-500 text-xs">
-                                    <%= new Date(transaction.createdAt).toLocaleString() %>
-                                </p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-semibold text-green-600 text-sm">+PKR <%= Math.floor(transaction.amount)
-                                        %>
-                                </p>
-                                <p class="text-gray-400 text-xs">
-                                    <%= transaction.method %>
-                                </p>
-                            </div>
+                <div class="data-card bg-white p-4 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">Total Withdraw</p>
+                            <p class="text-xl font-bold text-gray-800">PKR <%= Math.floor(user.totalWithdrawals) %>
+                            </p>
                         </div>
-                        <% }) %>
-
-                            <% user.withdrawalRequests.slice(0, 3).forEach(transaction=> { %>
-                                <div class="p-4 flex items-center hover:bg-gray-50">
-                                    <div class="bg-red-100 p-2 rounded-lg mr-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="font-medium text-sm">Withdrawal <%= transaction.status %>
-                                        </p>
-                                        <p class="text-gray-500 text-xs">
-                                            <%= new Date(transaction.createdAt).toLocaleString() %>
-                                        </p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-semibold text-red-600 text-sm">-PKR <%=
-                                                transaction.amount.toFixed(2) %>
-                                        </p>
-                                        <p class="text-gray-400 text-xs">
-                                            <%= transaction.method %>
-                                        </p>
-                                    </div>
-                                </div>
-                                <% }) %>
-                </div>
-            </div>
-            <!-- APK Download Section -->
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-                <div class="p-4 border-b border-gray-100">
-                    <h3 class="font-semibold text-gray-800">Download Our Mobile App</h3>
-                </div>
-                <div class="p-4 flex flex-col md:flex-row items-center justify-between">
-                    <div class="flex items-center mb-4 md:mb-0">
-                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none"
+                        <div class="bg-red-100 p-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                             </svg>
                         </div>
-                        <div>
-                            <p class="font-medium text-gray-800">FOURx Mobile Application</p>
-                            <p class="text-sm text-gray-500">Get the best experience on your mobile device</p>
-                        </div>
                     </div>
-                    <a href="FOURx.apk" download
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
-                        Download APK
-                    </a>
+                    <p class="text-xs text-gray-500">Available: PKR <%= Math.floor(user.balance + user.earn) %>
+                    </p>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="font-semibold text-gray-800">Recent Transactions</h3>
+                        <button id="historybtn333" class="text-blue-600 text-sm font-medium">View All</button>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        <% user.depositRequests.slice(0, 3).forEach(transaction=> { %>
+                            <div class="p-4 flex items-center hover:bg-gray-50">
+                                <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">Deposit <%= transaction.status %>
+                                    </p>
+                                    <p class="text-gray-500 text-xs">
+                                        <%= new Date(transaction.createdAt).toLocaleString() %>
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-green-600 text-sm">+PKR <%=
+                                            Math.floor(transaction.amount) %>
+                                    </p>
+                                    <p class="text-gray-400 text-xs">
+                                        <%= transaction.method %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }) %>
+
+                                <% user.withdrawalRequests.slice(0, 3).forEach(transaction=> { %>
+                                    <div class="p-4 flex items-center hover:bg-gray-50">
+                                        <div class="bg-red-100 p-2 rounded-lg mr-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-sm">Withdrawal <%= transaction.status %>
+                                            </p>
+                                            <p class="text-gray-500 text-xs">
+                                                <%= new Date(transaction.createdAt).toLocaleString() %>
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-semibold text-red-600 text-sm">-PKR <%=
+                                                    transaction.amount.toFixed(2) %>
+                                            </p>
+                                            <p class="text-gray-400 text-xs">
+                                                <%= transaction.method %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                    </div>
+                </div>
+                <!-- APK Download Section -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
+                    <div class="p-4 border-b border-gray-100">
+                        <h3 class="font-semibold text-gray-800">Download Our Mobile App</h3>
+                    </div>
+                    <div class="p-4 flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">FOURx Mobile Application</p>
+                                <p class="text-sm text-gray-500">Get the best experience on your mobile device</p>
+                            </div>
+                        </div>
+                        <a href="FOURx.apk" download
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
+                            Download APK
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
     </main>
 
     <!-- Footer Navigation with SVG icons -->
@@ -339,6 +340,7 @@
 
     <script>
 
+      
     // Format number with commas (e.g., 1234567 => 1,234,567)
     function formatNumberWithCommas(amount) {
         return amount.toLocaleString('en-PK'); // or use 'en-US' if preferred
@@ -361,184 +363,156 @@
                     let formatted = formatNumberWithCommas(parseFloat(original));
                     el.innerHTML = el.innerHTML.replace(original, formatted);
                 }
-            }
-        });
+            }});
 
-        // Apply formatting to transaction values
-        document.querySelectorAll('.text-green-600.text-sm, .text-red-600.text-sm').forEach(el => {
-            const match = el.textContent.match(/-?\d+(\.\d+)?/g);
-            if (match) {
-                let original = match[0];
-                let formatted = formatNumberWithCommas(parseFloat(original));
-                el.innerHTML = el.innerHTML.replace(original, formatted);
-            }
-        });
+            // Apply formatting to transaction values
+            document.querySelectorAll('.text-green-600.text-sm, .text-red-600.text-sm').forEach(el => {
+                const match = el.textContent.match(/-?\d+(\.\d+)?/g);
+                if (match) {
+                    let original = match[0];
+                    let formatted = formatNumberWithCommas(parseFloat(original));
+                    el.innerHTML = el.innerHTML.replace(original, formatted);
+                }
+            });
 
-        // Format other cards (e.g., total deposit/withdraw)
-        document.querySelectorAll('.data-card p.text-xl').forEach(el => {
-            const match = el.textContent.match(/\d+(\.\d+)?/g);
-            if (match) {
-                let original = match[0];
-                let formatted = formatNumberWithCommas(parseFloat(original));
-                el.innerHTML = el.innerHTML.replace(original, formatted);
-            }
-        });
-
-        // Format "Available" amount
-        document.querySelectorAll('p.text-xs.text-gray-500').forEach(el => {
-            if (el.textContent.includes('Available')) {
+            // Format other cards (e.g., total deposit/withdraw)
+            document.querySelectorAll('.data-card p.text-xl').forEach(el => {
                 const match = el.textContent.match(/\d+(\.\d+)?/g);
                 if (match) {
                     let original = match[0];
                     let formatted = formatNumberWithCommas(parseFloat(original));
                     el.innerHTML = el.innerHTML.replace(original, formatted);
                 }
-            }
-        });
+            });
+
+            // Format "Available" amount
+            document.querySelectorAll('p.text-xs.text-gray-500').forEach(el => {
+                if (el.textContent.includes('Available')) {
+                    const match = el.textContent.match(/\d+(\.\d+)?/g);
+                    if (match) {
+                        let original = match[0];
+                        let formatted = formatNumberWithCommas(parseFloat(original));
+                        el.innerHTML = el.innerHTML.replace(original, formatted);
+                    }
+                }
+            });
+        }
+
+    // Mobile Menu Toggle
+    function toggleMenu(e) {
+        e.preventDefault();
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuBtn = document.getElementById('menu-btn');
+        mobileMenu.classList.toggle('hidden');
+        menuBtn.classList.toggle('text-blue-600');
     }
 
-    // Run formatting after content is loaded
-    window.addEventListener('DOMContentLoaded', applyFormattedAmounts);
+    // Close mobile menu when clicking outside
+    function handleClickOutside(event) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuBtn = document.getElementById('menu-btn');
 
-
-        
-
-
-        document.querySelectorAll('.logout-btn').forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
-                logout();
-            });
-        });
-
-        async function logout() {
-            try {
-                const response = await fetch('/api/auth/logout', {  // Updated endpoint
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Logout failed');
-                }
-
-                window.location.href = '/login';
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert('Could not log out. Please try again.');
-            }
+        if (mobileMenu && menuBtn && !mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+            menuBtn.classList.remove('text-blue-600');
         }
+    }
 
-        // Mobile Menu Toggle
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuBtn = document.getElementById('menu-btn');
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.classList.toggle('text-blue-600');
-        }
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function (event) {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuBtn = document.getElementById('menu-btn');
-
-            if (!mobileMenu.contains(event.target) && !menuBtn.contains(event.target)) {
-                mobileMenu.classList.add('hidden');
-                menuBtn.classList.remove('text-blue-600');
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuBtn = document.getElementById('menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (menuBtn && mobileMenu) {
-                menuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                    menuBtn.classList.toggle('text-blue-600');
-                });
-            }
-
-            // Your existing nav active state and redirection code here...
-        });
-
-        // Balance Toggle Functionality
+    // Balance Toggle Functionality
+    function setupBalanceToggle() {
         const toggleBalance = document.getElementById('toggleBalance');
         const balanceAmount = document.getElementById('balanceAmount');
         const eyeIcon = document.getElementById('eyeIcon');
         const actualBalance = '<%= user.balance %> PKR'; // Store the actual balance
 
-        toggleBalance.addEventListener('click', function () {
-            if (balanceAmount.textContent === actualBalance) {
-                balanceAmount.textContent = '•••••••';
-                eyeIcon.innerHTML = '<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
-            } else {
-                balanceAmount.textContent = actualBalance;
-                eyeIcon.innerHTML = '<path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />';
+        if (toggleBalance && balanceAmount && eyeIcon) {
+            toggleBalance.addEventListener('click', function () {
+                if (balanceAmount.textContent === actualBalance) {
+                    balanceAmount.textContent = '•••••••';
+                    eyeIcon.innerHTML = '<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
+                } else {
+                    balanceAmount.textContent = actualBalance;
+                    eyeIcon.innerHTML = '<path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />';
+                }
+            });
+        }
+    }
+
+    // Navigation functions
+    function setupNavigation() {
+        // Menu button
+        const menuBtn = document.getElementById('menu-btn');
+        if (menuBtn) {
+            menuBtn.addEventListener('click', toggleMenu);
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', handleClickOutside);
+
+        // Logout buttons
+        document.querySelectorAll('.logout-btn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                logout();
+            });
+        });
+
+        // Navigation links
+        const navLinks = {
+            'homebtn': '/home',
+            'historybtn333': '/history',
+            'passwordbtn': '/forget-password',
+            'assetsbtn': '/assets',
+            'aboutbtn': '/about',
+            'homebtn33': '/home',
+            'imagebtn': '/home',
+            'assetsbtn33': '/assets',
+            'aboutbtn33': '/about',
+            'homebtn333': '/home',
+            'assetsbtn333': '/assets',
+            'teambtn333': '/team',
+            'profilebtn333': '/profile'
+        };
+
+        Object.entries(navLinks).forEach(([id, url]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = url;
+                });
             }
         });
+    }
 
-        document.getElementById("menu-btn").addEventListener("click", toggleMenu() );
-        document.getElementById("homebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
+    async function logout() {
+        try {
+            const response = await fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-        document.getElementById("historybtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/history'; // Redirect
-        });
-        document.getElementById("passwordbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/forget-password'; // Redirect
-        });
-        document.getElementById("assetsbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
-        });
+            if (!response.ok) {
+                throw new Error('Logout failed');
+            }
 
-        document.getElementById("aboutbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
-        });
-        document.getElementById("homebtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("imagebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("assetsbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
-        });
+            window.location.href = '/login';
+        } catch (error) {
+            console.error('Logout error:', error);
+            alert('Could not log out. Please try again.');
+        }
+    }
 
-        document.getElementById("aboutbtn33").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
-        });
-        document.getElementById("homebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-        document.getElementById("assetsbtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
-        });
-        document.getElementById("teambtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
-        });
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        applyFormattedAmounts();
+        setupBalanceToggle();
+        setupNavigation();
+    });
 
-       
-        document.getElementById("profilebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
-        });
     </script>
 </body>
 
