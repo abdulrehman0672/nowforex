@@ -265,73 +265,107 @@
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Your Investments</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead>
-                            <tr class="border-b">
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Project</th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Amount Invested</th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Current Value</th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Profit</th>
-                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Action</th>
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Your Investments</h2>
+        <div class="text-sm text-gray-500">Total: <span class="font-medium text-gray-700"><%= investments ? investments.length : 0 %> projects</span></div>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invested</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Value</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <% if (investments && investments.length> 0) { %>
+                    <% investments.forEach(investment=> { %>
+                        <% if (investment.ticketId) { %>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-12 w-12">
+                                            <img class="h-12 w-12 rounded-full object-cover" 
+                                                 src="<%= investment.ticketId.image %>" 
+                                                 alt="<%= investment.ticketId.name %>"
+                                                 loading="lazy">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis max-w-[180px]">
+                                                <%= investment.ticketId.name %>
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                <%= new Date(investment.createdAt).toLocaleDateString() %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 format-amount">
+                                        <%= Math.floor(investment.amount) %> PKR
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium <%= investment.status === 'completed' ? 'text-green-600' : 'text-gray-600' %> format-amount">
+                                        <%= investment.status==='completed' ? Math.floor(investment.amount + investment.actualProfit) : Math.floor(investment.amount) %> PKR
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <% if (investment.status==='completed' ) { %>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            +<%= ((investment.actualProfit / investment.amount) * 100).toFixed(2) %>%
+                                        </span>
+                                    <% } else { %>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            Pending
+                                        </span>
+                                    <% } %>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <% if (investment.status==='active' ) { %>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            In progress
+                                        </span>
+                                    <% } else { %>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Completed
+                                        </span>
+                                    <% } %>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <% if (investments && investments.length> 0) { %>
-                                <% investments.forEach(investment=> { %>
-                                    <% if (investment.ticketId) { %>
-                                        <tr class="border-b hover:bg-gray-50 transition-colors">
-                                            <td class="px-4 py-3 flex items-center">
-                                                <img src="<%= investment.ticketId.image %>"
-                                                    alt="<%= investment.ticketId.name %>"
-                                                    class="w-8 h-8 rounded-full mr-3" loading="lazy">
-                                                <span class="text-gray-700">
-                                                    <%= investment.ticketId.name %>
-                                                </span>
-                                            </td>
-                                            <td class="px-4 py-3 text-gray-600 format-amount">
-                                                <%= Math.floor(investment.amount) %> PKR
-                                            </td>
-                                            <td
-                                                class="px-4 py-3 <%= investment.status === 'completed' ? 'text-green-600' : 'text-gray-600' %> font-medium format-amount">
-                                                <%= investment.status==='completed' ? Math.floor(investment.amount +
-                                                    investment.actualProfit) : Math.floor(investment.amount) %> PKR
-                                            </td>
-                                            <td class="px-4 py-3 text-blue-600 font-medium format-amount">
-                                                <% if (investment.status==='completed' ) { %>
-                                                    +<%= ((investment.actualProfit / investment.amount) *
-                                                        100).toFixed(2) %> %
-                                                        <% } else { %>
-                                                            Pending
-                                                            <% } %>
-                                            </td>
-                                            <td class="px-4 py-3">
-                                                <% if (investment.status==='active' ) { %>
-                                                    <span class="text-gray-500">In progress</span>
-                                                    <% } else { %>
-                                                        <span class="text-green-500">Completed</span>
-                                                        <% } %>
-                                            </td>
-                                        </tr>
-                                        <% } else { %>
-                                            <tr class="border-b bg-yellow-50">
-                                                <td colspan="5" class="px-4 py-3 text-sm text-yellow-800">
-                                                    Investment data is missing or invalid (ticket not found).
-                                                </td>
-                                            </tr>
-                                            <% } %>
-                                                <% }); %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="5" class="px-4 py-3 text-center text-gray-500">
-                                                                No investments yet</td>
-                                                        </tr>
-                                                        <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                        <% } else { %>
+                            <tr class="bg-yellow-50">
+                                <td colspan="5" class="px-6 py-4 text-sm text-yellow-800">
+                                    Investment data is missing or invalid (ticket not found).
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                            No investments yet
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    
+    <% if (investments && investments.length > 0) { %>
+        <div class="mt-6 flex justify-between items-center text-sm text-gray-500">
+            <div>Showing <span class="font-medium">1</span> to <span class="font-medium"><%= investments.length %></span> of <span class="font-medium"><%= investments.length %></span> projects</div>
+            <div class="flex space-x-2">
+                <button class="px-3 py-1 rounded border border-gray-300 bg-white hover:bg-gray-50">Previous</button>
+                <button class="px-3 py-1 rounded border border-gray-300 bg-white hover:bg-gray-50">Next</button>
             </div>
+        </div>
+    <% } %>
+</div>
         </main>
 
         <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] flex justify-around py-3 z-50">
