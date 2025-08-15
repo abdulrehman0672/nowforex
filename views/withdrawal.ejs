@@ -63,7 +63,7 @@
                 <div class="mb-6 p-4 bg-blue-50 rounded-lg">
                     <p class="text-blue-800 font-semibold">Current Earn Balance: <span id="current-balance">
                               <%= Math.floor(user.earn) %>
-                        </span> PKR</p>
+                        </span> USDT</p>
                 </div>
 
                 <form id="withdrawal-form" class="space-y-6">
@@ -74,26 +74,26 @@
                             class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required>
                             <option value="">Select method</option>
-                            <option value="easypaisa">EasyPaisa</option>
-                            <option value="jazzcash">JazzCash</option>
-                            <option value="bank">Bank Transfer</option>
+                            <option value="Binance">Binance</option>
+                            <option value="okx">OKX</option>
+                            <option value="otherwallet">Other Wallet</option>
                         </select>
                     </div>
 
                     <div>
-                        <label for="account-details" class="block text-sm font-medium text-gray-700 mb-2">Account
+                        <label for="account-details" class="block text-sm font-medium text-gray-700 mb-2">Wallet
                             Details <span class="text-red-500">*</span></label>
                         <input type="text" id="account-details"
                             class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="e.g., 03101234567" required>
+                            placeholder="your wallet address" required>
                     </div>
 
                     <div>
-                        <label for="withdrawal-amount" class="block text-sm font-medium text-gray-700 mb-2">Amount (PKR)
+                        <label for="withdrawal-amount" class="block text-sm font-medium text-gray-700 mb-2">Amount (USDT)
                             <span class="text-red-500">*</span></label>
                         <input type="number" id="withdrawal-amount"
                             class="w-full bg-white rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter withdrawal amount" min="500" step="1" required>
+                            placeholder="Enter withdrawal amount" min="50" step="1" required>
                     </div>
 
                     <button type="submit"
@@ -207,8 +207,8 @@
                 accountDetails: document.getElementById('account-details').value
             };
 
-            if (parseFloat(formData.amount) < 500) {
-                showNotification('Minimum withdrawal amount is 500 PKR', 'error');
+            if (parseFloat(formData.amount) < 50) {
+                showNotification('Minimum withdrawal amount is 50 USDT', 'error');
                 return;
             }
 

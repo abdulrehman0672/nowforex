@@ -153,13 +153,16 @@ router.get('/deposit', protect, (req, res) => {
 
 router.get('/profile', protect, async (req, res) => {
   try {
-    // Get the logged-in user's data
+    // Get the logged-in user's data with their active investments
     const user = await User.findById(req.user._id);
+    const activeInvestments = await UserInvestment.find({ 
+      userId: req.user._id,
+      status: 'active'
+    });
     
     if (!user) {
       return res.status(404).send('User not found');
     }
-    
     res.render('profile', {
       user: {
         name: user.name,
@@ -168,7 +171,8 @@ router.get('/profile', protect, async (req, res) => {
         totalDeposits: user.totalDeposits,
         totalWithdrawals: user.totalWithdrawals,
         depositRequests: user.depositRequests,
-        withdrawalRequests: user.withdrawalRequests
+        withdrawalRequests: user.withdrawalRequests,
+        activeInvestmentsCount: activeInvestments.length
       }
     });
   } catch (error) {

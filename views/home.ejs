@@ -67,10 +67,10 @@
 
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-                <a href="" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
-                <a href="" id="historybtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">History</a>
-                <a href="" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
-                <a href=""  class="logout-btn block px-4 py-2 text-red-600 hover:bg-gray-100">Log out</a>
+                <a href="#" id="homebtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Home</a>
+                <a href="#" id="historybtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">History</a>
+                <a href="#" id="aboutbtn333" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">About</a>
+                <a href="#"  class="logout-btn block px-4 py-2 text-red-600 hover:bg-gray-100">Log out</a>
             </div>
         </nav>
     </header>
@@ -159,20 +159,20 @@
                     <% if (!ticket.isCustomAmount) { %>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Value:</span>
-                            <span class="font-semibold text-blue-800 format-amount"><%= ticket.amount %> <%= ticket.currency || 'PKR' %></span>
+                            <span class="font-semibold text-blue-800"><%= ticket.amount %> <%= ticket.currency || 'USDT' %></span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Profit:</span>
-                            <span class="font-semibold text-green-600 format-amount"><%= Math.round(ticket.profit) %> <%= ticket.currency || 'PKR' %></span>
+                            <span class="font-semibold text-green-600"><%= ticket.profit %> <%= ticket.currency || 'USDT' %></span>
                         </div>
                     <% } else { %>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Min Investment:</span>
-                            <span class="font-semibold text-blue-800 format-amount"><%= ticket.minCustomAmount %>+ <%= ticket.currency || 'PKR' %></span>
+                            <span class="font-semibold text-blue-800"><%= ticket.minCustomAmount %> <%= ticket.currency || 'USDT' %></span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-700">Profit Rate:</span>
-                            <span class="font-semibold text-green-600 format-amount"><%= ticket.profitPercentage %> % Daily</span>
+                            <span class="font-semibold text-green-600"><%= ticket.profitPercentage %>% Daily</span>
                         </div>
                     <% } %>
                     <div class="flex justify-between">
@@ -190,9 +190,6 @@
         </div>
     <% }); %>
 </div>
-
-
-      
     </main>
 
     <!-- Footer Navigation with SVG icons -->
@@ -291,85 +288,83 @@
             });
         }
 
+        // Navigation event listeners
         document.getElementById("depositbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/deposit'; // Redirect
+            e.preventDefault();
+            window.location.href = '/deposit';
         });
+        
         document.getElementById("homebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
+        
         document.getElementById("imagebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
+        
         document.getElementById("historybtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/history'; // Redirect
+            e.preventDefault();
+            window.location.href = '/history';
         });
+        
         document.getElementById("historybtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/history'; // Redirect
+            e.preventDefault();
+            window.location.href = '/history';
         });
+        
         document.getElementById("aboutbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
+            e.preventDefault();
+            window.location.href = '/about';
         });
+        
         document.getElementById("aboutbtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/about'; // Redirect
+            e.preventDefault();
+            window.location.href = '/about';
         });
 
         document.getElementById("widrawbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/withdraw'; // Redirect
+            e.preventDefault();
+            window.location.href = '/withdraw';
         });
 
         document.getElementById("refferalbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
+            e.preventDefault();
+            window.location.href = '/team';
         });
 
         document.getElementById("teambtn2").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/team'; // Redirect
+            e.preventDefault();
+            window.location.href = '/team';
         });
 
         document.getElementById("assetsbtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/assets'; // Redirect
+            e.preventDefault();
+            window.location.href = '/assets';
         });
 
         document.getElementById("profilebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/profile'; // Redirect
+            e.preventDefault();
+            window.location.href = '/profile';
         });
-
-        document.getElementById("homebtn").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
-        });
-
-
-
 
         document.getElementById("homebtn333").addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default navigation
-            window.location.href = '/home'; // Redirect
+            e.preventDefault();
+            window.location.href = '/home';
         });
-
 
         // Attach logout function to all logout buttons
         document.querySelectorAll('.logout-btn').forEach(button => {
             button.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
+                event.preventDefault();
                 logout();
             });
         });
 
         async function logout() {
             try {
-                const response = await fetch('/api/auth/logout', {  // Updated endpoint
+                const response = await fetch('/api/auth/logout', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -388,47 +383,13 @@
             }
         }
 
+        // Ticket item click handlers
         document.querySelectorAll('.ticket-item').forEach(ticket => {
             ticket.addEventListener('click', function () {
                 const ticketId = this.getAttribute('data-ticket-id');
                 window.location.href = `/assets?ticket=${ticketId}`;
             });
         });
-
-
-      
-           function formatNumberWithCommas(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Format all amounts with commas
-            document.querySelectorAll('.format-amount').forEach(element => {
-                const amount = parseFloat(element.textContent.trim());
-                if (!isNaN(amount)) {
-                    element.textContent = formatNumberWithCommas(amount);
-                }
-            });
-
-            // Also format amounts in the investments table
-            document.querySelectorAll('tbody td:nth-child(2), tbody td:nth-child(3)').forEach(element => {
-                const text = element.textContent.trim();
-                const amountMatch = text.match(/(\d+)/);
-                if (amountMatch) {
-                    const amount = parseFloat(amountMatch[1]);
-                    if (!isNaN(amount)) {
-                        element.textContent = text.replace(amountMatch[1], formatNumberWithCommas(amount));
-                    }
-                }
-            });
-
-            const investmentForm = document.querySelector('form[action="/invest"]');
-            // ... rest of your existing DOMContentLoaded code ...
-        });
-        // ... rest of your existing JavaScript code ...
-
-        
     </script>
 </body>
-
 </html>
