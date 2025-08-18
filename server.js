@@ -32,7 +32,17 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later'
 });
 
-// Security headers configuration for HTTP
+// Security headers configuration - COMPLETELY DISABLED for HTTP
+app.use((req, res, next) => {
+  // Remove all problematic headers
+  res.removeHeader('Cross-Origin-Opener-Policy');
+  res.removeHeader('Cross-Origin-Embedder-Policy');
+  res.removeHeader('Origin-Agent-Cluster');
+  res.removeHeader('Cross-Origin-Resource-Policy');
+  next();
+});
+
+// Minimal helmet configuration
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginOpenerPolicy: false,
@@ -60,11 +70,19 @@ app.use(compression());
 // Static files with proper headers
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Enhanced static files middleware
+// Enhanced static files middleware with forced HTTP links
+app.use((req, res, next) => {
+  if (req.path.match(/\.(css|js|svg|png|jpg)$/)) {
+    // Ensure no HTTPS redirect attempts
+    res.removeHeader('Strict-Transport-Security');
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '7d',
   setHeaders: (res, path) => {
-    // Set proper Content-Type for different files
+    // Set proper Content-Type
     if (path.endsWith('.css')) {
       res.set('Content-Type', 'text/css');
     } else if (path.endsWith('.js')) {
@@ -72,10 +90,8 @@ app.use(express.static(path.join(__dirname, 'public'), {
     } else if (path.endsWith('.svg')) {
       res.set('Content-Type', 'image/svg+xml');
     }
-    // Ensure no problematic headers are set
-    res.removeHeader('Cross-Origin-Opener-Policy');
-    res.removeHeader('Cross-Origin-Embedder-Policy');
-    res.removeHeader('Origin-Agent-Cluster');
+    // Force HTTP links in HTML responses
+    res.locals.assetPath = (file) => `http://109.199.117.228:3000/${file}`;
   }
 }));
 
@@ -85,6 +101,12 @@ app.use(morgan('dev'));
 // View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Middleware to force HTTP links in templates
+app.use((req, res, next) => {
+  res.locals.assetPath = (file) => `http://${req.headers.host}/${file}`;
+  next();
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -129,7 +151,9 @@ app.use((err, req, res, next) => {
 connectDB().then(() => {
   app.listen(port, "0.0.0.0", () => {
     console.log(`✅ Server running on http://109.199.117.228:${port}`);
-    console.log(`✅ Static files serving from: ${path.join(__dirname, 'public')}`);
+    console.log(`✅ Static files available at:`);
+    console.log(`   - http://109.199.117.228:${port}/output.css`);
+    console.log(`   - http://109.199.117.228:${port}/logo.svg`);
   });
 }).catch(err => {
   console.error('Database connection failed!', err);
