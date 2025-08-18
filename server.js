@@ -33,7 +33,12 @@ const limiter = rateLimit({
 });
 
 
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: false,           // disable CSP
+  crossOriginOpenerPolicy: false,         // disable COOP
+  crossOriginEmbedderPolicy: false,       // disable COEP
+  crossOriginResourcePolicy: { policy: "cross-origin" } // allow assets
+}));
 
 
 // 2. Enable CORS before other middleware
