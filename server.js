@@ -33,17 +33,8 @@ const limiter = rateLimit({
 });
 
 
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"], // Needed for some frontend frameworks
-      styleSrc: ["'self'", "'unsafe-inline'"], // Needed for inline styles
-      imgSrc: ["'self'", "data:"], // Allow data URIs for images
-    }
-  },
-  crossOriginResourcePolicy: { policy: "cross-origin" } // Allow loading resources
-}));
+app.use(helmet({ contentSecurityPolicy: false }));
+
 
 // 2. Enable CORS before other middleware
 app.use(cors({
@@ -66,9 +57,8 @@ app.use(cookieParser());
 app.use(compression());
 
 // 6. Static files with cache control
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
-  maxAge: '7d'
-}));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')
+));
 
 // 7. Logging
 app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
