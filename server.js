@@ -32,50 +32,60 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later'
 });
 
+// Security headers (only in production)
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    originAgentCluster: false
+  }));
+}
 
-app.use(helmet({
-  contentSecurityPolicy: false,           // disable CSP
-  crossOriginOpenerPolicy: false,         // disable COOP
-  crossOriginEmbedderPolicy: false,       // disable COEP
-  crossOriginResourcePolicy: { policy: "cross-origin" } // allow assets
-}));
-
-
-// 2. Enable CORS before other middleware
+// Enable CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://109.199.117.228:3000',
+  origin: process.env.FRONTEND_URL || true, // Reflects request origin in development
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// 3. Apply rate limiting to all requests
+// Apply rate limiting to all requests
 app.use(limiter);
 
-// 4. Body parser and cookie parser
+// Body parser and cookie parser
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
-// 5. Compression middleware
+// Compression middleware
 app.use(compression());
 
-// 6. Static files with cache control
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')
-));
+// Static files with proper headers
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 7. Logging
+// Enhanced static files middleware for CSS/JS/Images
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '7d',
+  setHeaders: (res, path) => {
+    // Set proper Content-Type for CSS files
+    if (path.endsWith('.css')) {
+      res.set('Content-Type', 'text/css');
+    }
+    // Disable problematic headers for HTTP
+    res.removeHeader('Cross-Origin-Opener-Policy');
+    res.removeHeader('Cross-Origin-Embedder-Policy');
+    res.removeHeader('Origin-Agent-Cluster');
+  }
+}));
+
+// Logging
 app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
 
 // View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Static files
-app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '7d'
-}));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -137,12 +147,32 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-// Start server only after DB connection
-connectDB().then(() => {
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`✅ Server running in ${process.env.NODE_ENV} mode on http://0.0.0.0:${port}`);
-  });
-}).catch(err => {
-  console.error('Database connection failed!', err);
-  process.exit(1);
-});
+// Start server with HTTPS in production
+const startServer = async () => {
+  try {
+    await connectDB();
+    
+    if (process.env.NODE_ENV === 'production') {
+      import('https').then(https => {
+        import('fs').then(fs => {
+          const sslOptions = {
+            key: fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/privkey.pem'),
+            cert: fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/fullchain.pem')
+          };
+          https.createServer(sslOptions, app).listen(port, () => {
+            console.log(`✅ Server running with HTTPS on port ${port}`);
+          });
+        });
+      });
+    } else {
+      app.listen(port, "0.0.0.0", () => {
+        console.log(`✅ Server running in development on http://localhost:${port}`);
+      });
+    }
+  } catch (err) {
+    console.error('Database connection failed!', err);
+    process.exit(1);
+  }
+};
+
+startServer();
