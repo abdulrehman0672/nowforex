@@ -32,26 +32,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later'
 });
 
-// 1. Security middleware first
-// app.use(helmet({
-//   contentSecurityPolicy: {
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-//       styleSrc: [
-//         "'self'", 
-//         "'unsafe-inline'", 
-//         "http://109.199.117.228:3000",   // allow your IP
-//         "https://fonts.googleapis.com"
-//       ],
-//       imgSrc: ["'self'", "data:", "https://*.stripe.com"],
-//       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-//       connectSrc: ["'self'", "http://109.199.117.228:3000"],
-//       frameSrc: ["'self'", "https://js.stripe.com"]
-//     }
-//   },
-//   crossOriginResourcePolicy: { policy: "cross-origin" }
-// }));
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false
+  })
+);
 
 // 2. Enable CORS before other middleware
 app.use(cors({
