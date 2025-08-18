@@ -37,12 +37,17 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for some frontend frameworks
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'], 
-      imgSrc: ["'self'", "data:", 'https://*.stripe.com'],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      connectSrc: ["'self'", process.env.FRONTEND_URL || 'http://localhost:3000'],
-      frameSrc: ["'self'", 'https://js.stripe.com']
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: [
+        "'self'", 
+        "'unsafe-inline'", 
+        "http://109.199.117.228:3000",   // allow your IP
+        "https://fonts.googleapis.com"
+      ],
+      imgSrc: ["'self'", "data:", "https://*.stripe.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "http://109.199.117.228:3000"],
+      frameSrc: ["'self'", "https://js.stripe.com"]
     }
   },
   crossOriginResourcePolicy: { policy: "cross-origin" }
