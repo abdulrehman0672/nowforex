@@ -16,7 +16,7 @@ const createAdmin = async () => {
     }
 
     // Create new admin
-    const password = 'admin123'; // Strongly recommend replacing this before production
+    const password = 'taylor3344'; // Strongly recommend replacing this before production
 
     const admin = new Admin({
       username: 'admin',
