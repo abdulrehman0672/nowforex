@@ -7,7 +7,7 @@ import forgetRoutes from "./routes/forgetRoutes.js";
 import "dotenv/config";
 import connectDB from './config/db.js';
 import cors from 'cors';
-import helmet from 'helmet'; 
+import helmet from 'helmet';
 import morgan from 'morgan';
 import adminRoutes from './routes/adminRoutes.js';
 import depositRoutes from './routes/depositRoutes.js';
@@ -32,23 +32,18 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later'
 });
 
-// Security headers (only in production)
-if (process.env.NODE_ENV === 'production') {
-  app.use(helmet({
-    contentSecurityPolicy: false,
-    crossOriginOpenerPolicy: false,
-    crossOriginEmbedderPolicy: false,
-    originAgentCluster: false
-  }));
-}
+// Security headers configuration for HTTP
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginOpenerPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  originAgentCluster: false
+}));
 
-// Enable CORS
+// CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || true, // Reflects request origin in development
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  exposedHeaders: ['Content-Type', 'Authorization']
+  origin: true, // Reflect the request origin
+  credentials: true
 }));
 
 // Apply rate limiting to all requests
@@ -65,15 +60,19 @@ app.use(compression());
 // Static files with proper headers
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Enhanced static files middleware for CSS/JS/Images
+// Enhanced static files middleware
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '7d',
   setHeaders: (res, path) => {
-    // Set proper Content-Type for CSS files
+    // Set proper Content-Type for different files
     if (path.endsWith('.css')) {
       res.set('Content-Type', 'text/css');
+    } else if (path.endsWith('.js')) {
+      res.set('Content-Type', 'application/javascript');
+    } else if (path.endsWith('.svg')) {
+      res.set('Content-Type', 'image/svg+xml');
     }
-    // Disable problematic headers for HTTP
+    // Ensure no problematic headers are set
     res.removeHeader('Cross-Origin-Opener-Policy');
     res.removeHeader('Cross-Origin-Embedder-Policy');
     res.removeHeader('Origin-Agent-Cluster');
@@ -81,7 +80,7 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 
 // Logging
-app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
+app.use(morgan('dev'));
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -119,60 +118,20 @@ app.use((err, req, res, next) => {
 
   console.error(err.stack);
 
-  if (process.env.NODE_ENV === 'development') {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-      stack: err.stack
-    });
-  } else {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message
-    });
-  }
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
 });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.error(err.name, err.message);
+// Server startup
+connectDB().then(() => {
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`✅ Server running on http://109.199.117.228:${port}`);
+    console.log(`✅ Static files serving from: ${path.join(__dirname, 'public')}`);
+  });
+}).catch(err => {
+  console.error('Database connection failed!', err);
   process.exit(1);
 });
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  console.error(err.name, err.message);
-  process.exit(1);
-});
-
-// Start server with HTTPS in production
-const startServer = async () => {
-  try {
-    await connectDB();
-    
-    if (process.env.NODE_ENV === 'production') {
-      import('https').then(https => {
-        import('fs').then(fs => {
-          const sslOptions = {
-            key: fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/privkey.pem'),
-            cert: fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/fullchain.pem')
-          };
-          https.createServer(sslOptions, app).listen(port, () => {
-            console.log(`✅ Server running with HTTPS on port ${port}`);
-          });
-        });
-      });
-    } else {
-      app.listen(port, "0.0.0.0", () => {
-        console.log(`✅ Server running in development on http://localhost:${port}`);
-      });
-    }
-  } catch (err) {
-    console.error('Database connection failed!', err);
-    process.exit(1);
-  }
-};
-
-startServer();
