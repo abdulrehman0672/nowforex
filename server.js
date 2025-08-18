@@ -147,8 +147,8 @@ process.on('uncaughtException', (err) => {
 
 // Start server only after DB connection
 connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`);
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`✅ Server running in ${process.env.NODE_ENV} mode on http://0.0.0.0:${port}`);
   });
 }).catch(err => {
   console.error('Database connection failed!', err);
