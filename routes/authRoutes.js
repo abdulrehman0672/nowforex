@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 const generateToken = (userId) => {
-  return jwt.sign({userId} ,process.env.JWT_SECRET, {expiresIn: '15d'});
+  return jwt.sign({userId} ,process.env.JWT_SECRET, {expiresIn: '365d'});
   };
 
 
@@ -96,7 +96,7 @@ router.post('/login', async (req, res) => {
      httpOnly: true,
      secure: process.env.NODE_ENV === 'production',
      sameSite: 'strict',
-     maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days in milliseconds
+     maxAge: 365 * 24 * 60 * 60 * 1000, // 15 days in milliseconds
    });
  
    res.status(200).json({

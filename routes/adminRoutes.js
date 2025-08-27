@@ -226,7 +226,7 @@ router.put('/deposits/:depositId', verifyAdmin, async (req, res) => {
       
       // Check if this is the first approved deposit and user was referred
       if (user.referredBy && !user.hasAwardedReferralBonus) {
-        const referralBonus = 50;
+        const referralBonus = 5;
         const referrer = await User.findById(user.referredBy);
         
         if (referrer) {
